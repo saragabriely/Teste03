@@ -5,7 +5,6 @@ using System.Data;
 using System.Data.SqlClient;
 using Xamarin.Forms;
 using Teste03.Models;
-using Teste03.ViewModels;
 
 namespace Teste03.Models
 {

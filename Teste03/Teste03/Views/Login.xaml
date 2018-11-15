@@ -39,13 +39,12 @@
                         HorizontalTextAlignment="Center" VerticalTextAlignment="Center"   HeightRequest="60"   />
 
                 <!-- E-mail -->
-
                 <StackLayout Spacing="-2">
 
                     <Label  Text="E-mail"     FontSize="15"   FontAttributes="Bold" 
                             VerticalOptions="StartAndExpand"  HorizontalOptions="StartAndExpand"  />
 
-                    <Entry  x:Name="etEmail" FontSize="15"  Placeholder="Digite o seu e-mail"   />
+                    <Entry  x:Name="etEmail" FontSize="15"  Placeholder="Digite o seu e-mail" Keyboard="Email"  />
 
                 </StackLayout>
 
@@ -62,7 +61,7 @@
                     <Label  Text="Senha"    FontSize="15"     FontAttributes="Bold" 
                             VerticalOptions="StartAndExpand"  HorizontalOptions="StartAndExpand" />
 
-                    <Entry  x:Name="etSenha" FontSize="15" Placeholder="Digite a senha"   />
+                    <Entry  x:Name="etSenha" FontSize="15" IsPassword="True"  Placeholder="Digite a senha"   />
 
                 </StackLayout>
 
@@ -82,10 +81,10 @@
                         HeightRequest="52" Margin="10"
                         />
                 
-                <Label   x:Name="lbResultado" />
-                
+               <!-- <Label   x:Name="lbResultado"  /> -->
+
                 <!-- Ainda não é cadastrado? Clique aqui -->
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="10" >
 
                     <Label Text="Ainda não é cadastrado?"  />
                     
@@ -95,12 +94,16 @@
                        </Label.GestureRecognizers>
                     </Label>
 
-                    <Label Text="Teste" TextColor="{StaticResource Blue}">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="BtTeste_Clicked" NumberOfTapsRequired="1" />
-                        </Label.GestureRecognizers>
-                    </Label>
                 </StackLayout>
+                
+                <!-- LABEL ALERTA -->
+                <Label  x:Name="lblAlerta" FontSize="15" FontAttributes="Bold" 
+                        TextColor="{StaticResource RedAlert}" 
+                        HorizontalOptions="Center" VerticalOptions="Center" IsVisible="False"  />
+
+                <!-- LABEL - ENTRANDO ... -->
+                <Label  x:Name="lblEntrando" FontSize="15" TextColor="{StaticResource GreenBtn}" 
+                        HorizontalOptions="Center" VerticalOptions="Center" IsVisible="False"  />
 
             </StackLayout>
 

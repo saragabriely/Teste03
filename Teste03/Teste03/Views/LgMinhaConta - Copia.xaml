@@ -36,12 +36,14 @@
                 <!-- Botões -->
                 <StackLayout Orientation="Horizontal" HeightRequest="40" >
 
-                    <Button x:Name="btnCliente" Text="Cliente" Clicked="BtnCliente_Clicked" HorizontalOptions="Start"  />
+                    <!--<Button x:Name="btnCliente" Text="Cliente" Clicked="BtnCliente_Clicked" HorizontalOptions="Start"
+                            IsVisible="false"/> -->
 
                     <Label  Text="MINHA CONTA"  FontSize="16"   FontAttributes="Bold"  TextColor="{StaticResource Blue}" 
                         HorizontalTextAlignment="Center"  VerticalTextAlignment="Center"  HeightRequest="60"  />
 
-                    <Button x:Name="btnMotorista" Text="Motorista" Clicked="BtnMotorista_Clicked" HorizontalOptions="End" />
+                    <!-- <Button x:Name="btnMotorista" Text="Motorista" Clicked="BtnMotorista_Clicked" 
+                            HorizontalOptions="End" IsVisible="False" /> -->
 
                 </StackLayout>
 
@@ -58,9 +60,9 @@
                     <Button x:Name="btnClienteDadosBancarios" Text="Dados Bancários" Clicked="BtnVeiculos_Clicked" 
                             BackgroundColor="{StaticResource BlueBtn}" TextColor="{StaticResource White}"  />
 
-                    <!-- Meus Veículos -->
+                    <!-- Meus Veículos - ->
                     <Button x:Name="btnClienteVeiculos" Text="Meus Veículos" Clicked="BtnVeiculos_Clicked" 
-                            BackgroundColor="{StaticResource BlueBtn}" TextColor="{StaticResource White}"  />
+                            BackgroundColor="{StaticResource BlueBtn}" TextColor="{StaticResource White}"  /> -->
 
                     <!-- Btn - Sair -->
                     <StackLayout x:Name="slClienteSair" IsVisible="True" HorizontalOptions="Center" >

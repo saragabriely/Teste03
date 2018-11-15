@@ -4,28 +4,50 @@ using System.Text;
 
 namespace Teste03.Models
 {
-    class Motorista
+    public class Motorista
     {
-        public string   Mnome         { get; set; }
-        public int      Mrg           { get; set; }
-        public int      Mcpf          { get; set; }
-        public string   Msexo         { get; set; }
-        public string   MdataNascto   { get; set; }
-        public int      Mcelular      { get; set; }
-        public int      Mcelular2     { get; set; }
-        public string   Mendereco     { get; set; }
-        public int      Mnumero       { get; set; }
-        public string   Mcomplemento  { get; set; }
-        public string   Mbairro       { get; set; }
-        public string   Mcidade       { get; set; }
-        public int      Mcep          { get; set; }
-        public string   Muf           { get; set; }
-        public int      MnumCnh       { get; set; }
-        public string   McategoriaCnh { get; set; }
-        public string   MvalidadeCnh  { get; set; }
-        public string   Memail        { get; set; }
-        public string   Msenha        { get; set; }
-        public int      MtipoUsuario  { get; set; }
-        public DateTime MdataCadastro { get; set; }
+        public int    IdMotorista   { get; set; }
+
+        public int    IdCliente     { get; set; }
+        public string MnumeroCnh    { get; set; }
+        public string McategoriaCnh { get; set; }
+        public string MvalidadeCnh  { get; set; }
+        public int    IdStatus      { get; set; }
+        public string Ccpf          { get; set; }
+
+        public Motorista() { }
+
+        public Motorista (int idMotorista)
+        {
+            this.IdMotorista = idMotorista;
+        }
+
+        public Motorista (string cpf)
+        {
+            this.Ccpf = cpf;
+        }
+
+        public Motorista(int IdMotorista, int IdCliente, string MnumeroCnh, string McategoriaCnh,
+                         string MvalidadeCnh, int IdStatus,  string Ccpf )
+        {
+            this.IdMotorista   = IdMotorista;
+            this.IdCliente     = IdCliente;
+            this.MnumeroCnh    = MnumeroCnh;
+            this.McategoriaCnh = McategoriaCnh;
+            this.MvalidadeCnh  = MvalidadeCnh;
+            this.IdStatus      = IdStatus;
+            this.Ccpf          = Ccpf;
+        }
+
+        public Motorista(int IdCliente, string MnumeroCnh, string McategoriaCnh,
+                         string MvalidadeCnh, int IdStatus,  string Ccpf )
+        {
+            this.IdCliente     = IdCliente;
+            this.MnumeroCnh    = MnumeroCnh;
+            this.McategoriaCnh = McategoriaCnh;
+            this.MvalidadeCnh  = MvalidadeCnh;
+            this.IdStatus      = IdStatus;
+            this.Ccpf          = Ccpf;
+        }
     }
 }

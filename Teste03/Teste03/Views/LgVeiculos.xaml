@@ -27,20 +27,20 @@
                     HorizontalOptions="FillAndExpand"   VerticalOptions="Center" 
                     VerticalTextAlignment="Center"      HorizontalTextAlignment="Center"
                     FontSize="22"                       HeightRequest="50"
-                    Grid.Row="0"    Grid.Column="0" Grid.ColumnSpan="5"
-                />
+                    Grid.Row="0"    Grid.Column="0" Grid.ColumnSpan="5" />
 
             <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Margin="20"  HorizontalOptions="Center" >
 
                 <!-- Título - MEUS VEÍCULOS -->
-                <StackLayout x:Name="slTitulo" >
+                <StackLayout x:Name="slTitulo" Padding="5" >
 
                     <StackLayout.GestureRecognizers>
                         <TapGestureRecognizer Tapped="BtnMeusVeiculos_Clicked" NumberOfTapsRequired="1" />
                     </StackLayout.GestureRecognizers>
 
                     <Label  Text="MEUS VEÍCULOS"  FontSize="16"   FontAttributes="Bold"  TextColor="{StaticResource Blue}" 
-                            HorizontalTextAlignment="Center"  VerticalTextAlignment="Center"  HeightRequest="40"  />
+                            HorizontalTextAlignment="Center"  VerticalTextAlignment="Start"  HeightRequest="40"
+                            IsVisible="True" />
 
                 </StackLayout>
 
@@ -49,17 +49,17 @@
                         Clicked="BtnAdicionar_Clicked" BackgroundColor="{StaticResource WhiteBtn}" TextColor="{StaticResource Blue}"
                          />
 
-                <StackLayout x:Name="slMeusVeiculos" Orientation="Horizontal"   IsVisible="True"  >
+                <StackLayout x:Name="slMeusVeiculos" Orientation="Horizontal" IsVisible="True" Padding="5"  >
 
                     <Grid>
-                        <Grid.ColumnDefinitions>
+                      <Grid.ColumnDefinitions>
                             <ColumnDefinition  Width="72" />
                             <ColumnDefinition  Width="72" />
                             <ColumnDefinition  Width="72" />
                             <ColumnDefinition  Width="72" />
                         </Grid.ColumnDefinitions>
 
-                        <Grid.RowDefinitions >
+                      <Grid.RowDefinitions >
                             <RowDefinition Height="35" />
                             <RowDefinition Height="35" />
                             <RowDefinition Height="35" />
@@ -71,57 +71,94 @@
                             <RowDefinition Height="35" />
                         </Grid.RowDefinitions>
 
-                        <Label x:Name="lbPlaca" Text="Placa" FontSize="14" FontAttributes="Bold" Grid.Column="0" Grid.Row="0"  />
+                      <Label x:Name="lbPlaca" Text="Placa" FontSize="14" FontAttributes="Bold" Grid.Column="0" Grid.Row="0"  />
 
-                        <Label x:Name="lbModelo" Text="Modelo" FontSize="14" FontAttributes="Bold" Grid.Column="1" Grid.Row="0"  />
+                      <Label x:Name="lbModelo" Text="Modelo" FontSize="14" FontAttributes="Bold" Grid.Column="1" Grid.Row="0"  />
 
-                        <!-- Editar -->
-                        <StackLayout x:Name="slEditarVeiculos" IsVisible="True" Grid.Column="2" Grid.Row="1" VerticalOptions="Center" >
+                      <Label x:Name="lbListaVazia" Text="Você não possui veículos cadastrados!" FontSize="14" FontAttributes="Bold" 
+                             Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="3" IsVisible="false"  />
 
-                            <StackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="BtnEditarVeiculos_Clicked" NumberOfTapsRequired="1" />
-                            </StackLayout.GestureRecognizers>
+                      <!-- LIST VIEW -->
+                      <ListView x:Name="LstVeiculos" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="8"
+                                  ItemSelected="LstVeiculos_ItemSelected" IsVisible="true" >
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Orientation="Horizontal" WidthRequest="300" VerticalOptions="CenterAndExpand"
+                                                     Padding="5"  >
 
-                            <Image  Source="editar.png"    VerticalOptions="CenterAndExpand"     HorizontalOptions="CenterAndExpand"
-                                    HeightRequest="15"   WidthRequest="15"  />
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition  Width="70" />
+                                                    <ColumnDefinition  Width="140" />
+                                                    <ColumnDefinition  Width="20" />
+                                                </Grid.ColumnDefinitions>
 
-                        </StackLayout>
+                                                <Grid.RowDefinitions >
+                                                    <RowDefinition Height="35" />
+                                                </Grid.RowDefinitions>
 
-                        <!-- Excluir -->
-                        <StackLayout x:Name="slExcluirVeiculos" IsVisible="True" Grid.Column="3" Grid.Row="1" VerticalOptions="Center" >
+                                                <Label Text="{Binding Placa} "      FontSize="13" Grid.Column="0" Grid.Row="0" />
+                                                <Label Text="{Binding Modelo}"      FontSize="13" Grid.Column="1" Grid.Row="0" />
+                                                <!--
+                                                <Label Text="{Binding MConta}"      FontSize="13" Grid.Column="2" Grid.Row="0" />
+                                                <Label Text="{Binding MDigConta}"   FontSize="13" Grid.Column="3" Grid.Row="0" />
+                                                <Label Text="{Binding BancoDesc}"   FontSize="13" Grid.Column="4" Grid.Row="0" /> -->
+                                            </Grid>
 
-                            <StackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="BtnExcluirVeiculos_Clicked" NumberOfTapsRequired="1" />
-                            </StackLayout.GestureRecognizers>
+                                            <!--
+                                            <Label Text="{Binding Placa}  "   FontSize="14" />
+                                            <Label Text="{Binding Modelo}"    FontSize="14" /> -->
 
-                            <Image  Source="excluir.png"    VerticalOptions="CenterAndExpand"     HorizontalOptions="CenterAndExpand"
-                                    HeightRequest="15"   WidthRequest="15"  />
+                                            <!-- BTN - EDITAR - ->
+                                            <StackLayout x:Name="slEditarVeiculos" IsVisible="True"  VerticalOptions="Center" HorizontalOptions="End">
+                                                <StackLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="BtnEditarVeiculos_Clicked" NumberOfTapsRequired="1" />
+                                                </StackLayout.GestureRecognizers>
 
-                        </StackLayout>
+                                                <Image  Source="editar.png"  VerticalOptions="CenterAndExpand" HorizontalOptions="End"
+                                                        HeightRequest="18"   WidthRequest="18"  />
+                                            </StackLayout>
+
+                                            <!- - Excluir - ->
+                                            <StackLayout x:Name="slExcluirVeiculos" IsVisible="True" VerticalOptions="Center" HorizontalOptions="End" >
+                                                <StackLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="BtnExcluirVeiculos_Clicked" NumberOfTapsRequired="1" />
+                                                </StackLayout.GestureRecognizers>
+                                                <Image  Source="excluir.png"    VerticalOptions="CenterAndExpand"     HorizontalOptions="End"
+                                                        HeightRequest="18"   WidthRequest="18"  />
+                                            </StackLayout>
+                                            --> 
+                                            
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
 
                     </Grid>
 
                 </StackLayout>
 
                 <!-- Adicionar Veículo -->
-                <StackLayout x:Name="slAdicionar" IsVisible="False" >
+                <StackLayout x:Name="slAdicionar" IsVisible="False" VerticalOptions="Start"  >
 
                     <!-- Título -->
-                    <Label  Text="CADASTRAR VEÍCULOS"  FontSize="15"   FontAttributes="Bold"  
+                    <Label  Text="CADASTRO DE VEÍCULO"  FontSize="14"   FontAttributes="Bold"  
                         HorizontalTextAlignment="Center"  VerticalTextAlignment="Center"   />
 
                     <!-- Botões - Adicionar -->
                     <StackLayout Orientation="Horizontal" Spacing="-3" IsVisible="True">
 
-                        <!-- Chassi -->
-                        <Button  x:Name="btnChassi" Text="Chassi, Renavam, Modelo ..." WidthRequest="160" FontSize="10" IsEnabled="True"
-                                 TextColor="{StaticResource Blue}" FontAttributes="Bold" />
+                    <!-- Chassi -->
+                    <Button  x:Name="btnChassi" Text="Chassi, Renavam, Modelo ..." WidthRequest="160" FontSize="10" 
+                             IsEnabled="True" TextColor="{StaticResource Blue}" FontAttributes="Bold" />
 
-                        <!-- Dimensões do veículo -->
-                        <Button x:Name="btnDimensoes" Text="Dimensões e Capacidade" WidthRequest="160" FontSize="10" IsEnabled="False"
+                    <!-- Dimensões do veículo -->
+                    <Button x:Name="btnDimensoes" Text="Dimensões e Capacidade" WidthRequest="160" FontSize="10" IsEnabled="False"
                                 TextColor="{StaticResource Blue}" FontAttributes="Bold" />
 
-                    </StackLayout>
+                 </StackLayout>
                 
                     <Grid x:Name="gridVeiculos" ColumnSpacing="0" RowSpacing="0"  >
 
@@ -153,28 +190,29 @@
                     <Label x:Name="lblPlaca" Text="Placa" FontSize="14" FontAttributes="Bold" IsVisible="True"
                            Grid.Column="0"  Grid.Row="0"  VerticalOptions="End"  />
 
-                    <Entry x:Name="etPlaca" Placeholder="AAA-0000" FontSize="14" IsVisible="True"
-                            Grid.Column="0"  Grid.Row="1" Grid.ColumnSpan="2" Keyboard="Numeric"  VerticalOptions="Start" />
+                    <Entry x:Name="etPlaca" Placeholder="AAA0000" FontSize="14" IsVisible="True" MaxLength="7"
+                            Grid.Column="0"  Grid.Row="1" Grid.ColumnSpan="2"   VerticalOptions="Start" />
 
                     <!-- Ano Fabricação -->
                     <Label x:Name="lblAnoFabr" Text="Ano de Fabricação" FontSize="14" FontAttributes="Bold"  IsVisible="True"
                            Grid.Column="3"  Grid.Row="0" Grid.ColumnSpan="3" VerticalOptions="End" />
 
                     <Entry x:Name="etAnoFabr" Placeholder="0000" FontSize="14" HorizontalTextAlignment="Center" IsVisible="True"
-                            Grid.Column="3"  Grid.Row="1" Grid.ColumnSpan="2" Keyboard="Numeric" VerticalOptions="Start"  />
+                           Grid.Column="3"    Grid.Row="1"    Grid.ColumnSpan="2" Keyboard="Numeric" VerticalOptions="Start"
+                           MaxLength="4" />
 
                     <!-- Modelo -->
                     <Label x:Name="lblModelo" Text="Modelo" FontSize="14" FontAttributes="Bold"  IsVisible="True"
                            Grid.Column="0"  Grid.Row="2"  VerticalOptions="End"  />
 
-                    <Entry x:Name="etModelo" Placeholder="Transit Furgão" FontSize="14" IsVisible="True"
+                    <Entry x:Name="etModelo" Placeholder="Transit Furgão" FontSize="14" IsVisible="True" MaxLength="10"
                             Grid.Column="0"  Grid.Row="3" Grid.ColumnSpan="3"  VerticalOptions="Start"   />
 
                     <!-- Marca -->
                     <Label x:Name="lblMarca" Text="Marca" FontSize="14" FontAttributes="Bold"  IsVisible="True"
                            Grid.Column="3"  Grid.Row="2" Grid.ColumnSpan="3" VerticalOptions="End" />
 
-                    <Entry x:Name="etMarca" Placeholder="Ford" FontSize="14"  IsVisible="True"
+                    <Entry x:Name="etMarca" Placeholder="Ford" FontSize="14"  IsVisible="True" MaxLength="10"
                             Grid.Column="3"  Grid.Row="3" Grid.ColumnSpan="3" VerticalOptions="Start"   />
 
                     <!-- Tipo de Veículo -->
@@ -182,13 +220,13 @@
                            Grid.Column="0"  Grid.Row="4" Grid.ColumnSpan="2" VerticalOptions="Center" />
 
                     <Entry x:Name="etTipoVeiculo" Placeholder="Caminhão / Carro / Moto..."  FontSize="14"  IsVisible="True"
-                            Grid.Column="2"  Grid.Row="4" Grid.ColumnSpan="4" VerticalOptions="End"  />
+                            Grid.Column="2"  Grid.Row="4" Grid.ColumnSpan="4" VerticalOptions="End" MaxLength="20"  /> 
 
                     <!-- Chassi -->
                     <Label x:Name="lblChassi" Text="Nº do Chassi" FontSize="14" FontAttributes="Bold"  IsVisible="True"
                            Grid.Column="0"  Grid.Row="5" Grid.ColumnSpan="2" VerticalOptions="Center" />
 
-                    <Entry x:Name="etChassi" Placeholder="AAAAAAA00000000"  FontSize="14"  IsVisible="True"
+                    <Entry x:Name="etChassi" Placeholder="AAAAAAA00000000"  FontSize="14"  IsVisible="True" MaxLength="17"
                             Grid.Column="2"  Grid.Row="5" Grid.ColumnSpan="4" VerticalOptions="End" HorizontalTextAlignment="Center" />
 
                     <!-- Renavam -->
@@ -196,7 +234,8 @@
                            Grid.Column="0"  Grid.Row="6" Grid.ColumnSpan="2" VerticalOptions="Center" />
 
                     <Entry x:Name="etRenavam" Placeholder="0000000000"  FontSize="14"  IsVisible="True" Keyboard="Numeric"
-                            Grid.Column="2"  Grid.Row="6" Grid.ColumnSpan="4" VerticalOptions="End" HorizontalTextAlignment="Center"  />
+                            Grid.Column="2"  Grid.Row="6" Grid.ColumnSpan="4" VerticalOptions="End" 
+                           HorizontalTextAlignment="Center" MaxLength="11"  />
 
                     <!-- * DIMENSÕES * -->
 
@@ -204,7 +243,7 @@
                     <Label x:Name="lblCapacidade" Text="Capacidade" FontSize="14" FontAttributes="Bold" IsVisible="False"
                            Grid.Column="0"  Grid.Row="0" Grid.ColumnSpan="2"  VerticalOptions="End"  />
 
-                    <Entry x:Name="etCapacidade" Placeholder="000" FontSize="14" IsVisible="False"
+                    <Entry x:Name="etCapacidade" Placeholder="000" FontSize="14" IsVisible="False" MaxLength="8"
                             Grid.Column="0"  Grid.Row="1"  Keyboard="Numeric"  VerticalOptions="Start" />
 
                     <Label x:Name="lblCapacidade2" Text="Kg" FontSize="14" FontAttributes="Bold" IsVisible="False"
@@ -216,7 +255,7 @@
 
                     <Entry x:Name="etTipoCarroceria" Placeholder="Aberta/Fechada ..." FontSize="14" IsVisible="False"
                             HorizontalTextAlignment="Center" 
-                            Grid.Column="3"  Grid.Row="1" Grid.ColumnSpan="3" Keyboard="Numeric" VerticalOptions="Start"  />
+                            Grid.Column="3"  Grid.Row="1" Grid.ColumnSpan="3" VerticalOptions="Start"  />
 
                     <!-- Dimensões do baú -->
                     <Label x:Name="lblDimensoesBau" Text="Dimensões do baú" FontSize="14" FontAttributes="Bold" IsVisible="False"
@@ -236,7 +275,7 @@
                     <Label x:Name="lblLargura" Text="Largura" FontSize="14" FontAttributes="Bold" IsVisible="False"
                            Grid.Column="4"  Grid.Row="3"   VerticalOptions="Center"  />
 
-                    <Entry x:Name="etLargura" Placeholder="0000" FontSize="14" IsVisible="False"
+                    <Entry x:Name="etLargura" Placeholder="0000" FontSize="14" IsVisible="False" MaxLength="8"
                             Grid.Column="5"  Grid.Row="3"  Keyboard="Numeric"  VerticalOptions="Start" />
 
                     <Label x:Name="lblLargura2" Text="m" FontSize="14" FontAttributes="Bold" IsVisible="False"
@@ -246,7 +285,7 @@
                     <Label x:Name="lblComprimento" Text="Comprimento" FontSize="14" FontAttributes="Bold" IsVisible="False"
                            Grid.Column="0"  Grid.Row="4" Grid.ColumnSpan="2"  VerticalOptions="Center"  />
 
-                    <Entry x:Name="etComprimento" Placeholder="0000" FontSize="14" IsVisible="False"
+                    <Entry x:Name="etComprimento" Placeholder="0000" FontSize="14" IsVisible="False" MaxLength="8"
                             Grid.Column="2"  Grid.Row="4"  Keyboard="Numeric"  VerticalOptions="Start" />
 
                     <Label x:Name="lblComprimento2" Text="m" FontSize="14" FontAttributes="Bold" IsVisible="False"
@@ -256,28 +295,100 @@
                     <Label x:Name="lblRefrigerado" Text="Refrigerado" FontSize="14" FontAttributes="Bold" IsVisible="False"
                            Grid.Column="0"  Grid.Row="5" Grid.ColumnSpan="2"  VerticalOptions="Center"  />
 
-                    <Entry x:Name="etRefrigerado" Placeholder="Sim/Não" FontSize="14" IsVisible="False"
-                            Grid.Column="2"  Grid.Row="5" Grid.ColumnSpan="2" Keyboard="Numeric"  VerticalOptions="Start" />
+                    <Entry x:Name="etRefrigerado" Placeholder="Sim/Não" FontSize="14" IsVisible="False"  MaxLength="3"
+                            Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="2"   VerticalOptions="Start" />
                    
                     <!-- BOTÃO AVANÇAR -->
                     <Button x:Name="btnAvancar" Text="Avançar" FontSize="14" Clicked="BtnAvancar_Clicked" IsVisible="True"
-                                BackgroundColor="{StaticResource BlueBtn}" TextColor="{StaticResource White}" 
-                                Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="7" VerticalOptions="StartAndExpand" />
+                            BackgroundColor="{StaticResource BlueBtn}" TextColor="{StaticResource White}"  
+                            Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="7" VerticalOptions="EndAndExpand"
+                            HeightRequest="37" />
 
-                    <!-- VOLTAR -->
+                    <!-- VOLTAR - CADASTRO -->
                     <Button  x:Name="btnVoltar" Text="Voltar" Clicked="BtnVoltar_Clicked"  
                              BackgroundColor="{StaticResource Silver}" TextColor="{StaticResource White}"
-                             Grid.Column="0" Grid.Row="7"  Grid.ColumnSpan="3"
+                             Grid.Column="0" Grid.Row="7"  Grid.ColumnSpan="2"  HeightRequest="37"
                              IsVisible="False" VerticalOptions="StartAndExpand"  />
-
-                    <!-- FINALIZAR -->
+                    
+                    <!-- FINALIZAR - CADASTRO -->
                     <Button  x:Name="btnFinalizar" Text="Finalizar" Clicked="BtnAvancar_Clicked"  
-                             BackgroundColor="{StaticResource GreenBtn}" TextColor="{StaticResource White}"
-                             Grid.Column="3" Grid.Row="7"  Grid.ColumnSpan="4"
-                             IsVisible="False" VerticalOptions="StartAndExpand"  />
+                               BackgroundColor="{StaticResource GreenBtn}" TextColor="{StaticResource White}"
+                               Grid.Column="3" Grid.Row="7"  Grid.ColumnSpan="4"  HeightRequest="37"
+                               IsVisible="False" VerticalOptions="StartAndExpand"  />
+                      
+                      
+                    <!-- VOLTAR - BUSCA -->
+                    <StackLayout x:Name="stBtnVoltar" Grid.Row="7"  Grid.Column="0"   IsVisible="false" >
+
+                          <StackLayout.GestureRecognizers><TapGestureRecognizer Tapped="BtnVoltar2_Clicked" NumberOfTapsRequired="1" />
+                          </StackLayout.GestureRecognizers>
+
+                          <Image Source="btnVoltar3.png" VerticalOptions="End" HorizontalOptions="CenterAndExpand"
+                                 HeightRequest="45"  WidthRequest="45"   />
+
+                        <!--
+                          <Label Text="Voltar" FontSize="12" VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center"
+                                 TextColor="{StaticResource Blue}"  /> -->
+
+                      </StackLayout>
+
+                    <!-- Editar -->
+                    <StackLayout x:Name="slEditarVeiculos" IsVisible="False" Grid.Column="4" Grid.Row="7" VerticalOptions="End" >
+
+                          <StackLayout.GestureRecognizers>
+                              <TapGestureRecognizer Tapped="BtnEditarVeiculos_Clicked" NumberOfTapsRequired="1" />
+                          </StackLayout.GestureRecognizers>
+
+                          <Image  Source="editar.png"  VerticalOptions="End" HorizontalOptions="Center"
+                                  HeightRequest="17"   WidthRequest="17"  />
+
+                        <Label Text="Editar" FontSize="12" VerticalOptions="StartAndExpand" HorizontalTextAlignment="Start" />
+
+                      </StackLayout>
+
+                    <!-- Excluir -->
+                    <StackLayout x:Name="slExcluirVeiculos" IsVisible="False" Grid.Column="2" Grid.Row="7" VerticalOptions="End" >
+
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="BtnExcluirVeiculos_Clicked" NumberOfTapsRequired="1" />
+                            </StackLayout.GestureRecognizers>
+
+                            <Image  Source="excluir.png"    VerticalOptions="End"     HorizontalOptions="CenterAndExpand"
+                                    HeightRequest="17"   WidthRequest="17"  />
+
+                          <Label Text="Excluir" FontSize="12" VerticalOptions="End" HorizontalTextAlignment="Center" />
+                        </StackLayout>
+
+                    <!-- AVANÇAR - BUSCA -->
+                    <StackLayout x:Name="stBtnAvancar" Grid.Row="7"  Grid.Column="4" Grid.ColumnSpan="2" IsVisible="false"
+                                   HorizontalOptions="End">
+
+                          <StackLayout.GestureRecognizers><TapGestureRecognizer Tapped="BtnAvancar2_Clicked" NumberOfTapsRequired="1" />
+                          </StackLayout.GestureRecognizers>
+
+                          <Image Source="btnAvancar2.png" VerticalOptions="End" HorizontalOptions="CenterAndExpand"
+                                 HeightRequest="45"  WidthRequest="45"   />
+
+                        <!--
+                          <Label Text="Avançar" FontSize="12" VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center"
+                                 TextColor="{StaticResource GreenBtn}" /> -->
+                      </StackLayout>
 
 
-                </Grid>
+                    <!-- SALVAR - BUSCA -->
+                    <Button  x:Name="btnSalvar"       Text="Salvar"       Clicked="BtnAvancar_Clicked"
+                               BackgroundColor="{StaticResource GreenBtn}"  TextColor="{StaticResource White}"
+                               Grid.Column="3" Grid.Row="7"  Grid.ColumnSpan="4"  HeightRequest="37"
+                               IsVisible="False" VerticalOptions="StartAndExpand"  />
+
+
+                    <!-- LABEL CADASTRO FINALIZADO -->
+                      <Label  x:Name="lblFinalizado" FontSize="15" FontAttributes="Bold" 
+                            TextColor="{StaticResource GreenBtn}" 
+                            Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="7" Grid.RowSpan="6"
+                            HorizontalOptions="Center" VerticalOptions="Center" IsVisible="False"  />
+
+                    </Grid>
                     
                 </StackLayout>
 

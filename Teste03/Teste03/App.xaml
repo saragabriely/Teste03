@@ -5,12 +5,13 @@
 	<Application.Resources>
         <ResourceDictionary>
             <!--Global Styles-->
-            <Color x:Key="NavigationPrimary">#2196F3</Color>
-            <Style TargetType="NavigationPage">
+                <Color x:Key="NavigationPrimary">#1b418a</Color> <!-- #2196F3 -->
+                <Style TargetType="NavigationPage">
                 <Setter Property="BarBackgroundColor" Value="{StaticResource NavigationPrimary}" />
                 <Setter Property="BarTextColor" Value="White" />
             </Style>
 
+            <Color x:Key="Red"           >#FF0000</Color>
             <Color x:Key="Primary"       >#2196F3</Color>
             <Color x:Key="Blue"          >#1b418a</Color>
             <Color x:Key="BlueBtn"       >#3f51b5</Color>

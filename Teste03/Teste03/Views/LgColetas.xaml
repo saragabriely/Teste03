@@ -26,48 +26,136 @@
                     TextColor="{StaticResource LightBlue}"      BackgroundColor="{StaticResource Blue}"
                     HorizontalOptions="FillAndExpand"   VerticalOptions="Center" 
                     VerticalTextAlignment="Center"      HorizontalTextAlignment="Center"
-                    FontSize="22"
-                    HeightRequest="50"
-                    Grid.Row="0"    Grid.Column="0" Grid.ColumnSpan="5"
+                    FontSize="22"   HeightRequest="50"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"
                 />
 
             <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Margin="20"  HorizontalOptions="Center" >
 
-                <StackLayout Orientation="Horizontal" HeightRequest="40" >
-
-                    <Button x:Name="btnCliente" Text="Cliente" Clicked="BtnCliente_Clicked" HorizontalOptions="Start"  />
-
+                <StackLayout HeightRequest="40" >
+                    
+                    <!-- COLETAS -->
                     <Label  Text="COLETAS"  FontSize="16"   FontAttributes="Bold"  TextColor="{StaticResource Blue}" 
                         HorizontalTextAlignment="Center"  VerticalTextAlignment="Center"  HeightRequest="60"  />
-
-                    <Button x:Name="btnMotorista" Text="Motorista" Clicked="BtnMotorista_Clicked" HorizontalOptions="End" />
 
                 </StackLayout>
 
                 <!-- * CLIENTE * -->
                 <StackLayout x:Name="slCliente" IsVisible="False" >
 
-                    <Label Text="Perfil Cliente" FontSize="14" FontAttributes="Bold" VerticalOptions="Start" HorizontalOptions="Center" />
+                  <!--
+                    <Label Text="Perfil Cliente" FontSize="14" FontAttributes="Bold" VerticalOptions="Start" HorizontalOptions="Center" /> -->
 
                     <!-- BOTÕES - CLIENTE -->
-                    <StackLayout Margin="15" Spacing="15">
+                    <StackLayout x:Name="stBtnCliente" Margin="15" Spacing="40" VerticalOptions="Center">
 
-                        <!-- Btn - Cadastrar Coletas -->
+                        <!-- Btn - Cadastrar Coletas - ->
                         <Label Text="Cadastrar Coletas" FontSize="14" FontAttributes="Bold" VerticalOptions="End" 
-                               HorizontalOptions="Center" />
+                               HorizontalOptions="Center"  /> - ->
 
                         <Label Text="Cadastre novas coletas!" FontSize="14" VerticalOptions="Start" HorizontalOptions="Center" />
-
+-->
                         <Button x:Name="btnClienteCadastrarColeta" Text="Cadastrar Coleta" Clicked="BtnCadastrarColeta_Clicked"  
-                                BackgroundColor="{StaticResource BlueBtn}" TextColor="{StaticResource White}" />
+                                BackgroundColor="{StaticResource BlueBtn}" TextColor="{StaticResource White}"
+                                WidthRequest="300"  />
 
-                        <!-- Btn - Pesquisar Coletas -->
-                        <Label Text="Pesquisar Coletas" FontSize="14" FontAttributes="Bold" VerticalOptions="End" HorizontalOptions="Center" />
+                        <!-- Btn - Pesquisar Coletas - ->
+                        <Label Text="Pesquisar Coletas" FontSize="14" FontAttributes="Bold" VerticalOptions="End"
+                               HorizontalOptions="Center" /> - ->
                         <Label Text="Encontre coletas cadastradas!" FontSize="14" VerticalOptions="Start" HorizontalOptions="Center" />
-
+-->
                         <Button x:Name="btnClientePesquisarColeta" Text="Pesquisar Coletas" Clicked="BtnPesquisarColeta_Clicked" 
-                                BackgroundColor="{StaticResource MotoristaBtn}" TextColor="{StaticResource White}" />
+                                BackgroundColor="{StaticResource MotoristaBtn}" TextColor="{StaticResource White}" 
+                                WidthRequest="300"/>
 
+                    </StackLayout>
+
+                    <!-- FILTRO - CLIENTE -->
+                    <StackLayout x:Name="stFiltrarColetas " IsVisible="false" Spacing="15"  >
+                     <!-- BackgroundColor="{StaticResource WhiteBtn}"
+                     <Label  x:Name="lblFiltro" Text="Sexo" FontSize="14" FontAttributes="Bold" IsVisible="True" /> -->
+
+                      <Picker x:Name="etClienteFiltroColeta" Title="Escolha uma das opções" FontSize="14"
+                              HeightRequest="60" SelectedIndexChanged="pckFiltroColeta_Cliente"  > <!-- Grid.Column="1" Grid.Row="2"  -->
+                          <Picker.Items>
+                              <x:String>  TODAS AS COLETAS       </x:String> <!-- Id = 0  -->
+                              <x:String>  COLETAS FINALIZADAS    </x:String> <!-- Id = 10 -->
+                              <x:String>  COLETAS PENDENTES      </x:String> <!-- Id = 12 -->
+                              <x:String>  COLETAS CANCELADAS     </x:String> <!-- Id = 6  -->
+                              <x:String>  COLETAS EM ANDAMENTO   </x:String> <!-- Id = 8  -->
+                          </Picker.Items>
+                          <Picker.SelectedIndex>0</Picker.SelectedIndex>
+                      </Picker>
+                  </StackLayout>
+                  
+                    <!--  LISTA -->
+                    <StackLayout x:Name="stLista" IsVisible="false" >
+
+                      <Grid>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition  Width="100" />
+                          <ColumnDefinition  Width="120" />
+                          <ColumnDefinition  Width="80"  />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions >
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                        </Grid.RowDefinitions>
+
+                        <Label x:Name="lbIdColeta" Text="Apelido "     FontSize="14" FontAttributes="Bold" Grid.Column="0" Grid.Row="0"  />
+
+                        <Label x:Name="lbApelido" Text="Status " FontSize="14" FontAttributes="Bold" Grid.Column="1" Grid.Row="0"  />
+
+                        <Label x:Name="lbOrcamentos" Text="Orçamentos" FontSize="14" FontAttributes="Bold" Grid.Column="2" Grid.Row="0"  />
+
+                        <Label x:Name="lbListaVazia" Text="Você não possui veículos cadastrados!" FontSize="14" FontAttributes="Bold"
+                               Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="3" IsVisible="false"  />
+
+                        <!-- LIST VIEW -->
+                        <ListView x:Name="LstColeta" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="8"
+                                  ItemSelected="LstColeta_ItemSelected" IsVisible="true" >
+                          <ListView.ItemTemplate>
+                            <DataTemplate>
+                              <ViewCell>
+                                <StackLayout Orientation="Horizontal" WidthRequest="300" VerticalOptions="CenterAndExpand"
+                                             Padding="5"  >
+
+                                  <Grid>
+                                    <Grid.ColumnDefinitions>
+                                      <ColumnDefinition  Width="100"  />
+                                      <ColumnDefinition  Width="130" />
+                                      <ColumnDefinition  Width="60"  />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions >
+                                      <RowDefinition Height="35" />
+                                    </Grid.RowDefinitions>
+
+                                    <Label Text="{Binding ApelidoColeta} "     FontSize="13" Grid.Column="0" Grid.Row="0" />
+                                    <Label Text="{Binding IdStatus}" FontSize="13" Grid.Column="1" Grid.Row="0" />
+                                  <!--  <Label Text="{Binding IdStatus}"      FontSize="13" Grid.Column="2" Grid.Row="0" /> -->
+
+                                    <!--
+                                                <Label Text="{Binding MConta}"      FontSize="13" Grid.Column="2" Grid.Row="0" />
+                                                <Label Text="{Binding MDigConta}"   FontSize="13" Grid.Column="3" Grid.Row="0" />
+                                                <Label Text="{Binding BancoDesc}"   FontSize="13" Grid.Column="4" Grid.Row="0" /> -->
+                                  </Grid>
+
+                                </StackLayout>
+                              </ViewCell>
+                            </DataTemplate>
+                          </ListView.ItemTemplate>
+                        </ListView>
+
+                      </Grid>      
+                  
                     </StackLayout>
 
                     <!-- CLIENTE - CADASTRAR COLETA -->
@@ -94,7 +182,7 @@
 
                         </StackLayout>
 
-
+                        <!-- Cadastro - Coleta -->
                         <Grid x:Name="Grid02" RowSpacing="-2" ColumnSpacing="-1"  >
 
                             <Grid.ColumnDefinitions>
@@ -108,61 +196,46 @@
 
                             <Grid.RowDefinitions >
                                 <RowDefinition Height="36" />
-                                <!-- 0 -->
                                 <RowDefinition Height="36" />
-                                <!-- 1 -->
                                 <RowDefinition Height="36" />
-                                <!-- 2 -->
                                 <RowDefinition Height="36" />
-                                <!-- 3 -->
                                 <RowDefinition Height="36" />
-                                <!-- 4 -->
                                 <RowDefinition Height="36" />
-                                <!-- 5 -->
                                 <RowDefinition Height="36" />
-                                <!-- 6 -->
                                 <RowDefinition Height="36" />
-                                <!-- 7 -->
-                                <RowDefinition Height="9" />
-                                <!-- 8 -->
+                                <RowDefinition Height="9"  />
                                 <RowDefinition Height="42" />
-                                <!-- 9 -->
                             </Grid.RowDefinitions>
 
                             <!-- * MATERIAL * -->
 
                             <!-- Tipo de material -->
                             <Label x:Name="lblTipoMaterial" Text="Tipo de Material" FontSize="14" FontAttributes="Bold" 
-                               Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" IsVisible="True" 
-                               VerticalOptions="Center" />
+                               Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" IsVisible="True"  VerticalOptions="Center" />
 
-                            <Entry x:Name="etTipoMaterial" Placeholder="Tipo de material" FontSize="14" 
-                               Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="5" IsVisible="True"
-                               VerticalOptions="StartAndExpand"  />
+                            <Entry x:Name="etTipoMaterial" Placeholder="Tipo de material" FontSize="14" IsVisible="True"
+                               Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="5" VerticalOptions="StartAndExpand" MaxLength="20"  />
 
                             <!-- Fragilidade do material -->
                             <Label x:Name="lblFragilidadeMaterial" Text="Fragilidade" FontSize="14" FontAttributes="Bold" 
-                               Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" IsVisible="True" 
-                               VerticalOptions="Center" />
+                               Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" IsVisible="True"  VerticalOptions="Center" />
 
-                            <Entry x:Name="etFragilidadeMaterial" Placeholder="Fragilidade material" FontSize="14" 
-                               Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="5" IsVisible="True"
-                               VerticalOptions="StartAndExpand" />
+                            <Entry x:Name="etFragilidadeMaterial" Placeholder="Fragilidade material" FontSize="14" MaxLength="15"
+                               Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="5" IsVisible="True" VerticalOptions="StartAndExpand" />
 
                             <!-- Descricao do material -->
                             <Label x:Name="lblDescricaoMaterial" Text="Descricao do Material" FontSize="14" FontAttributes="Bold" 
-                               Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="7" IsVisible="True" 
-                               VerticalOptions="Center" />
+                               Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="7" IsVisible="True" VerticalOptions="Center" />
 
-                            <Editor x:Name="etDescricaoMaterial" FontSize="14" 
-                               Grid.Column="0" Grid.Row="3" Grid.RowSpan="3" Grid.ColumnSpan="7" IsVisible="True"
+                            <Editor x:Name="etDescricaoMaterial" FontSize="14" IsVisible="True"   MaxLength="300"
+                               Grid.Column="0" Grid.Row="3" Grid.RowSpan="3" Grid.ColumnSpan="7" 
                                VerticalOptions="Center" HeightRequest="100" BackgroundColor="{StaticResource SilverBg}" />
 
                             <!-- Peso do material -->
                             <Label x:Name="lblPeso" Text="Peso" FontSize="14" FontAttributes="Bold" IsVisible="True" 
                                Grid.Column="0" Grid.Row="6" VerticalOptions="Center" />
 
-                            <Entry x:Name="etPeso" Placeholder="0kg" FontSize="14"  IsVisible="True"
+                            <Entry x:Name="etPeso" Placeholder="0kg" FontSize="14"  IsVisible="True" Keyboard="Numeric" MaxLength="6"
                                Grid.Column="1" Grid.Row="6" HorizontalTextAlignment="Center" VerticalOptions="StartAndExpand" />
 
                             <Label x:Name="lblPeso2" Text="Kg" FontSize="14" FontAttributes="Bold" IsVisible="True" 
@@ -172,7 +245,7 @@
                             <Label x:Name="lblVolume" Text="Volumes" FontSize="14" FontAttributes="Bold" IsVisible="True" 
                                Grid.Column="3" Grid.Row="6" Grid.ColumnSpan="2" VerticalOptions="Center" />
 
-                            <Entry x:Name="etVolume" Placeholder="10" FontSize="14"  IsVisible="True"
+                            <Entry x:Name="etVolume" Placeholder="10" FontSize="14"  IsVisible="True" Keyboard="Numeric" MaxLength="5"
                                Grid.Column="5" Grid.Row="6" Grid.ColumnSpan="2" VerticalOptions="StartAndExpand" />
 
                             <!-- Dimensões do material -->
@@ -181,7 +254,7 @@
                             <Label x:Name="lblLargura" Text="Largura" FontSize="14" FontAttributes="Bold" IsVisible="True" 
                                Grid.Column="0" Grid.Row="7" VerticalOptions="Center" />
 
-                            <Entry x:Name="etLargura" Placeholder="0000" FontSize="14"  IsVisible="True"
+                            <Entry x:Name="etLargura" Placeholder="0000" FontSize="14" IsVisible="True" Keyboard="Numeric" MaxLength="6"
                                Grid.Column="1" Grid.Row="7" HorizontalTextAlignment="Center" VerticalOptions="StartAndExpand" />
 
                             <Label x:Name="lblLargura2" Text="m" FontSize="14"  IsVisible="True" 
@@ -191,11 +264,11 @@
                             <Label x:Name="lblAltura" Text="Altura" FontSize="14" FontAttributes="Bold" IsVisible="True" 
                                Grid.Column="3" Grid.Row="7" VerticalOptions="Center" />
 
-                            <Entry x:Name="etAltura" Placeholder="0000" FontSize="14"  IsVisible="True"
-                               Grid.Column="4" Grid.Row="7" Grid.ColumnSpan="2" VerticalOptions="StartAndExpand" />
+                            <Entry x:Name="etAltura" Placeholder="0000" FontSize="14" IsVisible="True" Keyboard="Numeric" MaxLength="6"
+                                   Grid.Column="4" Grid.Row="7" Grid.ColumnSpan="2" VerticalOptions="StartAndExpand" />
 
                             <Label x:Name="lblAltura2" Text="m" FontSize="14"  IsVisible="True" 
-                               Grid.Column="6" Grid.Row="7" VerticalOptions="Center" />
+                                   Grid.Column="6" Grid.Row="7" VerticalOptions="Center" />
 
 
                             <!-- * ENDEREÇO DE RETIRADA * -->
@@ -204,9 +277,9 @@
                             <Label x:Name="lblEndRetCep" Text="CEP" FontSize="14" FontAttributes="Bold"  IsVisible="False"
                                    Grid.Column="0" Grid.Row="0" VerticalOptions="CenterAndExpand" />
 
-                            <Entry x:Name="etEndRetCep" Placeholder="00000-000"  FontSize="14" IsVisible="False" 
+                            <Entry x:Name="etEndRetCep" Placeholder="00000-000" FontSize="14" IsVisible="False" 
                                    Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"  VerticalOptions="CenterAndExpand"
-                                   HorizontalTextAlignment="Center" Keyboard="Numeric" />
+                                   HorizontalTextAlignment="Center" Keyboard="Numeric" MaxLength="8" />
 
                             <!-- UF -->
                             <Label x:Name="lblEndRetUf" Text="UF" FontSize="14" FontAttributes="Bold"  IsVisible="False"
@@ -214,23 +287,22 @@
 
                             <Entry  x:Name="etEndRetUf"  Placeholder="UF"  FontSize="14" IsVisible="False" 
                                     Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="2"  VerticalOptions="CenterAndExpand"  
-                                    HorizontalTextAlignment="Center" />
+                                    HorizontalTextAlignment="Center"  MaxLength="2" />
 
                             <!-- Endereco -->
-                            <Label   x:Name="lblEndRet" Text="Endereço de Retirada" FontSize="14" FontAttributes="Bold" 
-                                     IsVisible="False"
-                                     Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="6"  VerticalOptions="EndAndExpand" />
+                            <Label x:Name="lblEndRet" Text="Endereço de Retirada" FontSize="14" FontAttributes="Bold" IsVisible="False"
+                                   Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="6"  VerticalOptions="EndAndExpand" />
 
-                            <Entry  x:Name="etEndRet"  Placeholder="Digite o endereço de retirada" FontSize="14" IsVisible="False" 
-                                    Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="7" VerticalOptions="StartAndExpand"  />
+                            <Entry x:Name="etEndRet" Placeholder="Digite o endereço de retirada" FontSize="14" IsVisible="False" 
+                                   Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="7" VerticalOptions="StartAndExpand" MaxLength="40"  />
 
                             <!-- Número -->
                             <Label  x:Name="lblEndRetNumero" Text="Nº"  FontSize="14" FontAttributes="Bold"  IsVisible="False"
-                                    Grid.Column="0" Grid.Row="3"   VerticalOptions="CenterAndExpand"  />
+                                    Grid.Column="0" Grid.Row="3" VerticalOptions="CenterAndExpand"  />
 
                             <Entry  x:Name="etEndRetNumero"  Placeholder="Nº"  FontSize="14" WidthRequest="60" IsVisible="False" 
-                                    Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2"  
-                                    VerticalOptions="EndAndExpand" HorizontalTextAlignment="Center" Keyboard="Numeric"  />
+                                    Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Keyboard="Numeric" MaxLength="5"
+                                    VerticalOptions="EndAndExpand" HorizontalTextAlignment="Center"   />
 
                             <!-- Complemento -->
                             <Label  x:Name="lblEndRetCompl" Text="Compl." FontSize="14" FontAttributes="Bold"  
@@ -238,38 +310,35 @@
                                     VerticalOptions="CenterAndExpand" HorizontalOptions="Center" />
 
                             <Entry  x:Name="etEndRetCompl" Placeholder="Digite o compl." FontSize="14" IsVisible="False" 
-                                    Grid.Column="4" Grid.Row="3" Grid.ColumnSpan="3" VerticalOptions="EndAndExpand"/>
+                                    Grid.Column="4" Grid.Row="3" Grid.ColumnSpan="3" VerticalOptions="EndAndExpand" MaxLength="20" />
 
                             <!-- Bairro -->
                             <Label  x:Name="lblEndRetBairro" Text="Bairro" FontSize="14" FontAttributes="Bold"  
-                                    IsVisible="False" Grid.Column="0" Grid.Row="4"  
-                                    VerticalOptions="CenterAndExpand" />
+                                    IsVisible="False" Grid.Column="0" Grid.Row="4" VerticalOptions="CenterAndExpand" />
 
                             <Entry  x:Name="etEndRetBairro" Placeholder="Digite o Bairro" FontSize="14" IsVisible="False" 
-                                    Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="6" VerticalOptions="EndAndExpand"/>
+                                    Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="6" VerticalOptions="EndAndExpand" MaxLength="30" />
 
                             <!-- Cidade -->
                             <Label x:Name="lblEndRetCidade" Text="Cidade" FontSize="14" FontAttributes="Bold"  
                                    IsVisible="False" Grid.Column="0" Grid.Row="5"   VerticalOptions="CenterAndExpand" />
 
                             <Entry x:Name="etEndRetCidade" Placeholder="Digite a Cidade" FontSize="14" IsVisible="False" 
-                                   Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="6"  VerticalOptions="CenterAndExpand"/>
+                                   Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="6" VerticalOptions="CenterAndExpand" MaxLength="30" />
 
                             <!-- Nome do responsável -->
                             <Label x:Name="lblEndRetResponsavel" Text="Responsável pela entrega" FontSize="14" FontAttributes="Bold"  
-                                   IsVisible="False" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" 
-                                   VerticalOptions="EndAndExpand" />
+                                   IsVisible="False" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" VerticalOptions="EndAndExpand" />
 
-                            <Entry x:Name="etEndRetResponsavel" Placeholder="Nome do responsável" FontSize="14" 
-                                   IsVisible="False" 
-                                   Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="5"  VerticalOptions="CenterAndExpand"/>
+                            <Entry x:Name="etEndRetResponsavel" Placeholder="Nome do responsável" FontSize="14" IsVisible="False" 
+                                   Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="5"  VerticalOptions="CenterAndExpand" MaxLength="30"/>
 
                             <!-- Telefone do responsável -->
                             <Label x:Name="lblEndRetResponsavelTel" Text="Telef. do responsável" FontSize="14" FontAttributes="Bold"  
                                    IsVisible="False" Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="3" VerticalOptions="CenterAndExpand" />
 
                             <Entry x:Name="etEndRetResponsavelTel" Placeholder="(00)00000-0000" FontSize="14" IsVisible="False"
-                                    Grid.Column="3" Grid.Row="7" Grid.ColumnSpan="3" 
+                                    Grid.Column="3" Grid.Row="7" Grid.ColumnSpan="3" MaxLength="11"
                                     VerticalOptions="CenterAndExpand" Keyboard="Telephone"/>
 
 
@@ -281,7 +350,7 @@
 
                             <Entry x:Name="etEndEntCep" Placeholder="00000-000"  FontSize="14" IsVisible="False" 
                                    Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"  VerticalOptions="CenterAndExpand"
-                                   HorizontalTextAlignment="Center" Keyboard="Numeric" />
+                                   HorizontalTextAlignment="Center" Keyboard="Numeric" MaxLength="8" />
 
                             <!-- UF -->
                             <Label x:Name="lblEndEntUf" Text="UF" FontSize="14" FontAttributes="Bold"  IsVisible="False"
@@ -289,55 +358,50 @@
 
                             <Entry  x:Name="etEndEntUf"  Placeholder="UF"  FontSize="14" IsVisible="False" 
                                     Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="2"  VerticalOptions="CenterAndExpand"  
-                                    HorizontalTextAlignment="Center" />
+                                    HorizontalTextAlignment="Center" MaxLength="2" />
 
                             <!-- Endereco -->
-                            <Label   x:Name="lblEndEnt" Text="Endereço de Entrega" FontSize="14" FontAttributes="Bold" 
-                                     IsVisible="False"
-                                     Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="6"  VerticalOptions="EndAndExpand" />
+                            <Label x:Name="lblEndEnt" Text="Endereço de Entrega" FontSize="14" FontAttributes="Bold" 
+                                   IsVisible="False" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="6" VerticalOptions="EndAndExpand" />
 
-                            <Entry  x:Name="etEndEnt"  Placeholder="Digite o endereço de entrega" FontSize="14" IsVisible="False" 
-                                    Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="7" VerticalOptions="StartAndExpand"  />
+                            <Entry x:Name="etEndEnt"  Placeholder="Digite o endereço de entrega" FontSize="14" IsVisible="False" 
+                                   Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="7" VerticalOptions="StartAndExpand" MaxLength="30" />
 
                             <!-- Número -->
                             <Label  x:Name="lblEndEntNumero" Text="Nº"  FontSize="14" FontAttributes="Bold"  IsVisible="False"
                                     Grid.Column="0" Grid.Row="3"   VerticalOptions="CenterAndExpand"  />
 
                             <Entry  x:Name="etEndEntNumero"  Placeholder="Nº"  FontSize="14" WidthRequest="60" IsVisible="False" 
-                                    Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2"  
+                                    Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" MaxLength="6"
                                     VerticalOptions="EndAndExpand" HorizontalTextAlignment="Center" Keyboard="Numeric" />
 
                             <!-- Complemento -->
-                            <Label  x:Name="lblEndEntCompl" Text="Compl." FontSize="14" FontAttributes="Bold"  
-                                    IsVisible="False" Grid.Column="3" Grid.Row="3"  
-                                    VerticalOptions="CenterAndExpand" HorizontalOptions="Center" />
+                            <Label x:Name="lblEndEntCompl" Text="Compl." FontSize="14" FontAttributes="Bold" IsVisible="False" 
+                                   Grid.Column="3" Grid.Row="3" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" />
 
-                            <Entry  x:Name="etEndEntCompl" Placeholder="Digite o compl." FontSize="14" IsVisible="False" 
-                                    Grid.Column="4" Grid.Row="3" Grid.ColumnSpan="3" VerticalOptions="EndAndExpand"/>
+                            <Entry x:Name="etEndEntCompl" Placeholder="Digite o compl." FontSize="14" IsVisible="False" 
+                                   Grid.Column="4" Grid.Row="3" Grid.ColumnSpan="3" VerticalOptions="EndAndExpand" MaxLength="10" />
 
                             <!-- Bairro -->
                             <Label  x:Name="lblEndEntBairro" Text="Bairro" FontSize="14" FontAttributes="Bold"  
-                                    IsVisible="False" Grid.Column="0" Grid.Row="4"  
-                                    VerticalOptions="CenterAndExpand" />
+                                    IsVisible="False" Grid.Column="0" Grid.Row="4" VerticalOptions="CenterAndExpand" />
 
                             <Entry  x:Name="etEndEntBairro" Placeholder="Digite o Bairro" FontSize="14" IsVisible="False" 
-                                    Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="6" VerticalOptions="EndAndExpand"/>
+                                    Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="6" VerticalOptions="EndAndExpand" MaxLength="30"/>
 
                             <!-- Cidade -->
                             <Label x:Name="lblEndEntCidade" Text="Cidade" FontSize="14" FontAttributes="Bold"  
                                    IsVisible="False" Grid.Column="0" Grid.Row="5"   VerticalOptions="CenterAndExpand" />
 
                             <Entry x:Name="etEndEntCidade" Placeholder="Digite a Cidade" FontSize="14" IsVisible="False" 
-                                   Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="6"  VerticalOptions="CenterAndExpand"/>
+                                   Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="6" VerticalOptions="CenterAndExpand" MaxLength="30"/>
 
                             <!-- Nome do responsável -->
                             <Label x:Name="lblEndEntResponsavel" Text="Resp. pelo recebimento" FontSize="14" FontAttributes="Bold"  
-                                   IsVisible="False" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" 
-                                   VerticalOptions="EndAndExpand" />
+                                   IsVisible="False" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" VerticalOptions="EndAndExpand" />
 
-                            <Entry x:Name="etEndEntResponsavel" Placeholder="Nome do responsável" FontSize="14" 
-                                   IsVisible="False" 
-                                   Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="5"  VerticalOptions="CenterAndExpand"/>
+                            <Entry x:Name="etEndEntResponsavel" Placeholder="Nome do responsável" FontSize="14" IsVisible="False" 
+                                   Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="5"  VerticalOptions="CenterAndExpand" MaxLength="20" />
 
                             <!-- Telefone do responsável -->
                             <Label x:Name="lblEndEntResponsavelTel" Text="Telef. do responsável" FontSize="14" FontAttributes="Bold"  
@@ -345,7 +409,7 @@
 
                             <Entry x:Name="etEndEntResponsavelTel" Placeholder="(00)00000-0000" FontSize="14" IsVisible="False"
                                     Grid.Column="4" Grid.Row="7" Grid.ColumnSpan="3"  HorizontalTextAlignment="Center"
-                                    VerticalOptions="CenterAndExpand" Keyboard="Telephone"/>
+                                    VerticalOptions="CenterAndExpand" Keyboard="Telephone" MaxLength="11" />
 
                             <!-- * VALOR * -->
 
@@ -355,43 +419,39 @@
 
                             <Entry x:Name="etDataMax" Placeholder="00/00/0000" FontSize="14" IsVisible="False"
                                     Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="3"  HorizontalTextAlignment="Center"
-                                    VerticalOptions="CenterAndExpand" Keyboard="Numeric"/>
+                                    VerticalOptions="CenterAndExpand" MaxLength="10" />
 
                             <!-- Horário -->
                             <Label x:Name="lblHorario" Text="Horário limite" FontSize="14" FontAttributes="Bold" IsVisible="False"
                                    Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand" />
 
-                            <Entry x:Name="etHorario" Placeholder="00" FontSize="14" IsVisible="False"
-                                    Grid.Column="2" Grid.Row="1"   HorizontalTextAlignment="Center"
-                                    VerticalOptions="CenterAndExpand" Keyboard="Numeric"/>
+                            <Entry x:Name="etHorario" Placeholder="00" FontSize="14" IsVisible="False" HorizontalTextAlignment="Center"
+                                    Grid.Column="2" Grid.Row="1" VerticalOptions="CenterAndExpand" Keyboard="Numeric" MaxLength="2" />
 
                             <Label x:Name="lblHorarioMeio" Text=":" FontSize="14"  IsVisible="False"
                                    Grid.Column="3" Grid.Row="1" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" />
 
-                            <Entry x:Name="etHorario2" Placeholder="00" FontSize="14" IsVisible="False"
-                                    Grid.Column="4" Grid.Row="1"   HorizontalTextAlignment="Center"
-                                    VerticalOptions="CenterAndExpand" Keyboard="Numeric"/>
+                            <Entry x:Name="etHorario2" Placeholder="00" FontSize="14" IsVisible="False" HorizontalTextAlignment="Center"
+                                   Grid.Column="4" Grid.Row="1" VerticalOptions="CenterAndExpand" Keyboard="Numeric" MaxLength="2" />
 
                             <!-- Valor pretendido -->
                             <Label x:Name="lblValorPretendido" Text="Valor que pretende pagar" FontSize="14" FontAttributes="Bold" 
-                               IsVisible="False"
-                                   Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" VerticalOptions="CenterAndExpand" />
+                                   IsVisible="False" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" VerticalOptions="CenterAndExpand" />
 
                             <Label x:Name="lblValorRS" Text="R$" FontSize="14"  IsVisible="False"
                                    Grid.Column="4" Grid.Row="2" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" />
 
                             <Entry x:Name="etValorPretendido" Placeholder="000,00" FontSize="14" IsVisible="False"
                                     Grid.Column="5" Grid.Row="2" Grid.ColumnSpan="2"   HorizontalTextAlignment="Center"
-                                    VerticalOptions="CenterAndExpand" Keyboard="Numeric"/>
+                                    VerticalOptions="CenterAndExpand" Keyboard="Numeric" MaxLength="10" />
 
                             <!-- Observações -->
-                            <Label x:Name="lblObservacoes" Text="Observações" FontSize="14" FontAttributes="Bold" 
-                                   IsVisible="False"
+                            <Label x:Name="lblObservacoes" Text="Observações" FontSize="14" FontAttributes="Bold" IsVisible="False"
                                    Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" VerticalOptions="CenterAndExpand" />
 
                             <Editor x:Name="etObservacoes"  FontSize="14"  IsVisible="False" BackgroundColor="{StaticResource SilverBg}"
                                    Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="7" Grid.RowSpan="2" 
-                                   VerticalOptions="StartAndExpand" HeightRequest="100"  />
+                                   VerticalOptions="StartAndExpand" HeightRequest="100" MaxLength="150"  />
 
                             <!-- Apelido da coleta -->
                             <Label x:Name="lblApelido" Text="Apelido" FontSize="14" FontAttributes="Bold"  IsVisible="False"
@@ -399,15 +459,15 @@
 
                             <Entry x:Name="etApelido" Placeholder="Apelido da Coleta" FontSize="14" IsVisible="False"
                                     Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="5"   HorizontalTextAlignment="Center"
-                                    VerticalOptions="CenterAndExpand" />
+                                    VerticalOptions="CenterAndExpand" MaxLength="15" />
 
                             <!-- Tipo de veículo -->
                             <Label x:Name="lblTipoVeiculo" Text="Tipo de Veículo" FontSize="14" FontAttributes="Bold"  IsVisible="False"
                                    Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2"  VerticalOptions="CenterAndExpand" />
 
                             <Entry x:Name="etTipoVeiculo" Placeholder="Caminhão / Carro / Moto ..." FontSize="14" IsVisible="False"
-                                    Grid.Column="2" Grid.Row="7" Grid.ColumnSpan="5"   HorizontalTextAlignment="Center"
-                                    VerticalOptions="CenterAndExpand" />
+                                   Grid.Column="2" Grid.Row="7" Grid.ColumnSpan="5"   HorizontalTextAlignment="Center"
+                                   VerticalOptions="CenterAndExpand"  />
 
 
                             <!-- BOTÃO AVANÇAR -->
@@ -416,23 +476,94 @@
                                 Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="7" VerticalOptions="StartAndExpand" />
 
                             <!-- VOLTAR -->
-                            <Button  x:Name="btnVoltar" Text="Voltar" Clicked="BtnVoltar_Clicked"  
-                             BackgroundColor="{StaticResource Silver}" TextColor="{StaticResource White}"
-                             Grid.Column="0" Grid.Row="9"  Grid.ColumnSpan="3"
-                             IsVisible="False" VerticalOptions="StartAndExpand"  />
+                            <Button x:Name="btnVoltar" Text="Voltar" Clicked="BtnVoltar_Clicked" BackgroundColor="{StaticResource Silver}" 
+                                    TextColor="{StaticResource White}" Grid.Column="0" Grid.Row="9"  Grid.ColumnSpan="2"
+                                    IsVisible="False" VerticalOptions="StartAndExpand"  />
 
                             <!-- AVANÇAR 2 -->
-                            <Button  x:Name="btnAvancar2" Text="Avançar" Clicked="BtnAvancar_Clicked"  
-                             BackgroundColor="{StaticResource BlueBtn}" TextColor="{StaticResource White}"
-                             Grid.Column="3" Grid.Row="9"  Grid.ColumnSpan="4"
-                             IsVisible="False" VerticalOptions="StartAndExpand" />
+                            <Button  x:Name="btnAvancar2" Text="Avançar" Clicked="BtnAvancar_Clicked" BackgroundColor="{StaticResource BlueBtn}" 
+                                     TextColor="{StaticResource White}" Grid.Column="3" Grid.Row="9"  Grid.ColumnSpan="4"
+                                     IsVisible="False" VerticalOptions="StartAndExpand" />
 
                             <!-- FINALIZAR -->
-                            <Button  x:Name="btnFinalizar" Text="Finalizar" Clicked="BtnFinalizar_Clicked"  
-                             BackgroundColor="{StaticResource GreenBtn}" TextColor="{StaticResource White}"
-                             Grid.Column="3" Grid.Row="9"  Grid.ColumnSpan="4"
-                             IsVisible="False" VerticalOptions="StartAndExpand"  />
+                            <Button  x:Name="btnFinalizar" Text="Finalizar" Clicked="BtnFinalizar_Clicked" BackgroundColor="{StaticResource GreenBtn}"
+                                     TextColor="{StaticResource White}" Grid.Column="3" Grid.Row="9"  Grid.ColumnSpan="4"
+                                     IsVisible="False" VerticalOptions="StartAndExpand"  />
 
+                      
+                        <!-- VOLTAR - BUSCA -->
+                        <StackLayout x:Name="stBtnVoltar" Grid.Row="9"  Grid.Column="0"   IsVisible="false" >
+
+                           <StackLayout.GestureRecognizers><TapGestureRecognizer Tapped="BtnVoltar2_Clicked" NumberOfTapsRequired="1" />
+                           </StackLayout.GestureRecognizers>
+
+                           <Image Source="btnVoltar3.png" VerticalOptions="End" HorizontalOptions="CenterAndExpand" HeightRequest="45" WidthRequest="45" />
+                         </StackLayout>
+
+                        <!-- Editar -->
+                        <StackLayout x:Name="slEditarColeta" IsVisible="False" Grid.Column="4" Grid.Row="9" VerticalOptions="End" >
+
+                              <StackLayout.GestureRecognizers>
+                                  <TapGestureRecognizer Tapped="BtnEditarColeta_Clicked" NumberOfTapsRequired="1" />
+                              </StackLayout.GestureRecognizers>
+
+                              <Image  Source="editar.png"  VerticalOptions="End" HorizontalOptions="Center"
+                                      HeightRequest="17"   WidthRequest="17"  />
+
+                            <Label Text="Editar" FontSize="12" VerticalOptions="StartAndExpand" HorizontalTextAlignment="Start" />
+
+                          </StackLayout>
+
+                        <!-- Excluir -->
+                        <StackLayout x:Name="slExcluirColeta" IsVisible="False" Grid.Column="2" Grid.Row="9" VerticalOptions="End" >
+
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="BtnExcluirColeta_Clicked" NumberOfTapsRequired="1" />
+                            </StackLayout.GestureRecognizers>
+
+                            <Image  Source="excluir.png"    VerticalOptions="End"     HorizontalOptions="CenterAndExpand"
+                                    HeightRequest="17"   WidthRequest="17"  />
+
+                          <Label Text="Excluir" FontSize="12" VerticalOptions="End" HorizontalTextAlignment="Center" />
+                        </StackLayout>
+
+                        <!-- AVANÇAR - BUSCA -->
+                        <StackLayout x:Name="stBtnAvancar" Grid.Row="9" Grid.Column="5" Grid.ColumnSpan="2" IsVisible="false"
+                                   HorizontalOptions="End">
+
+                          <StackLayout.GestureRecognizers><TapGestureRecognizer Tapped="BtnAvancar2_Clicked" NumberOfTapsRequired="1" />
+                          </StackLayout.GestureRecognizers>
+
+                          <Image Source="btnAvancar2.png" VerticalOptions="End" HorizontalOptions="CenterAndExpand"
+                                 HeightRequest="45"  WidthRequest="45"   />
+
+                      </StackLayout>
+                        
+                        <!-- AVANÇAR - EDIÇÃO - ->
+                        <StackLayout x:Name="stBtnAvancar2" Grid.Row="9" Grid.Column="5" Grid.ColumnSpan="2" IsVisible="false"
+                                   HorizontalOptions="End">
+
+                          <StackLayout.GestureRecognizers><TapGestureRecognizer Tapped="BtnAvancar2_Clicked" NumberOfTapsRequired="1" />
+                          </StackLayout.GestureRecognizers>
+
+                          <Image Source="btnAvancar2.png" VerticalOptions="End" HorizontalOptions="CenterAndExpand"
+                                 HeightRequest="45"  WidthRequest="45"   />
+
+                      </StackLayout> -->
+                          
+                        <!-- BOTÃO AVANÇAR -->
+                        <Button x:Name="stBtnAvancar2" Text="Avançar"  FontSize="14" Clicked="BtnAvancar_Clicked" IsVisible="False"
+                            BackgroundColor="{StaticResource BlueBtn}" TextColor="{StaticResource White}" 
+                            Grid.Column="3" Grid.Row="9" Grid.ColumnSpan="4" VerticalOptions="StartAndExpand" />
+                        
+                          
+                        <!-- SALVAR - BUSCA -->
+                        <Button  x:Name="btnSalvar" Text="Salvar" Clicked="BtnAvancar_Clicked"  IsVisible="False"
+                             BackgroundColor="{StaticResource GreenBtn}"  TextColor="{StaticResource White}"
+                             Grid.Column="3" Grid.Row="9"  Grid.ColumnSpan="4"  HeightRequest="37"
+                             VerticalOptions="StartAndExpand"  />
+                     
+                
                         </Grid>
                         
                     </StackLayout>
@@ -443,10 +574,14 @@
                 <!-- * MOTORISTA * -->
                 <StackLayout x:Name="slMotorista" IsVisible="False" >
 
-                    <Label Text="Perfil Motorista" FontSize="14" FontAttributes="Bold" VerticalOptions="Start" HorizontalOptions="Center" />
+                    <Label x:Name="lbMoto" Text="Perfil Motorista" FontSize="14" FontAttributes="Bold" VerticalOptions="Start" 
+                           HorizontalOptions="Center" IsVisible="False" />
+
+                    <Label x:Name="lbDisponivel" Text="Perfil Motorista" FontSize="14" FontAttributes="Bold" VerticalOptions="Start" 
+                           HorizontalOptions="Center" IsVisible="False" />
 
                     <!-- BOTÕES - MOTORISTA -->
-                    <StackLayout Margin="15" Spacing="15">
+                    <StackLayout x:Name="btnsMotorista" Margin="15" Spacing="15">
 
                         <!-- Btn - Encontrar Coletas -->
                         <Label Text="Encontrar Coletas" FontSize="14" FontAttributes="Bold" VerticalOptions="End" 
@@ -458,52 +593,323 @@
                                 BackgroundColor="{StaticResource BlueBtn}" TextColor="{StaticResource White}" />
 
                         <!-- Btn - Pesquisar Coletas -->
-                        <Label Text="Pesquisar Coletas" FontSize="14" FontAttributes="Bold" VerticalOptions="End" HorizontalOptions="Center" />
-                        <Label Text="Pesquise coletas já realizadas" FontSize="14" VerticalOptions="Center" HorizontalOptions="Center" />
+                        <Label Text="Histórico de Coletas" FontSize="14" FontAttributes="Bold" VerticalOptions="End" HorizontalOptions="Center" />
+                        <Label Text="Pesquise coletas já realizadas, canceladas ou em andamenti" FontSize="14" VerticalOptions="Center" 
+                               HorizontalOptions="Center" />
 
-                        <Button x:Name="btnMotoristaPesquisarColeta" Text="Pesquisar Coletas" Clicked="BtnMotoristaPesquisarColeta_Clicked"
+                        <Button x:Name="btnMotoristaPesquisarColeta" Text="Pesquisar Coletas" 
+                                Clicked="BtnMotoristaPesquisarColeta_Clicked"
                                 BackgroundColor="{StaticResource MotoristaBtn}" TextColor="{StaticResource White}" />
 
                     </StackLayout>
 
-                    <!-- Stack - Encontrar Coletas -->
-                    <StackLayout x:Name="slMotoristaNotificacoesColeta" IsVisible="False" Spacing="10">
+                    <!-- Stack - Encontrar Coletas - Campos -->
+                    <StackLayout x:Name="slMotoristaEncontrarColeta_Lista" IsVisible="False" Spacing="10">
 
-                    </StackLayout>
+                        <Grid x:Name="Grid03" RowSpacing="-2" ColumnSpacing="-1"  >
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition  Width="52" />
+                                <ColumnDefinition  Width="30" />
+                                <ColumnDefinition  Width="30" />
+                                <ColumnDefinition  Width="30" />
+                                <ColumnDefinition  Width="33" />
+                                <ColumnDefinition  Width="30" />
+                                <ColumnDefinition  Width="30" />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions >
+                                <RowDefinition Height="36" />
+                                <RowDefinition Height="36" />
+                                <RowDefinition Height="36" />
+                                <RowDefinition Height="36" />
+                                <RowDefinition Height="36" />
+                                <RowDefinition Height="36" />
+                                <RowDefinition Height="36" />
+                                <RowDefinition Height="36" />
+                                <RowDefinition Height="20"  />
+                                <RowDefinition Height="36" />
+                            </Grid.RowDefinitions>
+
+                            <!-- * MATERIAL * -->
+
+                            <!-- Endereco -->
+                            <Label x:Name="lbEndRet" Text="Endereço de Retirada" FontSize="13" FontAttributes="Bold" IsVisible="True" 
+                                     Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="7"  VerticalOptions="Center" />
+
+                            <Label x:Name="etEndRet_Moto"  IsVisible="True" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="9"
+                                   VerticalOptions="Start" BackgroundColor="{StaticResource SilverBg}" 
+                                   HeightRequest="28" VerticalTextAlignment="Center" />
+
+                            <!-- Endereco -->
+                            <Label x:Name="lbEndEnt" Text="Endereço de Entrega" FontSize="13" FontAttributes="Bold"  IsVisible="True" 
+                                     Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="8"  VerticalOptions="Center" />
+
+                            <Label x:Name="etEndEnt_Moto"  IsVisible="True" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="9"
+                                   VerticalOptions="Start" BackgroundColor="{StaticResource SilverBg}"
+                                   HeightRequest="28" VerticalTextAlignment="Center"  />
+
+                            <!-- Tipo de material -->
+                            <Label x:Name="lbTipoMaterial" Text="Tipo de Material" FontSize="13" FontAttributes="Bold" 
+                                 Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" IsVisible="True"  VerticalOptions="Center" />
+
+                            <Label x:Name="lbTipoMaterial_Moto" FontSize="13" IsVisible="True" Grid.Column="2" Grid.Row="4" 
+                                     Grid.ColumnSpan="7" VerticalOptions="StartAndExpand" BackgroundColor="{StaticResource SilverBg}"
+                                     HeightRequest="28" VerticalTextAlignment="Center" />
+
+                            <!-- Fragilidade do material -->
+                            <Label x:Name="lbFragilidadeMaterial" Text="Fragilidade" FontSize="13" FontAttributes="Bold" 
+                                 Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" IsVisible="True"  VerticalOptions="Center" />
+
+                            <Label x:Name="lbFragilidadeMaterial_Moto" FontSize="13" Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="7"
+                                   IsVisible="True" VerticalOptions="Center" BackgroundColor="{StaticResource SilverBg}"
+                                   HeightRequest="28" VerticalTextAlignment="Center"  />
+
+                            <!-- Descricao do material -->
+                            <Label x:Name="lbDescricaoMaterial" Text="Descricao do Material" FontSize="13" FontAttributes="Bold" 
+                               Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="7" IsVisible="True" VerticalOptions="Center" />
+
+                            <Label x:Name="lbDescricaoMaterial_Moto" FontSize="13" IsVisible="True" 
+                                   Grid.Column="0" Grid.Row="7" Grid.RowSpan="3" Grid.ColumnSpan="9" 
+                                   VerticalOptions="Center" HeightRequest="100" BackgroundColor="{StaticResource SilverBg}"  />
+
+                            
+                            <!-- Peso do material -->
+                            <Label x:Name="lbPeso" Text="Peso" FontSize="13" FontAttributes="Bold" IsVisible="False" 
+                                   Grid.Column="0" Grid.Row="0" VerticalOptions="Center" />
+
+                            <Label x:Name="etPeso_Moto" FontSize="13" IsVisible="false" BackgroundColor="{StaticResource SilverBg}" 
+                                   Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" HorizontalTextAlignment="Center" VerticalOptions="Center"
+                                   HeightRequest="28" VerticalTextAlignment="Center"/>
+
+                            <Label x:Name="lbPeso2" Text="Kg" FontSize="12"  IsVisible="False" 
+                                 Grid.Column="3" Grid.Row="0" VerticalOptions="Center" HorizontalTextAlignment="Center" />
+
+                              <!-- Volume -->
+                            <Label x:Name="lbVolume" Text="Volumes" FontSize="13" FontAttributes="Bold" IsVisible="False" 
+                                   Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="2" VerticalOptions="Center" />
+
+                            <Label x:Name="etVolume_Moto"  FontSize="13"  IsVisible="False" BackgroundColor="{StaticResource SilverBg}"
+                                    Grid.Column="6" Grid.Row="0" Grid.ColumnSpan="2"  VerticalOptions="StartAndExpand"
+                                   HeightRequest="28" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+                             
+                             <!-- Dimensões do material -->
+                             
+                             <!-- Largura -->
+                            <Label x:Name="lbLargura" Text="Largura" FontSize="13" IsVisible="false" 
+                                   Grid.Column="0" Grid.Row="1" VerticalOptions="Center" FontAttributes="Bold" 
+                                   HeightRequest="28" VerticalTextAlignment="Center" />
+
+                            <Label x:Name="etLargura_Moto" FontSize="13" IsVisible="false" BackgroundColor="{StaticResource SilverBg}"
+                                   Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" 
+                                   HorizontalTextAlignment="Center" VerticalOptions="StartAndExpand"
+                                   HeightRequest="28" VerticalTextAlignment="Center" />
+
+                            <Label x:Name="lbLargura2" Text="m" FontSize="12"  IsVisible="false" 
+                                 Grid.Column="3" Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center" />
+
+                              <!-- Altura -->
+                            <Label x:Name="lbAltura" Text="Altura" FontSize="13" FontAttributes="Bold" IsVisible="false" 
+                                   Grid.Column="4" Grid.Row="1"  Grid.ColumnSpan="2" VerticalOptions="Center"
+                                   HorizontalTextAlignment="Center" />
+
+                            <Label x:Name="etAltura_Moto" FontSize="13" IsVisible="false" BackgroundColor="{StaticResource SilverBg}"
+                                   Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="2" VerticalOptions="StartAndExpand"
+                                   HeightRequest="28" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"  />
+
+                            <Label x:Name="lbAltura2" Text="m" FontSize="12"  IsVisible="false" 
+                                   Grid.Column="8" Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center" />
+
+
+                              <!-- * VALOR * -->
+
+                              <!-- Data máxima -->
+                              <Label x:Name="lbDataMax" Text="Data máx. para entrega" FontSize="13" FontAttributes="Bold" IsVisible="False"
+                                     Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="5" VerticalOptions="CenterAndExpand" />
+
+                              <Label x:Name="etDataMax_Moto" FontSize="13" IsVisible="False"
+                                     Grid.Column="5" Grid.Row="2" Grid.ColumnSpan="4"  HorizontalTextAlignment="Center"
+                                     VerticalOptions="CenterAndExpand" BackgroundColor="{StaticResource SilverBg}"
+                                     HeightRequest="28" VerticalTextAlignment="Center"  />
+
+                              <!-- Horário -->
+                              <Label x:Name="lbHorario" Text="Horário máx. para entrega" FontSize="13" FontAttributes="Bold" IsVisible="False"
+                                     Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="5" VerticalOptions="CenterAndExpand" />
+
+                              <Label x:Name="etHorario_Moto" FontSize="13" IsVisible="False" HorizontalTextAlignment="Center"
+                                     Grid.Column="5" Grid.Row="3" Grid.ColumnSpan="4" VerticalOptions="CenterAndExpand" 
+                                     BackgroundColor="{StaticResource SilverBg}" HeightRequest="28" VerticalTextAlignment="Center" />
+                            
+                              <!-- Valor pretendido -->
+                              <Label x:Name="lbValorPretendido" Text="Valor médio" FontSize="13" FontAttributes="Bold" 
+                                     IsVisible="False" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="4" VerticalOptions="CenterAndExpand" />
+
+                              <Label x:Name="etValorPretendido_Moto" FontSize="13" IsVisible="False" HorizontalTextAlignment="Center"
+                                     Grid.Column="5" Grid.Row="4" Grid.ColumnSpan="4" VerticalOptions="CenterAndExpand" 
+                                     BackgroundColor="{StaticResource SilverBg}" HeightRequest="28" VerticalTextAlignment="Center"  />
+
+                              <!-- Observações -->
+                              <Label x:Name="lbObservacoes" Text="Observações" FontSize="13" FontAttributes="Bold" IsVisible="False"
+                                     Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="4" VerticalOptions="CenterAndExpand" />
+
+                              <Label x:Name="etObservacoes_Moto"  FontSize="13"  IsVisible="False" BackgroundColor="{StaticResource SilverBg}"
+                                     Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="9" Grid.RowSpan="2" 
+                                     VerticalOptions="StartAndExpand" HeightRequest="100"   />
+                            
+                            <!-- Tipo de veículo -->
+                            <Label x:Name="lbTipoVeiculo" Text="Tipo de Veículo" FontSize="13" FontAttributes="Bold"  IsVisible="False"
+                                   Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="3"  VerticalOptions="Center" />
+
+                            <Label x:Name="etTipoVeiculo_Moto" FontSize="13" IsVisible="False" HorizontalTextAlignment="Center"
+                                   Grid.Column="3" Grid.Row="9" Grid.ColumnSpan="6" VerticalOptions="Center" 
+                                   BackgroundColor="{StaticResource SilverBg}"  HeightRequest="28" 
+                                   VerticalTextAlignment="Center"  />
+
+                            
+                            <!-- Deseja enviar um orçamento? -->
+                            <Label x:Name="lbEnvia" Text="Deseja enviar um orçamento?" FontSize="15" FontAttributes="Bold"  
+                                   IsVisible="False" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="9"
+                                   VerticalOptions="Center" VerticalTextAlignment="End"
+                                   HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+
+                            <!-- Valor -->
+                            <Label x:Name="lbValorOrcamento" Text="Valor" FontSize="15" FontAttributes="Bold"  IsVisible="False"
+                                     Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="5"  VerticalOptions="Center"
+                                   HorizontalTextAlignment="Center" />
+
+                            <Label x:Name="etValorRS_Moto" Text="R$ " FontSize="13" IsVisible="False" 
+                                   Grid.Column="2" Grid.Row="2" VerticalOptions="Center" HorizontalTextAlignment="Center"  />
+                           
+                            <Entry x:Name="etValor_Moto" FontSize="15" IsVisible="False" HorizontalTextAlignment="Center"
+                                   Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="3" VerticalOptions="Center" 
+                                   BackgroundColor="{StaticResource SilverBg}"  HeightRequest="40" Keyboard="Numeric" />
+
+                            <!-- Observações -->
+                            <Label x:Name="lbObs_Orcamento" Text="Observações" FontSize="13" FontAttributes="Bold" IsVisible="False"
+                                   Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" VerticalOptions="CenterAndExpand" />
+
+                            <Editor x:Name="etObservacoes_Orcamento"  FontSize="14"  IsVisible="False" BackgroundColor="{StaticResource SilverBg}"
+                                   Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="9" Grid.RowSpan="2" 
+                                   VerticalOptions="StartAndExpand" HeightRequest="100" MaxLength="150"  />
+
+                            
+                            <!-- ENVIAR -->
+                            <Button x:Name="btnEnviar" Text="Enviar Orçamento" BackgroundColor="{StaticResource BlueBtn}"
+                                    Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="7" IsVisible="False" 
+                                    TextColor="White" Clicked="BtnEnviar_Clicked" />
+
+                            <!-- VOLTAR - BUSCA -->
+                            <StackLayout x:Name="stBtnVoltar_Moto" Grid.Row="11"  Grid.Column="0"   IsVisible="false" 
+                                         VerticalOptions="End" >
+
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="BtnVoltar_Moto_Clicked" NumberOfTapsRequired="1" />
+                                </StackLayout.GestureRecognizers>
+
+                                <Image Source="btnVoltar3.png" VerticalOptions="End" HorizontalOptions="CenterAndExpand" 
+                                       HeightRequest="38" WidthRequest="38" />
+                            </StackLayout>
+
+                            <!-- AVANÇAR - BUSCA -->
+                            <StackLayout x:Name="stBtnAvancar_Moto" Grid.Row="11" Grid.Column="7" Grid.ColumnSpan="2" IsVisible="false"
+                                   HorizontalOptions="End" VerticalOptions="End" >
+
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="BtnAvancar_Motorista_Clicked" NumberOfTapsRequired="1" />
+                                </StackLayout.GestureRecognizers>
+
+                                <Image Source="btnAvancar2.png" VerticalOptions="End" HorizontalOptions="CenterAndExpand"
+                                 HeightRequest="38"  WidthRequest="38"   />
+
+                            </StackLayout>
+
+                        </Grid>
                     
+                    </StackLayout>
+
                     <!-- Stack - Encontrar Coletas -->
                     <StackLayout x:Name="slMotoristaEncontrarColetas" IsVisible="False">
 
-                        <Label Text="Encontrar Coletas" FontSize="14" FontAttributes="Bold"  
-                               TextColor="{StaticResource Blue}" HorizontalOptions="Center" VerticalOptions="Start" />
+                        <!-- FILTRO - MOTORISTA -->
+                        <StackLayout x:Name="stFiltrarColetas_Moto" IsVisible="false" Spacing="10"  >
 
-                        <Label x:Name="lblEncontrarColeta" Text="As marcações em vermelho representam as coletas disponíveis."
-                               FontSize="14" VerticalOptions="Start" />
+                           <Picker x:Name="etMotoristaFiltroColeta" Title="Escolha uma das opções" FontSize="14"
+                                 HeightRequest="60" SelectedIndexChanged="pckFiltroColeta_Motorista"  > <!-- Grid.Column="1" Grid.Row="2"  -->
 
-                        <Label x:Name="lblEncontrarColeta1" Text="Selecione uma das coletas para verificar as informações."
-                               FontSize="14" VerticalOptions="Start" />
-                        
-                        <StackLayout BackgroundColor="Accent" WidthRequest="300" HeightRequest="300">
-
-                            <!--
-                            <maps:Map WidthRequest="320" HeightRequest="200"
-                                x:Name="maps"
-                                IsShowingUser="true"
-                                MapType="Hybrid"
-                            /> -->
-
-                            <!--
-                            <maps:Map x:Name="Mapa" MapType="Street" VerticalOptions="FillAndExpand"  IsShowingUser="true">
-                            
-                           </maps:Map> -->
-                            
+                           </Picker>
                         </StackLayout>
+                        
+                        <!-- LISTA - MOTORISTA -->
+                        <StackLayout x:Name="stListaMoto" IsVisible="false" Spacing="-3" >
 
+                        <Grid>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition  Width="100" />
+                          <ColumnDefinition  Width="80" />
+                          <ColumnDefinition  Width="60"  />
+                          <ColumnDefinition  Width="30"  />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions >
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                        </Grid.RowDefinitions>
+
+                        <Label x:Name="lblMotoCidade"  Text="Cidade"       FontSize="13" FontAttributes="Bold" Grid.Column="0" Grid.Row="0"  />
+
+                        <Label x:Name="lblStatus"      Text="Status "      FontSize="13" FontAttributes="Bold" Grid.Column="1" Grid.Row="0"  />
+
+                        <Label x:Name="lblDataEntrega" Text="Data Entrega" FontSize="13" FontAttributes="Bold" Grid.Column="2" Grid.Row="0"  />
+                         
+                         <Label x:Name="lblKm"         Text="KM Total"     FontSize="13" FontAttributes="Bold" Grid.Column="3" Grid.Row="0"  />
+
+                        <Label x:Name="lbListaVaziaMoto" Text="Você não possui veículos cadastrados!" FontSize="14" FontAttributes="Bold"
+                               Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="3" IsVisible="false"  />
+
+                        <!-- LIST VIEW -->
+                        <ListView x:Name="LstColetaMotorista" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="8"
+                                  ItemSelected="LstColetaMotorista_ItemSelected" IsVisible="true" >
+                          <ListView.ItemTemplate>
+                            <DataTemplate>
+                              <ViewCell>
+                                <StackLayout Orientation="Horizontal" WidthRequest="300" VerticalOptions="CenterAndExpand"
+                                             Padding="5"   >
+
+                                  <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition  Width="80" />
+                                        <ColumnDefinition  Width="80" />
+                                        <ColumnDefinition  Width="70"  />
+                                        <ColumnDefinition  Width="30"  />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions ><RowDefinition Height="35" /> </Grid.RowDefinitions>
+
+                                    <Label Text="{Binding EndRetCidade}" FontSize="13" Grid.Column="0" Grid.Row="0" 
+                                           VerticalTextAlignment="Center"/>
+                                    <Label Text="{Binding IdStatus}"     FontSize="13" Grid.Column="1" Grid.Row="0"
+                                           VerticalTextAlignment="Center" />
+                                    <Label Text="{Binding DataMaxima}"   FontSize="13" Grid.Column="2" Grid.Row="0" 
+                                           VerticalTextAlignment="Center" />
+
+                                    </Grid>
+                                </StackLayout>
+                              </ViewCell>
+                            </DataTemplate>
+                          </ListView.ItemTemplate>
+                        </ListView>
+
+                      </Grid>      
+                  
                     </StackLayout>
-
-                    <!-- Stack - Pesquisar Coletas -->
-                    <StackLayout x:Name="slMotoristaPesquisarColetas" IsVisible="False">
-
+                        
                     </StackLayout>
 
                 </StackLayout>

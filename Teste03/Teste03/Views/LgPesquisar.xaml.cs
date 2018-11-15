@@ -38,7 +38,7 @@ namespace Teste03.Views
         }
         private async void BtnMinhaConta_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new Views.LgMinhaConta());
+            await Navigation.PushModalAsync(new Views.LgMinhaContaa());
         }
 
         private void BtnCliente_Clicked(object sender, EventArgs e)
