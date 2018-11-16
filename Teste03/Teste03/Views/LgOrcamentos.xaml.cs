@@ -471,7 +471,7 @@ namespace Teste03.Views
                 orcam.IdStatus = 1;
 
                 // Atualiza o status no banco
-                await orcaControl.UpdateOrcamento(orcam, idOrca);
+                await orcaControl.UpdateOrcamento(orcam, idOrca); 
 
                 #endregion
 
