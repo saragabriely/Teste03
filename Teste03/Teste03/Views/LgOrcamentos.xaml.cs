@@ -178,7 +178,7 @@ namespace Teste03.Views
 
             ListaColetas_Orcamento_(orcamento.IdColeta);
 
-            stBtnVoltar_Cliente_.IsVisible = true;
+            stBtnVoltar_Cliente_.IsVisible = false;
         }
         #endregion
 
@@ -279,6 +279,7 @@ namespace Teste03.Views
 
             // Mostra o botão 'Voltar'
             stBtnVoltar_Cliente.IsVisible = true;
+            
         }
         #endregion
 
@@ -439,9 +440,29 @@ namespace Teste03.Views
         #region Recusar Orçamento
 
         private async void LblRecusarOrcamento(object sender, SelectedItemChangedEventArgs e)
-        {
-            if (await DisplayAlert("Recusa", "Deseja mesmo recusar este orçamento?", "OK", "Cancelar"))
+        { 
+            if (idStatusOrcamento == 1)      
             {
+                await DisplayAlert("Aceito", "Este orçamento já foi aceito!", "OK");
+            }
+            else if(idStatusOrcamento == 14)
+            {
+                await DisplayAlert("Recusado", "Este orçamento já foi recusado!", "OK");
+            }
+            else if (await DisplayAlert("Recusa", "Deseja mesmo recusar este orçamento?", "OK", "Cancelar"))
+            {                
+                #region Atualiza o status do orçamento
+                // Captura o objeto
+                orcam = await orcaControl.GetOrcamento(idOrca);
+
+                // Atualiza o status
+                orcam.IdStatus = 14;  // 14 - Recusado
+
+                // Atualiza o status no banco
+                await orcaControl.UpdateOrcamento(orcam, idOrca);
+
+                #endregion
+
                 await DisplayAlert("Recusado", "Orçamento recusado com sucesso!", "OK");
 
                 // Volta para os orçamentos da coleta em questão
@@ -456,11 +477,29 @@ namespace Teste03.Views
 
         #endregion
 
+        #region AceitarRecusar(i)
+
+        private void AceitarRecusar(int tipo) // Verifica o tipo de operação e faz o que for necessário
+        {
+
+        }
+
+        #endregion
+
+
         #region Aceitar Orçamento
 
         private async void LblAceitarOrcamento(object sender, SelectedItemChangedEventArgs e)
         {
-            if (await DisplayAlert("Aceite", "Deseja mesmo aceitar este orçamento?", "OK", "Cancelar"))
+            if (idStatusOrcamento == 1)
+            {
+                await DisplayAlert("Aceito", "Este orçamento já foi aceito!", "OK");
+            }
+            else if (idStatusOrcamento == 14)
+            {
+                await DisplayAlert("Recusado", "Este orçamento já foi recusado!", "OK");
+            }
+            else if (await DisplayAlert("Aceite", "Deseja mesmo aceitar este orçamento?", "OK", "Cancelar"))
             {
                 #region Atualiza status - Orçamento
 
@@ -471,7 +510,11 @@ namespace Teste03.Views
                 orcam.IdStatus = 1;
 
                 // Atualiza o status no banco
-                await orcaControl.UpdateOrcamento(orcam, idOrca); 
+                await orcaControl.UpdateOrcamento(orcam, idOrca);
+
+                // Atualiza o status dos demais orçamentos como 'Recusado' (ID: 14)
+                AtualizaStatus(orcam.IdColeta, 14, orcam.IdOrcamento);
+
 
                 #endregion
 
@@ -496,14 +539,8 @@ namespace Teste03.Views
             // Assim que um orçamento é aceito, os demais orçamentos (relacionados a coleta em questão)
             // deverão ser recusados automaticamente
 
-            List<Orcamento> _listaOrca = new List<Orcamento>();
-
-            var listaOrca = await orcaControl.GetListOrcamento_Cliente_(idColeta);
-
+            await orcaControl.GetRecusaOrcamentos(idColeta, idOrcaAceito, idStatus);
             
-
-
-
         }
 
         #endregion

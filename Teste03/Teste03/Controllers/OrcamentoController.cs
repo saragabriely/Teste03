@@ -120,12 +120,14 @@ namespace Teste03.Controllers
         #endregion
 
         #region GET - Lista - Cliente ---------------
-        /*
-        public async Task<List<Orcamento>> GetListOrcamento_Cliente_(int idColeta)
+        
+        public async Task GetRecusaOrcamentos(int idColeta, int idOrcaAceito, int idStatus)
         {
+            // Recebe o ID da coleta em questão, do orçamento aceito e do status que os demais orçamentos receberão
+
             HttpClient client = new HttpClient();
 
-            List<Orcamento> _lista;
+            List<Orcamento> _lista = new List<Orcamento>();
 
             List<int> _listaId = new List<int>();
 
@@ -139,16 +141,28 @@ namespace Teste03.Controllers
 
                 // Seleciona os orçamentos do cliente em questão
                 var enti = orcamento.Where(i => i.IdColeta == idColeta).ToList();
+                
+                // Seleciona apenas o ID dos orçamentos da consulta acima
+                var pendentes = enti.Select(l => l.IdOrcamento).ToList();
 
-                _lista = new List<Orcamento>(enti);
+                // Seleciona os orçamentos descartando o que foi aceito
+                var recusar = enti.Where(l => !pendentes.Contains(idOrcaAceito)).ToList();
 
-                return _lista;
+                // Seleciona orçamento por orçamento, altera o idStatus e atualiza (update)
+                for(int i = 0; i < recusar.Count; i++)
+                {
+                    var orcam = recusar.Where(l => l.IdStatus == 13).First();
+
+                    orcam.IdStatus = 14;
+
+                    await UpdateOrcamento(orcam, orcam.IdOrcamento);
+                }
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-        } */
+        } 
         #endregion
 
         #region GET - GetListOrcamento_Geral - Motorista

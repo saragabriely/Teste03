@@ -350,7 +350,7 @@
 
                           
                           <!-- VOLTAR - BUSCA -->
-                          <StackLayout x:Name="stBtnVoltar_Cliente"  IsVisible="true" Grid.Column="0" Grid.Row="8" VerticalOptions="End" >
+                          <StackLayout x:Name="stBtnVoltar_Cliente"  IsVisible="false" Grid.Column="0" Grid.Row="8" VerticalOptions="End" >
                           
                               <StackLayout.GestureRecognizers> <TapGestureRecognizer Tapped="BtnVoltar_Clente_Clicked" NumberOfTapsRequired="1" />
                               </StackLayout.GestureRecognizers>
@@ -545,8 +545,6 @@
                           
                           </StackLayout>
                         
-                       
-                     
                        
                         </Grid>
 
