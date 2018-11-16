@@ -296,7 +296,6 @@ namespace Teste03.Views
         #region Btn - Home
         private async void BtnHome_Clicked(object sender, EventArgs e)
         {
-
             await Navigation.PushModalAsync(new Views.LgHome());
         }
         #endregion

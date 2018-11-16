@@ -13,48 +13,70 @@ namespace Teste03.Views
 	public partial class LgHome : ContentPage
 	{
         #region Variáveis - Populando
-        public string nome = Models.Session.Instance.Cnome;
-        /*
-        public int    IdCliente       = Models.Session.Instance.IdCliente;
-        public int    IdMotorista     = Models.Session.Instance.IdMotorista;
-        public int    IdUsuario       = Models.Session.Instance.
-        public int    IdTipoUsuario   = Models.Session.Instance.
-        public string Email           = Models.Session.Instance.
-        public string Senha           = Models.Session.Instance.
-                                      = Models.Session.Instance.
-        public string Cnome           = Models.Session.Instance.
-        public string Crg             = Models.Session.Instance.
-        public string Ccpf            = Models.Session.Instance.
-        public string Csexo           = Models.Session.Instance.
-        public string CdataNascto     = Models.Session.Instance.
-        public string Ccelular        = Models.Session.Instance.
-        public string Ccelular2       = Models.Session.Instance.
-        public string Cendereco       = Models.Session.Instance.
-        public string Cnumero         = Models.Session.Instance.
-        public string Ccomplemento    = Models.Session.Instance.
-        public string Cbairro         = Models.Session.Instance.
-        public string Ccidade         = Models.Session.Instance.
-        public string Ccep            = Models.Session.Instance.
-        public string Cuf             = Models.Session.Instance.
-        public int    IdStatus        = Models.Session.Instance.
-            */
+        public string nome            = Models.Session.Instance.Cnome;
+        
+        public int idMotorista =  Models.Session.Instance.IdMotorista;    // Motorista: 1; //
+        public int idCliente   =  7; //  Models.Session.Instance.IdCliente;      // Motorista: 8; //
+        public int idTipoUser  =  2; // Models.Session.Instance.IdTipoUsuario;  // Motorista: 3; //
+            
         #endregion
 
         public LgHome ()
 		{
 			InitializeComponent ();
 
-            if(Models.Session.Instance.IdTipoUsuario == 3)
+            #region Verifica o tipo de usuário
+
+            if(Models.Session.Instance.IdTipoUsuario == 3)                  // Motorista
             {
                 slMotorista.IsVisible    = true;
                 lbBemVindoMotorista.Text = "Bem-vindo(a) " + nome.ToString();
             }
-            else
+            else                                                            // Cliente
             {
                 slCliente.IsVisible    = true;
                 lbBemVindoCliente.Text = "Bem-vindo(a) " + nome.ToString();
+
+                #region Verifica notificações
+                
+                NotificaOrcamento_Cliente();            // Orcamento
+
+                NotificaColetaEmAndamento_Cliente();    // Coleta em andamento
+                #endregion
             }
+            #endregion
         }
+
+        #region Cliente 
+
+        #region Notificações
+
+        #region NotificaOrcamento_Cliente()
+
+        private void NotificaOrcamento_Cliente()
+        {
+
+        }
+
+        #endregion
+
+        #region NotificaOrcamento_Cliente()
+
+        private void NotificaColetaEmAndamento_Cliente()
+        {
+
+        }
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region Motorista
+
+        #endregion
+
 
         #region Navegação entre as telas 
 

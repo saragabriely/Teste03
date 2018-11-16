@@ -28,15 +28,17 @@ namespace Teste03.Views
         public string google = "http://www.google.com.br/maps/dir/";
         public string value;
 
-        Cliente   cli;
+        Cliente   cli, cliMotorista;
         Coleta    coleta;
         Orcamento orcam;
         Status    status;
+        Motorista motorista;
 
-        ClienteController   clienteController  = new ClienteController();
-        ColetaController    coletaControl      = new ColetaController();
-        OrcamentoController orcaControl        = new OrcamentoController();
-        StatusController    statusController   = new StatusController();
+        ClienteController   clienteController   = new ClienteController();
+        ColetaController    coletaControl       = new ColetaController();
+        OrcamentoController orcaControl         = new OrcamentoController();
+        StatusController    statusController    = new StatusController();
+        MotoristaController motoristaController = new MotoristaController();
 
         #endregion
 
@@ -125,7 +127,9 @@ namespace Teste03.Views
 
         #endregion
 
-        #region Lista - Cliente
+        #region Listas - Cliente
+
+        #region Lista 01 - Coletas com orçamento
 
         #region ListaColetas_Orcamento (coletas que possuem orçamento)
 
@@ -149,7 +153,7 @@ namespace Teste03.Views
         }
 
         #endregion
-
+        
         #region Lista de coletas - Item selecionado
         private async void LstOrcamentoCliente_01_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {            
@@ -170,13 +174,17 @@ namespace Teste03.Views
             stListaCliente.IsVisible    = false;
             lbColetaOrcamento.IsVisible = false;
 
+            idCol = orcamento.IdColeta;
+
             ListaColetas_Orcamento_(orcamento.IdColeta);
 
-
-
+            stBtnVoltar_Cliente_.IsVisible = true;
         }
         #endregion
 
+        #endregion
+
+        #region Lista 02 - Orçamentos
 
         #region ListaColetas_Orcamento (coletas que possuem orçamento)
 
@@ -194,16 +202,18 @@ namespace Teste03.Views
             }
             else
             {
+                // Mostra a lista 02
+                stListaMoto_02.IsVisible = true;
+
                 LstOrcamento_Cliente_02.ItemsSource = _list;
             }
             
         }
         #endregion
-
+        
         #region Lista de coletas - Item selecionado
         private async void LstOrcamentoCliente_02_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            
             if (e.SelectedItem == null)
             {
                 return;
@@ -219,8 +229,24 @@ namespace Teste03.Views
             // Captura a coleta referente ao Orçamento selecionado
             coleta = await coletaControl.GetColeta(orcamento.IdColeta);
 
+            // Captura as informações do motorista
+            motorista = await motoristaController.GetMotorista(orcamento.IdMotorista);
+
+            // Captura o nome do motorista
+            cliMotorista = await clienteController.GetCliente(motorista.IdCliente);
+
+            // Nome do motorista
+            lblNomeMotorista_.Text = cliMotorista.Cnome;
+
+            #region Popula
+
             // Popula as informações da coleta
-            PopulaColeta_Motorista_(coleta);
+            PopulaColeta_Cliente(coleta);
+
+            // Popula Dados Orçamento
+            PopulaOrcamento_Cliente(orcamento);
+
+            #endregion
 
             // deseleciona o item do listview
             LstOrcamento_Motorista.SelectedItem = null;
@@ -230,13 +256,17 @@ namespace Teste03.Views
             // Esconde a lista
             stListaMoto_02.IsVisible = false;
 
+            stBtnVoltar_Cliente_.IsVisible = false;
+
             #endregion
 
-            slMotoristaEncontrarColeta_Lista_.IsVisible = true;
+            slClienteEncontrarColeta_Lista.IsVisible = true;
 
             // Mostra os campos
             MostraOrcamento_();
-            
+
+            lbExpandir.IsVisible = true;
+
             // Variáveis 
             idOrca              = orcamento.IdOrcamento;
             idStatusOrcamento   = orcamento.IdStatus;
@@ -246,37 +276,71 @@ namespace Teste03.Views
             // Concatena o endereço (nome da rua, numero e bairro)
             enderecoRetirada = coleta.EndRetEndereco + ", " + coleta.EndRetNumero + " - " + coleta.EndRetBairro;
             enderecoEntrega  = coleta.EndEntEndereco + ", " + coleta.EndEntNumero + " - " + coleta.EndEntBairro;
-            
+
+            // Mostra o botão 'Voltar'
+            stBtnVoltar_Cliente.IsVisible = true;
         }
         #endregion
 
-        #region PopulaColeta_Motorista(coleta)
-
-        private void PopulaColeta_Motorista_(Coleta coleta)
+        private async void Teste_Btn(object sender, SelectedItemChangedEventArgs e)
         {
+            await DisplayAlert("OK", "OOOKK", "OK");
+        }
+
+        #endregion
+
+        #region Popula campos 
+
+        #region PopulaOrcamento_Cliente(orcamento)
+
+        private async void PopulaOrcamento_Cliente(Orcamento orcamento)
+        {
+            #region Busca status
+
+            status = new Status();
+            status = await statusController.GetStatus(orcamento.IdStatus);
+
+            #endregion
+
             #region Campos
 
-            etEndRet_Moto_.Text              = coleta.EndRetEndereco;
-            etEndEnt_Moto_.Text              = coleta.EndEntEndereco;
-            lbTipoMaterial_Moto_.Text        = coleta.MatTipo;
-            lbFragilidadeMaterial_Moto_.Text = coleta.MatFragilidade;
-            lbDescricaoMaterial_Moto_.Text   = coleta.MatDescricao;
-            etPeso_Moto_.Text                = coleta.MatPeso;
-            etVolume_Moto_.Text              = coleta.MatVolume;
-            etLargura_Moto_.Text             = coleta.MatLargura;
-            etAltura_Moto_.Text              = coleta.MatAltura;
-            etDataMax_Moto_.Text             = coleta.DataMaxima;
-            etHorario_Moto_.Text             = coleta.HorarioLimite + ":" + coleta.HorarioLimite02;
-            etValorPretendido_Moto_.Text     = coleta.ValorPretendido;
-            etObservacoes_Moto_.Text         = coleta.Observacoes;
-            etTipoVeiculo_Moto_.Text         = coleta.TipoVeiculo;
+            etStatusOrcamento_C.Text       = status.DescricaoStatus.ToUpper();
 
+            // Popula Dados Orçamento
+            etValor_Cliente.Text = orcamento.Valor;
+            etObservacoes_Orcamento_.Text = orcamento.Observacoes;
 
             #endregion
         }
 
         #endregion
 
+        #region PopulaColeta_Cliente(coleta)
+
+        private void PopulaColeta_Cliente(Coleta coleta)
+        {
+            #region Campos
+            
+            etEndRet_Cliente.Text              = coleta.EndRetEndereco;
+            etEndEnt_Cliente.Text              = coleta.EndEntEndereco;
+            lbTipoMaterial_Cliente.Text        = coleta.MatTipo;
+            lbFragilidadeMaterial_Cliente.Text = coleta.MatFragilidade;
+            lbDescricaoMaterial_Cliente.Text   = coleta.MatDescricao;
+            etPeso_Cliente.Text                = coleta.MatPeso;
+            etVolume_Cliente.Text              = coleta.MatVolume;
+            etLargura_Cliente.Text             = coleta.MatLargura;
+            etAltura_Cliente.Text              = coleta.MatAltura;
+            etDataMax_Cliente.Text             = coleta.DataMaxima;
+            etHorario_Cliente.Text             = coleta.HorarioLimite + ":" + coleta.HorarioLimite02;
+            etValorPretendido_Cliente.Text     = coleta.ValorPretendido;
+            etObservacoes_Cliente.Text         = coleta.Observacoes;
+            etTipoVeiculo_Cliente.Text         = coleta.TipoVeiculo;
+            #endregion
+        }
+
+        #endregion
+
+        #endregion
 
         #region ListaCliente_OrcamentoAsync(int i)  (lista dos orçamentos por coleta)
 
@@ -326,121 +390,308 @@ namespace Teste03.Views
                 LstOrcamento_Motorista.ItemsSource = _list;
             }
         }
-        #endregion 
-        
+        #endregion
 
-        #region EscondeDados_Moto()
+        #endregion
 
-        public void EscondeDados_Moto_()
+        #region Botões
+
+        #region BtnVoltar_Clente_Clicked
+        private async void BtnVoltar_Clente_Clicked(object sender, SelectedItemChangedEventArgs e)
         {
-            #region Campos
+            if (slClienteEncontrarColeta_Lista.IsVisible)                           // Volta para a lista de orçamento
+            {
+                // Esconde os campos
+                slClienteEncontrarColeta_Lista.IsVisible = false;
 
-            lbEndRet_.IsVisible                   = false;
-            etEndRet_Moto_.IsVisible              = false;
-            lbEndEnt_.IsVisible                   = false;
-            etEndEnt_Moto_.IsVisible              = false;
-            lbTipoMaterial_.IsVisible             = false;
-            lbTipoMaterial_Moto_.IsVisible        = false;
-            lbFragilidadeMaterial_.IsVisible      = false;
-            lbFragilidadeMaterial_Moto_.IsVisible = false;
-            lbDescricaoMaterial_.IsVisible        = false;
-            lbDescricaoMaterial_Moto_.IsVisible   = false;
+                stListaMoto_02.IsVisible = true;
 
-             lbPeso_.IsVisible         = false;
-            etPeso_Moto_.IsVisible    = false;
-            lbPeso2_.IsVisible        = false;
-            lbVolume_.IsVisible       = false;
-            etVolume_Moto_.IsVisible  = false;
-            lbLargura_.IsVisible      = false;
-            etLargura_Moto_.IsVisible = false;
-            lbLargura2_.IsVisible     = false;
-            lbAltura_.IsVisible       = false;
-            etAltura_Moto_.IsVisible  = false;
-            lbAltura2_.IsVisible      = false;
+                // Esconde o botão 'Voltar'
+                stBtnVoltar_Cliente.IsVisible = false;
 
-            lbDataMax_.IsVisible      = false;
-            etDataMax_Moto_.IsVisible = false;
-            lbHorario_.IsVisible      = false;
-            etHorario_Moto_.IsVisible = false;
-            lbValorPretendido_.IsVisible      = false;
-            etValorPretendidoRS_Moto_.IsVisible = false;
-            etValorPretendido_Moto_.IsVisible = false;
-            lbObservacoes_.IsVisible          = false;
-            etObservacoes_Moto_.IsVisible     = false;
-            lbTipoVeiculo_.IsVisible          = false;
-            etTipoVeiculo_Moto_.IsVisible     = false;
+                // Atualiza a lista de orçamentos
+                ListaColetas_Orcamento_(idCol);
+            }
+            else                                                          // Volta para a primeira lista (coletas)
+            {
+                // Mostra
 
-            //lbStatusOrcamento_.IsVisible       = false;
-           // etStatusOrcamento_.IsVisible       = false;
+                stListaCliente.IsVisible = true;
+
+                stListaMoto_02.IsVisible = false;
+
+                //  Esconde
+                stListaCliente.IsVisible       = false;
+                lbColetaOrcamento.IsVisible    = false;
+                stBtnVoltar_Cliente_.IsVisible = false;
+
+                ListaColetas_Orcamento(idCliente);
+
+                ListaColetas_Orcamento_(idCol);
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region Aceite e Recusa 
+
+        #region Recusar Orçamento
+
+        private async void LblRecusarOrcamento(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (await DisplayAlert("Recusa", "Deseja mesmo recusar este orçamento?", "OK", "Cancelar"))
+            {
+                await DisplayAlert("Recusado", "Orçamento recusado com sucesso!", "OK");
+
+                // Volta para os orçamentos da coleta em questão
+                slClienteEncontrarColeta_Lista.IsVisible = false;
+
+                // Atualiza a lista de orçamentos
+                ListaColetas_Orcamento_(idCol);
+
+                stListaMoto_02.IsVisible = true;
+            }
+        }
+
+        #endregion
+
+        #region Aceitar Orçamento
+
+        private async void LblAceitarOrcamento(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (await DisplayAlert("Aceite", "Deseja mesmo aceitar este orçamento?", "OK", "Cancelar"))
+            {
+                #region Atualiza status - Orçamento
+
+                // Captura o objeto
+                orcam = await orcaControl.GetOrcamento(idOrca);
+
+                // Atualiza o status
+                orcam.IdStatus = 1;
+
+                // Atualiza o status no banco
+                await orcaControl.UpdateOrcamento(orcam, idOrca);
+
+                #endregion
+
+                await DisplayAlert("Aceito!", "Orçamento aceito com sucesso!", "OK");
+
+                // Volta para os orçamentos da coleta em questão
+                slClienteEncontrarColeta_Lista.IsVisible = false;
+
+                // Atualiza a lista de orçamentos
+                ListaColetas_Orcamento_(idCol);
+
+                stListaMoto_02.IsVisible = true;
+            }
+        }
+
+        #endregion
+        
+        #endregion
+
+        #region Mostra e esconde campos
+
+        #region VerDetalhes
+
+        private void LblVerDetalhes(object sender, SelectedItemChangedEventArgs e)
+        {
+            MostraDados_();
+
+            // Esconde a opção 'Ver detalhes da coleta'
+            lbExpandir.IsVisible = false;
+
+            // Mostra a opção 'Esconder detalhes da coleta'
+            lbEsconder.IsVisible = true;
+        }
+
+        #endregion
+
+        #region EsconderDetalhes
+
+        private void LblEsconderDetalhes(object sender, SelectedItemChangedEventArgs e)
+        {
+            EscondeDados_Cliente();
+
+            // Esconde a opção 'Ver detalhes da coleta'
+            lbExpandir.IsVisible = true;
+
+            // Mostra a opção 'Esconder detalhes da coleta'
+            lbEsconder.IsVisible = false;
+        }
+
+        #endregion
+
+
+        #region EscondeOrcamento_Cliente()
+
+        public void EscondeOrcamento_Cliente()
+        {
+            #region Orçamento
+
+            lbStatusOrcamento_C.IsVisible      = false;
+            etStatusOrcamento_C.IsVisible      = false;
             lbValorOrcamento_.IsVisible        = false;
-            etValor_Moto_.IsVisible            = false;
-            etValorRS_Moto_.IsVisible          = false;
+            etValor_Cliente.IsVisible          = false;
+            etValorRS_Cliente.IsVisible        = false;
             lbObs_Orcamento_.IsVisible         = false;
             etObservacoes_Orcamento_.IsVisible = false;
+            lbNomeMotorista.IsVisible          = false;
+            lblNomeMotorista_.IsVisible        = false;
+            lbQtdeMotorista.IsVisible          = false;
+            lblQtdeMotorista_.IsVisible        = false;
 
             #endregion
         }
 
         #endregion
-        
-        
-        #region MostraOrcamento()
 
-        public void MostraOrcamento_()
+        #region EscondeDados_cliente()
+
+        public void EscondeDados_Cliente()
         {
-            
-           // lbStatusOrcamento_.IsVisible       = true;
-           // etStatusOrcamento_.IsVisible       = true;
-            lbValorOrcamento_.IsVisible        = true;
-            etValor_Moto_.IsVisible            = true;
-            etValorRS_Moto_.IsVisible          = true;
-            lbObs_Orcamento_.IsVisible         = true;
-            etObservacoes_Orcamento_.IsVisible = true;
+            #region Campos
 
-            lbPeso_.IsVisible            = true;
-            etPeso_Moto_.IsVisible       = true;
-            lbPeso2_.IsVisible           = true;
-            lbVolume_.IsVisible          = true;
-            etVolume_Moto_.IsVisible     = true;
-            lbLargura_.IsVisible         = true;
-            etLargura_Moto_.IsVisible    = true;
-            lbLargura2_.IsVisible        = true;
-            lbAltura_.IsVisible          = true;
-            etAltura_Moto_.IsVisible     = true;
-            lbAltura2_.IsVisible         = true;
-                                        
-            lbDataMax_.IsVisible              = true;
-            etDataMax_Moto_.IsVisible         = true;
-            lbHorario_.IsVisible              = true;
-            etHorario_Moto_.IsVisible         = true;
-            lbValorPretendido_.IsVisible      = true;
-            etValorPretendidoRS_Moto_.IsVisible = true;
-            etValorPretendido_Moto_.IsVisible = true;
-            lbObservacoes_.IsVisible          = true;
-            etObservacoes_Moto_.IsVisible     = true;
-            lbTipoVeiculo_.IsVisible          = true;
-            etTipoVeiculo_Moto_.IsVisible     = true;
+            #region Endereços e descrição do material
 
-            lbEndRet_.IsVisible                   = true;
-            etEndRet_Moto_.IsVisible              = true;
-            lbEndEnt_.IsVisible                   = true;
-            etEndEnt_Moto_.IsVisible              = true;
-            lbTipoMaterial_.IsVisible             = true;
-            lbTipoMaterial_Moto_.IsVisible        = true;
-            lbFragilidadeMaterial_.IsVisible      = true;
-            lbFragilidadeMaterial_Moto_.IsVisible = true;
-            lbDescricaoMaterial_.IsVisible        = true;
-            lbDescricaoMaterial_Moto_.IsVisible   = true;
+            lbEndRet_.IsVisible                     = false;
+            etEndRet_Cliente.IsVisible              = false;
+            lbEndEnt_.IsVisible                     = false;
+            etEndEnt_Cliente.IsVisible              = false;
+            lbTipoMaterial_.IsVisible               = false;
+            lbTipoMaterial_Cliente.IsVisible        = false;
+            lbFragilidadeMaterial_.IsVisible        = false;
+            lbFragilidadeMaterial_Cliente.IsVisible = false;
+            lbDescricaoMaterial_.IsVisible          = false;
+            lbDescricaoMaterial_Cliente.IsVisible   = false;
+
+            #endregion
+
+            #region Peso e dimensões
+
+            lbPeso_.IsVisible           = false;
+            etPeso_Cliente.IsVisible    = false;
+            lbPeso2_.IsVisible          = false;
+            lbVolume_.IsVisible         = false;
+            etVolume_Cliente.IsVisible  = false;
+            lbLargura_.IsVisible        = false;
+            etLargura_Cliente.IsVisible = false;
+            lbLargura2_.IsVisible       = false;
+            lbAltura_.IsVisible         = false;
+            etAltura_Cliente.IsVisible  = false;
+            lbAltura2_.IsVisible        = false;
+
+            #endregion
+
+            #region Data, valor, obs e tipo de veiculo 
+
+            lbDataMax_.IsVisible                  = false;
+            etDataMax_Cliente.IsVisible           = false;
+            lbHorario_.IsVisible                  = false;
+            etHorario_Cliente.IsVisible           = false;
+            lbValorPretendido_.IsVisible          = false;
+            etValorPretendidoRS_Cliente.IsVisible = false;
+            etValorPretendido_Cliente.IsVisible   = false;
+            lbObservacoes_.IsVisible              = false;
+            etObservacoes_Cliente.IsVisible       = false;
+            lbTipoVeiculo_.IsVisible              = false;
+            etTipoVeiculo_Cliente.IsVisible       = false;
+
+            #endregion
             
+            #endregion
         }
 
         #endregion
 
-        
+
+        #region MostraDados_()
+
+        public void MostraDados_()
+        {
+            #region Campos
+            
+            #region Endereços e descrição do material
+
+            lbEndRet_.IsVisible                     = true;
+            etEndRet_Cliente.IsVisible              = true;
+            lbEndEnt_.IsVisible                     = true;
+            etEndEnt_Cliente.IsVisible              = true;
+            lbTipoMaterial_.IsVisible               = true;
+            lbTipoMaterial_Cliente.IsVisible        = true;
+            lbFragilidadeMaterial_.IsVisible        = true;
+            lbFragilidadeMaterial_Cliente.IsVisible = true;
+            lbDescricaoMaterial_.IsVisible          = true;
+            lbDescricaoMaterial_Cliente.IsVisible   = true;
+
+            #endregion
+
+            #region Dimensões
+
+            lbPeso_.IsVisible            = true;
+            etPeso_Cliente.IsVisible     = true;
+            lbPeso2_.IsVisible           = true;
+            lbVolume_.IsVisible          = true;
+            etVolume_Cliente.IsVisible   = true;
+            lbLargura_.IsVisible         = true;
+            etLargura_Cliente.IsVisible  = true;
+            lbLargura2_.IsVisible        = true;
+            lbAltura_.IsVisible          = true;
+            etAltura_Cliente.IsVisible   = true;
+            lbAltura2_.IsVisible         = true;
+
+            #endregion
+
+            #region Data, valor, obs e tipo veiculo
+
+            lbDataMax_.IsVisible                  = true;
+            etDataMax_Cliente.IsVisible           = true;
+            lbHorario_.IsVisible                  = true;
+            etHorario_Cliente.IsVisible           = true;
+            lbValorPretendido_.IsVisible          = true;
+            etValorPretendidoRS_Cliente.IsVisible = true;
+            etValorPretendido_Cliente.IsVisible   = true;
+            lbObservacoes_.IsVisible              = true;
+            etObservacoes_Cliente.IsVisible       = true;
+            lbTipoVeiculo_.IsVisible              = true;
+            etTipoVeiculo_Cliente.IsVisible       = true;
+
+            #endregion
+
+            #endregion
+        }
+
         #endregion
-        
+                
+        #region MostraOrcamento_()
+
+        public void MostraOrcamento_()
+        {
+            #region Orçamento
+
+            lbStatusOrcamento_C.IsVisible      = true;
+            etStatusOrcamento_C.IsVisible      = true;
+            lbValorOrcamento_.IsVisible        = true;
+            etValor_Cliente.IsVisible          = true;
+            etValorRS_Cliente.IsVisible        = true;
+            lbObs_Orcamento_.IsVisible         = true;
+            etObservacoes_Orcamento_.IsVisible = true;
+            lbNomeMotorista.IsVisible          = true;
+            lblNomeMotorista_.IsVisible        = true;
+            lbQtdeMotorista.IsVisible          = true;
+            lblQtdeMotorista_.IsVisible        = true;
+
+            #endregion
+        }
+
         #endregion
 
+        #endregion
+
+        #endregion
+
+        //----------------------------------------------------------------------------------------------------------
 
         #region Motorista
 

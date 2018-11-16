@@ -29,20 +29,28 @@
 
             <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Margin="20"  HorizontalOptions="Center" >
 
-                <StackLayout  HeightRequest="40" HorizontalOptions="Center"                         WidthRequest="300" >
+                <!--  Título  -->
+                <StackLayout  HeightRequest="40" HorizontalOptions="Center" WidthRequest="300" >
 
-                    <Label Text="HOME"  FontSize="16"   FontAttributes="Bold"  TextColor="{StaticResource Blue}" 
+                    <Label Text="HOME"  FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Blue}" 
                            HorizontalTextAlignment="Center"  VerticalTextAlignment="Center"    />
-
+                    
                 </StackLayout>
 
                 <!--  CLIENTE  -->
                 <StackLayout x:Name="slCliente" IsVisible="False" >
 
+                    <!-- Perfil Cliente -->
                     <Label Text="Perfil Cliente" FontSize="14" FontAttributes="Bold" VerticalOptions="Start" HorizontalOptions="Center" />
 
-                    <Label x:Name="lbBemVindoCliente" Text="" FontSize="14" VerticalOptions="Start" HorizontalOptions="Center" />
+                    <Label x:Name="lbBemVindoCliente" FontSize="14" VerticalOptions="Start" HorizontalOptions="Center" />
+
+                    <Label x:Name="lbNotifica" Text="Notificações" FontSize="14" VerticalOptions="Start" HorizontalOptions="Center"
+                           FontAttributes="Bold"  />
+
+                    <Label x:Name="lbNotificacoes" FontSize="14" VerticalOptions="Start" HorizontalOptions="Center" />
                     
+
                 </StackLayout>
 
                 <!--  MOTORISTA  -->

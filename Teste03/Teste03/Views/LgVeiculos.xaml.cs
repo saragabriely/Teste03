@@ -22,11 +22,7 @@ namespace Teste03.Views
         public static int idCli = Session.Instance.IdCliente;
         public static int id    = Session.Instance.IdMotorista;
         public int        idVeic; //   = 0;
-
-        private string        url     = "https://webapptestem.azurewebsites.net/api/veiculo/";
-        private HttpClient    client;
-        private List<Veiculo> veiculos;
-
+        
         VeiculoController veiculoController = new VeiculoController();
 
         public int verificaOperacao = 0;

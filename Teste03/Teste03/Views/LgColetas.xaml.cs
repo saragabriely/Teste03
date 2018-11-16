@@ -584,12 +584,9 @@ namespace Teste03.Views
             string vazio        = "Campo vazio";       
             string nulo         = "Preencha o campo: ";
             string finalizado   = "Cadastro finalizado com sucesso!";
-            string emails       = "Os e-mails não coincidem!";
-            string senhas       = "As senhas não coincidem!";
             string dadosInsuf   = "Dados insuficientes no campo: ";
             string caracter     = "': este campos não aceita caracteres especiais.";
             string caracterInv  = "Caracteres inválidos";
-            string senhaCurta   = "A senha deve ter mais de 6 caracteres!";
             #endregion
 
             #region Objetos e Controllers
@@ -613,10 +610,6 @@ namespace Teste03.Views
             }
 
             #endregion
-
-            /*String categoria    = etClienteCategoriaCnh.Items[etClienteCategoriaCnh.SelectedIndex]; 
-            String uf           = etClienteUf.Items[etClienteUf.SelectedIndex]; 
-            String conta        = etClienteTipoConta.Items[etClienteTipoConta.SelectedIndex];*/
 
             #region Variáveis
 

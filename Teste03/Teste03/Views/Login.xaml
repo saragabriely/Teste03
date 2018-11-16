@@ -20,7 +20,7 @@
                 <RowDefinition Height="50" /> <!-- 2 -->
             </Grid.RowDefinitions>
 
-
+            <!-- MeTransporta -->
             <Label  Text="MeTransporta"     
                     TextColor="{StaticResource LightBlue}"      BackgroundColor="{StaticResource Blue}"
                     HorizontalOptions="FillAndExpand"   VerticalOptions="Center" 

@@ -238,12 +238,9 @@ namespace Teste03.Controllers
             HttpClient client = new HttpClient();
 
             List<Coleta> _listaFiltrada;
-            List<Coleta> _listaFiltrada_;
 
             List<ColetaVisualiza> _listaVisualiza;
-
-            List<Orcamento> _listaOrcamento;
-
+            
             #endregion
 
             try
@@ -415,7 +412,7 @@ namespace Teste03.Controllers
         #region GET - GetListColeta_Orcamento(int idCliente)  - Coletas que possuem orçamento
         public async Task<List<Coleta>> GetListColeta_Orcamento(int idCliente)
         {
-            HttpClient client = new HttpClient();
+            HttpClient client = new HttpClient(); 
             
             #region Variáveis e controllers
 
@@ -454,8 +451,7 @@ namespace Teste03.Controllers
             }
         }
         #endregion
-
-
+        
         #region GET - GetListColeta(int id)
         public async Task<List<Coleta>> GetListColeta(int id)
         {
@@ -493,8 +489,7 @@ namespace Teste03.Controllers
         {
             HttpClient client = new HttpClient();
 
-            List<Coleta> _lista;
-            List<Coleta> _listaA;
+            List<Coleta> _lista, _listaA;
 
             try
             {

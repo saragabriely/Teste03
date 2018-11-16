@@ -10,16 +10,16 @@
         <Grid RowSpacing="-1">
             
             <Grid.ColumnDefinitions>
-                <ColumnDefinition  Width="85.4" /> <!-- 0 -->
-                <ColumnDefinition  Width="85.4" /> <!-- 1 -->
-                <ColumnDefinition  Width="85.4" /> <!-- 2 -->
-                <ColumnDefinition  Width="85.4" /> <!-- 3 -->
+                <ColumnDefinition  Width="85.4" /> 
+                <ColumnDefinition  Width="85.4" /> 
+                <ColumnDefinition  Width="85.4" /> 
+                <ColumnDefinition  Width="85.4" /> 
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions >
-                <RowDefinition /> <!-- 0 -->
-                <RowDefinition Height="469.5" /> <!-- 1 -->
-                <RowDefinition Height="50" /> <!-- 2 -->
+                <RowDefinition /> 
+                <RowDefinition Height="469.5" /> 
+                <RowDefinition Height="50"    /> 
             </Grid.RowDefinitions>
             
             <!-- Me Transporta -->
@@ -27,64 +27,26 @@
                     TextColor="{StaticResource LightBlue}"      BackgroundColor="{StaticResource Blue}"
                     HorizontalOptions="FillAndExpand"   VerticalOptions="Center" 
                     VerticalTextAlignment="Center"      HorizontalTextAlignment="Center"
-                    FontSize="22"
-                    HeightRequest="50"
-                    Grid.Row="0"    Grid.Column="0" Grid.ColumnSpan="4"
+                    FontSize="22"                       HeightRequest="50"
+                    Grid.Row="0"  Grid.Column="0" Grid.ColumnSpan="4"
                 />
 
             <StackLayout Grid.Row="1"    Grid.Column="0" Grid.ColumnSpan="4" >
 
+                <!-- Conheça o aplicativo -->
                 <Label  Text="CONHEÇA O APLICATIVO"     FontSize="16"   FontAttributes="Bold"  TextColor="{StaticResource Blue}"
                         HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  HeightRequest="60"   />
-                
-                <ScrollView Margin="20">
 
-                    <Label Text="Teste .."   />
+                <ScrollView x:Name="svConhecerApp" Margin="20" >
+
+                    <Label x:Name="lblConhecerApp"  Text="Conheça o 'Me Transporta'! Um aplicativo que visa auxiliar todos aqueles que precisam transportar algo, com aqueles que estiverem dispostos a realizar o serviço. "  />
 
                 </ScrollView>
 
             </StackLayout>
 
-            <!--
-            <StackLayout Grid.Row="2"  Grid.Column="0">
 
-                <Image Source="logo.png"
-                       VerticalOptions="CenterAndExpand"
-                       HorizontalOptions="CenterAndExpand"
-                       />
-
-                <Label  Text="Home"  FontSize="9"
-                        VerticalOptions="End"
-                        HorizontalOptions="CenterAndExpand"
-                    />
-
-            </StackLayout> -->
-
-            <!--             
-            <StackLayout Orientation="Horizontal" Grid.Row="2"  Grid.Column="0" Grid.ColumnSpan="4" Spacing="-3">
-
-                <Image Source="home1.png"
-                       VerticalOptions="CenterAndExpand"
-                       HorizontalOptions="CenterAndExpand"
-                       />
-
-                <Image Source="conhecer.png"
-                       VerticalOptions="CenterAndExpand"
-                       HorizontalOptions="CenterAndExpand"
-                       />
-
-                <Image Source="add1.png"
-                       VerticalOptions="CenterAndExpand"
-                       HorizontalOptions="CenterAndExpand"
-                       />
-
-                <Image Source="pessoa1.png"
-                       VerticalOptions="CenterAndExpand"
-                       HorizontalOptions="CenterAndExpand"
-                       />
-
-            </StackLayout>
-            -->
+           
 
             <!-- HOME -->
             <StackLayout Grid.Row="2"  Grid.Column="0" Spacing="-3" >
@@ -141,32 +103,8 @@
                        HeightRequest="26"   WidthRequest="26"   />
 
                 <Label Text="Login" FontSize="10" VerticalOptions="StartAndExpand"   HorizontalTextAlignment="Center"  />
-                
+
             </StackLayout>
-
-            <!--
-            <Button Text="Home"   FontSize="9"
-                    BackgroundColor="{StaticResource Default}"
-                    Grid.Row="2"  Grid.Column="0"
-                    Clicked="BtnHome_Clicked"
-                    Image="xamarin_logo.png"
-                /> 
-
-            <Button Text="Conheça o Aplicativo"  FontSize="9"
-                    Grid.Row="2"  Grid.Column="1"
-                    Clicked="BtnConhecerApp_Clicked"
-                />
-
-            <Button Text="Cadastre-se"
-                    FontSize="9"
-                    Grid.Row="2"  Grid.Column="2"
-                />
-
-            <Button Text="Login"
-                    FontSize="9"
-                    Grid.Row="2"  Grid.Column="3"
-                />
-            -->
 
         </Grid>
         
