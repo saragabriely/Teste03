@@ -67,9 +67,7 @@ namespace Teste03.Controllers
             HttpClient client = new HttpClient();
 
             List<Orcamento> _lista;
-
-            List<int>       _listaId = new List<int>();
-
+            
             try
             {
                 string webService = url;
@@ -99,8 +97,6 @@ namespace Teste03.Controllers
 
             List<Orcamento> _lista;
 
-            List<int> _listaId = new List<int>();
-
             try
             {
                 string webService = url;
@@ -123,7 +119,37 @@ namespace Teste03.Controllers
         }
         #endregion
 
+        #region GET - Lista - Cliente ---------------
+        /*
+        public async Task<List<Orcamento>> GetListOrcamento_Cliente_(int idColeta)
+        {
+            HttpClient client = new HttpClient();
 
+            List<Orcamento> _lista;
+
+            List<int> _listaId = new List<int>();
+
+            try
+            {
+                string webService = url;
+
+                var response = await client.GetStringAsync(webService);
+
+                var orcamento = JsonConvert.DeserializeObject<List<Orcamento>>(response);
+
+                // Seleciona os orçamentos do cliente em questão
+                var enti = orcamento.Where(i => i.IdColeta == idColeta).ToList();
+
+                _lista = new List<Orcamento>(enti);
+
+                return _lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        } */
+        #endregion
 
         #region GET - GetListOrcamento_Geral - Motorista
         public async Task<List<Orcamento>> GetListOrcamento_Geral(int idMotorista)
@@ -183,6 +209,7 @@ namespace Teste03.Controllers
             }
         }
         #endregion
+
 
         #region GET - GetOrcamento(int id)
         public async Task<Orcamento> GetOrcamento(int id)

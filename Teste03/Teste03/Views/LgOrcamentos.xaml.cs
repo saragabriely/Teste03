@@ -488,7 +488,28 @@ namespace Teste03.Views
         }
 
         #endregion
-        
+
+        #region Aceite - Atualizar os demais orçamentos
+
+        private async void AtualizaStatus(int idColeta, int idStatus, int idOrcaAceito)
+        {
+            // Assim que um orçamento é aceito, os demais orçamentos (relacionados a coleta em questão)
+            // deverão ser recusados automaticamente
+
+            List<Orcamento> _listaOrca = new List<Orcamento>();
+
+            var listaOrca = await orcaControl.GetListOrcamento_Cliente_(idColeta);
+
+            
+
+
+
+        }
+
+        #endregion
+
+
+
         #endregion
 
         #region Mostra e esconde campos
