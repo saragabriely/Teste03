@@ -17,6 +17,7 @@ namespace Teste03.Models
         public DateTime? DataAceite   { get; set; }
         public DateTime? DataRecusa   { get; set; }
         public string    Observacoes  { get; set; }
+        public int?      Visualiza    { get; set; }
 
         public Orcamento() { }
 
@@ -32,7 +33,7 @@ namespace Teste03.Models
         }
 
         public Orcamento( int IdColeta, int IdCliente, int IdMotorista, string Valor, DateTime DataCadastro, 
-                          int    IdStatus, DateTime DataAceite, DateTime DataRecusa, string Observacoes)
+                          int    IdStatus, DateTime DataAceite, DateTime DataRecusa, string Observacoes, int Visualiza)
         {
             this.IdColeta     = IdColeta;
             this.IdCliente    = IdCliente;
@@ -43,10 +44,11 @@ namespace Teste03.Models
             this.DataAceite   = DataAceite;
             this.DataRecusa   = DataRecusa;
             this.Observacoes  = Observacoes;
+            this.Visualiza    = Visualiza;
         }
 
         public Orcamento( int IdCliente, int IdMotorista, string Valor, DateTime DataCadastro, 
-                          int    IdStatus, DateTime DataAceite, DateTime DataRecusa, string Observacoes )
+                          int    IdStatus, DateTime DataAceite, DateTime DataRecusa, string Observacoes, int Visualiza )
         {
             this.IdCliente    = IdCliente;
             this.IdMotorista  = IdMotorista;
@@ -56,6 +58,7 @@ namespace Teste03.Models
             this.DataAceite   = DataAceite;
             this.DataRecusa   = DataRecusa;
             this.Observacoes  = Observacoes;
+            this.Visualiza    = Visualiza;
         }
 
 

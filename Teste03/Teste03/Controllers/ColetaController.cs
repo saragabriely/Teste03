@@ -38,8 +38,8 @@ namespace Teste03.Controllers
         #endregion
 
         #region Motorista
-        
-        #region GET - LIST GERAL - OK
+
+        #region GET - LIST - Id = 2 - GetListColeta_Geral(idMotorista, idStatus)
         public async Task<List<Coleta>> GetListColeta_Geral(int idMotorista, int idStatus)
         {
             // Retorna todas as coletas
@@ -72,8 +72,6 @@ namespace Teste03.Controllers
                 #region Verifica as coletas visualizadas pelo motorista
 
                 var listaVisualizada = await visualizaController.GetListVisualiza(idMotorista); // Captura as coletas visualizadas
-                
-                teste = listaVisualizada.Select(i => i.IdColeta).ToList();      // Captura os IDs das coletas visualizadas pelo motorista
                 
                 // Captura os IDs das coletas visualizadas pelo motorista
                 teste = listaVisualizada.Select(i => i.IdColeta).ToList();
@@ -136,74 +134,7 @@ namespace Teste03.Controllers
         }
         #endregion
 
-        #region GET - LIST GERAL - OLD
-        /*
-        public async Task<List<Coleta>> GetListColeta_Geral()
-        {
-            // Retorna todas as coletas
-
-            HttpClient client = new HttpClient();
-
-            List<Coleta> _lista;
-            List<Coleta> _listaFiltrada;
-
-            try
-            {
-                string webService = url;
-
-                var response = await client.GetStringAsync(webService);
-
-                var coleta = JsonConvert.DeserializeObject<List<Coleta>>(response);
-
-                _listaFiltrada = coleta.Where(i => i.IdStatus == 2).ToList();
-
-                _lista = new List<Coleta>(_listaFiltrada);
-
-                return _lista;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        } */
-        #endregion
-
-        #region Get - Lista - OLD
-
-        /*
-         public async Task<List<Coleta>> GetListColeta_Geral()
-        {
-            // Retorna todas as coletas
-             
-            HttpClient client = new HttpClient();
-
-            List<Coleta> _lista;
-            List<Coleta> _listaFiltrada;
-
-            try
-            {
-                string webService = url;
-
-                var response = await client.GetStringAsync(webService);
-
-                var coleta   = JsonConvert.DeserializeObject<List<Coleta>>(response);
-
-                _listaFiltrada = coleta.Where(i => i.IdStatus == 2).ToList();
-
-                _lista = new List<Coleta>(_listaFiltrada);
-
-                return _lista;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-             */
-
-        #endregion
-
-        #region GET - LIST STATUS
+        #region GET - LIST - GetListColeta_Status(idMotorista)
         public async Task<List<Coleta>> GetListColeta_Status(int id)
         {
             // Retorna todas as coletas de acordo com o id selecionado
@@ -227,8 +158,8 @@ namespace Teste03.Controllers
             }
         }
         #endregion
-        
-        #region GET - LIST STATUS
+
+        #region GET - LIST - GetListColetaMotorista(idMotorista, idStatus)
         public async Task<List<Coleta>> GetListColetaMotorista(int idMotorista, int idStatus) // Retorna coletas com o id selecionado
         {
             #region Controlers e variáveis
@@ -289,70 +220,7 @@ namespace Teste03.Controllers
         }
         #endregion
 
-        #region GET - LIST STATUS - Comentário
-        /*
-        public async Task<List<Coleta>> GetListColetaMotorista(int idMotorista, int idStatus) // Retorna coletas com o id selecionado
-        {
-            #region Controlers e variáveis
-
-            ColetaVisualizaController visualizaControl = new ColetaVisualizaController();
-
-            HttpClient client = new HttpClient();
-
-            List<Coleta> _listaFiltrada;
-            List<Coleta> _listaFiltrada_;
-
-            List<ColetaVisualiza> _listaVisualiza;
-
-            #endregion
-
-            try
-            {   // Seleciona todas as coletas
-                var lista = await GetListColeta_Geral();
-
-                // Filtro 01 - Filtra as coletas pelo status 02 (disponível para envio de orçamentos)
-                _listaFiltrada = lista.Where(i => i.IdStatus == 2).ToList();
-
-                if (idStatus == 0)                               // Coletas disponíveis ainda não visualizadas
-                {
-                    #region Filtra coletas ainda não visualizadas
-
-                    // Filtro 02 - Filtra as coletas relacionadas ao motorista
-                    _listaVisualiza = await visualizaControl.GetListVisualiza(idMotorista);
-
-                    // Filtro 03 - Filtra as coletas não visualizadas
-                    #region Seleciona as coletas que não forem visualizadas
-
-                    // Seleciona os IDs das coletas visualizadas
-                    var listaVisualizaFiltrada = _listaVisualiza
-                                                 .Select(i => new { Valor = i.IdColeta }).ToList();
-
-                    // Transforma a lista anonima de status acima, em uma lista de inteiros (para a comparação)
-                    // List<int> listStatus = new List<int>(listaVisualizaFiltrada);
-
-                    // Filtro 04 - Filtra as coletas que foram visualizadas
-                    // var _listaFiltra = _listaFiltrada.Where(i => !listStatus.Contains(i.IdColeta));
-
-                    //var teste = _listaFiltra.Where(i => listStatus.Contains(i.IdColeta)).ToList();
-
-
-                    return _listaFiltrada;
-
-                    #endregion
-
-                    #endregion
-                }
-
-                return _listaFiltrada;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        } */
-        #endregion
-
-        #region GET - LIST - MOTORISTA
+        #region GET - LIST - MOTORISTA (idStatus)
         public async Task<List<Coleta>> GetListColetaMotorista_2(int idStatus)
         {
             HttpClient client = new HttpClient();
@@ -366,15 +234,12 @@ namespace Teste03.Controllers
                 var response = await client.GetStringAsync(webService);
 
                 var coleta = JsonConvert.DeserializeObject<List<Coleta>>(response);
+                
+               var enti = coleta.Where(i => i.IdStatus == 2).ToList();     // Status 2 = Aguardado orçamento
 
-               // if(idStatus == 0)
-               // {
-                    var enti = coleta.Where(i => i.IdStatus == 2).ToList();     // Status 2 = Aguardado orçamento
+               _lista = new List<Coleta>(enti);
 
-                    _lista = new List<Coleta>(enti);
-
-                    return _lista;
-                //}               
+               return _lista;          
             }
             catch (Exception ex)
             { throw ex; }

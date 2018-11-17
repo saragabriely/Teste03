@@ -54,7 +54,6 @@ namespace Teste03.Views
 
                 grdLogado.IsVisible         = true;         // Menu inferior
             }
-
             #endregion
         }
 
@@ -122,17 +121,11 @@ namespace Teste03.Views
             string caracterInv  = "Caracteres inválidos";
             string senhaCurta   = "A senha deve ter mais de 6 caracteres!";
             #endregion
-            
-            /*String categoria    = etClienteCategoriaCnh.Items[etClienteCategoriaCnh.SelectedIndex]; 
-            String uf           = etClienteUf.Items[etClienteUf.SelectedIndex]; 
-            String conta        = etClienteTipoConta.Items[etClienteTipoConta.SelectedIndex];*/
+ 
+            #region Variáveis
 
             int IdTipoUsuario = 3;
             int IdStatus      = 4;
-           // int idMotorista   = 0;
-           // int IdCliente     = 0;
-
-            #region Variáveis
 
             #region Dados Pessoais
             string nome       = etMotoristaNome.Text;
@@ -519,11 +512,7 @@ namespace Teste03.Views
                         {
                             await DisplayAlert(vazio, nulo + lblMotoristaTipoConta.Text, "OK");
                         }
-                    }
-
-                    else
-                    {
-                        if (i != 3)
+                        else if (i != 3)
                         {
                             CnhDadosBancariosNotVisible();
 
@@ -534,11 +523,10 @@ namespace Teste03.Views
 
                             EmailSenhaVisible();
                         }
-                        else
-                        {
-                            if(i == 3)   // UPDATE - MOTORISTA ---------------------------------------
-                            {
-                                #region Motorista()
+                    }                    
+                    else if(i == 3)   // UPDATE - MOTORISTA ---------------------------------------
+                    {
+                         #region Motorista()
                                 Motorista motorista = new Motorista()
                                 {
                                     IdCliente     = idCli,
@@ -550,9 +538,9 @@ namespace Teste03.Views
                                 };
                                 #endregion
 
-                                motorista.IdMotorista = Session.Instance.IdMotorista;
+                         motorista.IdMotorista = Session.Instance.IdMotorista;
 
-                                #region Atualiza as variaveis globais
+                         #region Atualiza as variaveis globais
 
                                 Session.Instance.MnumeroCnh    = motorista.MnumeroCnh;
                                 Session.Instance.McategoriaCnh = motorista.McategoriaCnh;
@@ -560,18 +548,15 @@ namespace Teste03.Views
 
                                 #endregion
 
-                                await motoristaControl.UpdateMotorista(motorista);
+                         await motoristaControl.UpdateMotorista(motorista);
 
-                                btnSalvar.IsVisible = false;
+                         btnSalvar.IsVisible = false;
 
-                                await DisplayAlert("Sucesso!", "Cadastro realizado com sucesso!", "OK");  // Confirma a atualização
+                         await DisplayAlert("Sucesso!", "Cadastro realizado com sucesso!", "OK");  // Confirma a atualização
 
-                                // Direciona para a tela de login
-                                await Navigation.PushModalAsync(new Views.LgMinhaContaa());
-                            }
-                        }
+                         // Direciona para a tela de login
+                         await Navigation.PushModalAsync(new Views.LgMinhaContaa());
                     }
-
                 }
                 #endregion
 
@@ -631,8 +616,6 @@ namespace Teste03.Views
 
                     else
                     {
-                        EmailSenhaNotVisible();
-
                         //-------------------------------------------------------------------------
                         // Salvando ...
 
@@ -642,24 +625,24 @@ namespace Teste03.Views
 
                         Cliente cli = new Cliente()
                         {
-                            Cnome = nome,
-                            Crg = rg,
-                            Ccpf = cpf,
-                            Csexo = sexo,
+                            Cnome       = nome,
+                            Crg         = rg,
+                            Ccpf        = cpf,
+                            Csexo       = sexo,
                             CdataNascto = dataNascto,
-                            Ccelular = celular,
-                            Ccelular2 = celular2,
-                            Cendereco = endereco,
-                            Cnumero = numero,
+                            Ccelular    = celular,
+                            Ccelular2   = celular2,
+                            Cendereco   = endereco,
+                            Cnumero     = numero,
                             Ccomplemento = complemento,
-                            Cbairro = bairro,
-                            Ccidade = cidade,
-                            Ccep = cep,
-                            Cuf = "vc",
-                            Cemail = email,
-                            Csenha = senha,
+                            Cbairro     = bairro,
+                            Ccidade     = cidade,
+                            Ccep        = cep,
+                            Cuf         = "vc",
+                            Cemail      = email,
+                            Csenha      = senha,
                             IdTipoUsuario = IdTipoUsuario,
-                            IdStatus = IdStatus
+                            IdStatus    = IdStatus
                         };
 
                         #endregion
@@ -679,12 +662,12 @@ namespace Teste03.Views
                             #region Motorista()
                             Motorista motorista = new Motorista()
                             {
-                                IdCliente = idCliente,
-                                MnumeroCnh = numCnh,
-                                McategoriaCnh = categoriaCnh,
-                                MvalidadeCnh = validadeCnh,
-                                IdStatus = IdStatus,
-                                Ccpf = cpf
+                                IdCliente       = idCliente,
+                                MnumeroCnh      = numCnh,
+                                McategoriaCnh   = categoriaCnh,
+                                MvalidadeCnh    = validadeCnh,
+                                IdStatus        = IdStatus,
+                                Ccpf            = cpf
                             };
                             #endregion
 
@@ -695,16 +678,16 @@ namespace Teste03.Views
                             #region ContaBancaria()
                             ContaBancaria contaBan = new ContaBancaria()
                             {
-                                IdCliente     = idCliente,
-                                IdBanco       = idBanco,
-                                MAgencia      = agencia,
-                                MDigAgencia   = digAgencia,
-                                MConta        = conta,
-                                MDigConta     = digConta,
-                                IdTipoConta   = idTipoConta,
-                                MDataCadastro = DateTime.Now,
-                                IdStatus      = IdStatus,
-                                Ccpf          = cpf,
+                                IdCliente          = idCliente,
+                                IdBanco            = idBanco,
+                                MAgencia           = agencia,
+                                MDigAgencia        = digAgencia,
+                                MConta             = conta,
+                                MDigConta          = digConta,
+                                IdTipoConta        = idTipoConta,
+                                MDataCadastro      = DateTime.Now,
+                                IdStatus           = IdStatus,
+                                Ccpf               = cpf,
                                 MUltimaAtualizacao = null,
                                 BancoDesc          = bancoDesc,
                                 TipoContaBanDesc   = tipoContaBan
@@ -723,6 +706,8 @@ namespace Teste03.Views
                             await Navigation.PushModalAsync(new Views.Login());
                         }
                         #endregion
+
+                        
 
                         #region UPDATE
                         else if (i == 2)    // UPDATE - CLIENTE ----------------------------------------
@@ -757,7 +742,7 @@ namespace Teste03.Views
 
                             btnSalvar.IsVisible = false;
 
-                            await DisplayAlert("Sucesso!", "Cadastro realizado com sucesso!", "OK");  // Confirma a atualização
+                            await DisplayAlert("Sucesso!", "Cadastro atualizado com sucesso!", "OK");  // Confirma a atualização
 
                             // Direciona para a tela de login
                             await Navigation.PushModalAsync(new Views.LgMinhaContaa());
@@ -783,13 +768,15 @@ namespace Teste03.Views
 
                             btnSalvar.IsVisible = false;
 
-                            await DisplayAlert("Sucesso!", "Cadastro realizado com sucesso!", "OK");  // Confirma a atualização
+                            await DisplayAlert("Sucesso!", "Cadastro atualizado com sucesso!", "OK");  // Confirma a atualização
 
                             // Direciona para a tela de login
                             await Navigation.PushModalAsync(new Views.LgMinhaContaa());
                         }
 
                         #endregion
+
+                        EmailSenhaNotVisible();
 
                         //-------------------------------------------------------------------------
                     }
@@ -1204,8 +1191,7 @@ namespace Teste03.Views
                     await Navigation.PushModalAsync(new Views.PaginaInicial());
                 }
                 else
-                if (await DisplayAlert("Deseja sair?", "Tem certeza que deseja sair? Todos os dados serão perdidos.",
-                        "OK", "Cancelar"))
+                if (await DisplayAlert("Deseja sair?", "Tem certeza que deseja sair? Todos os dados serão perdidos.", "OK", "Cancelar"))
                 {
                     await Navigation.PushModalAsync(new Views.PaginaInicial());
                 }

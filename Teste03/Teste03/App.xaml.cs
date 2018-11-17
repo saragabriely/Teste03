@@ -13,7 +13,7 @@ namespace Teste03
 {
     public partial class App : Application
 	{
-        public int idCliente = 8;
+       // public int idCliente = 8;
         
         public App ()
 		{
@@ -22,7 +22,7 @@ namespace Teste03
 
             InitializeComponent();
 
-            MainPage = new Views.LgOrcamentos();
+            MainPage = new Views.LgHome();
 
             /*
             if(Models.Session.Instance.IdCliente == 0)

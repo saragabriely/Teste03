@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Teste03.Controllers;
+using Teste03.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,9 +14,9 @@ namespace Teste03.Views
 	public partial class LgHome : ContentPage
 	{
         #region Variáveis - Populando
-        public string nome            = Models.Session.Instance.Cnome;
-        
-        public int idMotorista =  Models.Session.Instance.IdMotorista;    // Motorista: 1; //
+        public string nome     = "José Almeida"; //Models.Session.Instance.Cnome;
+
+        public int idMotorista =   Models.Session.Instance.IdMotorista;    // Motorista: 1; //
         public int idCliente   =  7; //  Models.Session.Instance.IdCliente;      // Motorista: 8; //
         public int idTipoUser  =  2; // Models.Session.Instance.IdTipoUsuario;  // Motorista: 3; //
             
@@ -53,9 +54,26 @@ namespace Teste03.Views
 
         #region NotificaOrcamento_Cliente()
 
-        private void NotificaOrcamento_Cliente()
+        private async void NotificaOrcamento_Cliente()
         {
+            // Controller
+            OrcamentoController orcamentoController = new OrcamentoController();
 
+            List<Orcamento> _lista = new List<Orcamento>();
+
+            _lista = await orcamentoController.GetListOrcamento_Cliente(idCliente);
+
+            if(_lista.Count > 0)
+            {
+                lbNotifica_.Text = "Novos orçamentos disponíveis. Verifique agora!";
+
+                lbNotifica_.IsVisible = true;
+            }
+            else
+            {
+                lbNotifica__.Text = "Sem novos orçamentos.";
+                lbNotifica__.IsVisible = true;
+            }
         }
 
         #endregion
@@ -64,6 +82,14 @@ namespace Teste03.Views
 
         private void NotificaColetaEmAndamento_Cliente()
         {
+            #region Verifica se o cliente já cadastrou alguma coleta
+
+            ColetaController controller = new ColetaController();
+
+            List<Coleta> coletas = new List<Coleta>();
+
+            #endregion
+
 
         }
 

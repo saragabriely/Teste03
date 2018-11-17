@@ -38,17 +38,38 @@
                 </StackLayout>
 
                 <!--  CLIENTE  -->
-                <StackLayout x:Name="slCliente" IsVisible="False" >
+                <StackLayout x:Name="slCliente" IsVisible="True" >
 
                     <!-- Perfil Cliente -->
                     <Label Text="Perfil Cliente" FontSize="14" FontAttributes="Bold" VerticalOptions="Start" HorizontalOptions="Center" />
 
-                    <Label x:Name="lbBemVindoCliente" FontSize="14" VerticalOptions="Start" HorizontalOptions="Center" />
+                    <Label x:Name="lbBemVindoCliente" FontSize="13" VerticalOptions="Start" HorizontalOptions="Center" />
 
-                    <Label x:Name="lbNotifica" Text="Notificações" FontSize="14" VerticalOptions="Start" HorizontalOptions="Center"
+                    <StackLayout Margin="10">
+
+                        <Label x:Name="lbNotifica" Text="Notificações" FontSize="14" VerticalOptions="Start" HorizontalOptions="Start"
                            FontAttributes="Bold"  />
 
-                    <Label x:Name="lbNotificacoes" FontSize="14" VerticalOptions="Start" HorizontalOptions="Center" />
+                        <Label x:Name="lbNotifica_"  FontSize="13" VerticalOptions="Start" HorizontalOptions="Start" IsVisible="False"
+                               BackgroundColor="{StaticResource WhiteBtn}" HeightRequest="40" VerticalTextAlignment="Center"
+                               TextColor="{StaticResource GreenBtn}" 
+                               />
+
+                        <Label x:Name="lbNotifica__"  FontSize="13" VerticalOptions="Start" HorizontalOptions="Start" IsVisible="False"
+                                HeightRequest="40" VerticalTextAlignment="Center" 
+                               />
+
+                    </StackLayout>
+
+                    <StackLayout Margin="10" IsVisible="false" >
+                        
+                        <Label x:Name="lbNotificacoes" Text="Coletas" FontSize="14" VerticalOptions="Start" HorizontalOptions="Center"
+                               FontAttributes="Bold"  />
+                        
+                        
+                        
+                    </StackLayout>
+                    
                     
 
                 </StackLayout>
@@ -64,8 +85,6 @@
 
             </StackLayout>
 
-            
-            
             
             
             <!-- HOME -->

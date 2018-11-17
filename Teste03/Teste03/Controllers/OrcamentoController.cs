@@ -61,7 +61,7 @@ namespace Teste03.Controllers
         }
         #endregion
 
-        #region GET - Lista - Cliente
+        #region GET - Lista - Cliente (IdCliente)
         public async Task<List<Orcamento>> GetListOrcamento_Cliente(int idCliente)
         {
             HttpClient client = new HttpClient();
@@ -90,7 +90,7 @@ namespace Teste03.Controllers
         }
         #endregion
 
-        #region GET - Lista - Cliente
+        #region GET - Lista - Cliente (IdColeta)
         public async Task<List<Orcamento>> GetListOrcamento_Cliente_(int idColeta)
         {
             HttpClient client = new HttpClient();
@@ -119,34 +119,26 @@ namespace Teste03.Controllers
         }
         #endregion
 
-        #region GET - Lista - Cliente ---------------
-        
+        #region GET - Lista - Cliente (idColeta, idOrcaAceito, idStatus)
+
         public async Task GetRecusaOrcamentos(int idColeta, int idOrcaAceito, int idStatus)
         {
             // Recebe o ID da coleta em questão, do orçamento aceito e do status que os demais orçamentos receberão
-
-            HttpClient client = new HttpClient();
-
+            
             List<Orcamento> _lista = new List<Orcamento>();
 
             List<int> _listaId = new List<int>();
 
             try
             {
-                string webService = url;
-
-                var response = await client.GetStringAsync(webService);
-
-                var orcamento = JsonConvert.DeserializeObject<List<Orcamento>>(response);
-
-                // Seleciona os orçamentos do cliente em questão
-                var enti = orcamento.Where(i => i.IdColeta == idColeta).ToList();
+                // Recebe a lista de orçamentos referentes a coleta em questão
+                _lista = await GetListOrcamento_Cliente_(idColeta);
                 
                 // Seleciona apenas o ID dos orçamentos da consulta acima
-                var pendentes = enti.Select(l => l.IdOrcamento).ToList();
+                var pendentes = _lista.Select(l => l.IdOrcamento).ToList();
 
                 // Seleciona os orçamentos descartando o que foi aceito
-                var recusar = enti.Where(l => !pendentes.Contains(idOrcaAceito)).ToList();
+                var recusar = _lista.Where(l => l.IdOrcamento != idOrcaAceito).ToList();
 
                 // Seleciona orçamento por orçamento, altera o idStatus e atualiza (update)
                 for(int i = 0; i < recusar.Count; i++)
@@ -162,8 +154,9 @@ namespace Teste03.Controllers
             {
                 throw ex;
             }
-        } 
+        }
         #endregion
+        
 
         #region GET - GetListOrcamento_Geral - Motorista
         public async Task<List<Orcamento>> GetListOrcamento_Geral(int idMotorista)

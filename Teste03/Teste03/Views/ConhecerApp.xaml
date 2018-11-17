@@ -34,18 +34,40 @@
             <StackLayout Grid.Row="1"    Grid.Column="0" Grid.ColumnSpan="4" >
 
                 <!-- Conheça o aplicativo -->
-                <Label  Text="CONHEÇA O APLICATIVO"     FontSize="16"   FontAttributes="Bold"  TextColor="{StaticResource Blue}"
+                <Label  Text="CONHEÇA O APLICATIVO"     FontSize="15"   FontAttributes="Bold"  TextColor="{StaticResource Blue}"
                         HorizontalTextAlignment="Center" VerticalTextAlignment="Center"  HeightRequest="60"   />
 
                 <ScrollView x:Name="svConhecerApp" Margin="20" >
 
-                    <Label x:Name="lblConhecerApp"  Text="Conheça o 'Me Transporta'! Um aplicativo que visa auxiliar todos aqueles que precisam transportar algo, com aqueles que estiverem dispostos a realizar o serviço. "  />
+                    <StackLayout>
+                        <Label x:Name="lblConhecerApp"   FontSize="13"
+                               Text="Conheça o 'MeTransporta'!" />
+
+                        <Label x:Name="lblConhecerApp_"   FontSize="13"
+                               Text="Um aplicativo que visa auxiliar todos aqueles que precisam transportar algo, com aqueles que estiverem dispostos a realizar o serviço." />
+
+                        <Label x:Name="lbl" Text="Para você cliente: " TextColor="{StaticResource BlueBtn}" FontAttributes="Bold" FontSize="13" />
+
+                        <Label x:Name="lblConhecerApp__"   FontSize="13"
+                               Text="Será mais fácil encontrar prestadores de serviço! Você receberá diversos orçamentos, podendo escolher aquele que cabe no seu bolso." />
+
+                        <Label x:Name="lb" Text="Para você motorista: " TextColor="{StaticResource BlueBtn}" FontAttributes="Bold" FontSize="13" />
+
+                        <Label x:Name="lblConhecerApp___"   FontSize="13"
+                               Text="Para você motorista: será mais fácil encontrar coletas! Você poderá pesquisar as coletas disponíveis e fazer um orçamento por coleta. E caso seja aceito, poderá realizar a coleta!" />
+
+                        
+                        <Label x:Name="lbb" Text="Futuramente: " FontAttributes="Bold" FontSize="13" />
+
+                        <Label x:Name="lblConhecerApp______"   FontSize="13"
+                               Text="O MeTransporta irá facilitar o pagamento da coleta, tornando a transação mais fácil para quem irá pagar e para quem irá receber. " />
+
+
+                    </StackLayout>
 
                 </ScrollView>
 
             </StackLayout>
-
-
            
 
             <!-- HOME -->

@@ -20,8 +20,8 @@ namespace Teste03.Views
         public int idStatusColeta;
 
         public int idMotorista =  Models.Session.Instance.IdMotorista;    // Motorista: 1; //
-        public int idCliente   =  7; //  Models.Session.Instance.IdCliente;      // Motorista: 8; //
-        public int idTipoUser  =  2; // Models.Session.Instance.IdTipoUsuario;  // Motorista: 3; //
+        public int idCliente   =  Models.Session.Instance.IdCliente;      // Motorista: 8; //  7; //
+        public int idTipoUser  =  Models.Session.Instance.IdTipoUsuario;  // Motorista: 3; // 2; //
 
         public string enderecoRetirada;
         public string enderecoEntrega;
@@ -237,7 +237,7 @@ namespace Teste03.Views
 
             // Nome do motorista
             lblNomeMotorista_.Text = cliMotorista.Cnome;
-
+            
             #region Popula
 
             // Popula as informações da coleta
@@ -279,7 +279,19 @@ namespace Teste03.Views
 
             // Mostra o botão 'Voltar'
             stBtnVoltar_Cliente.IsVisible = true;
+
+            #region Verifica se o orçamento já foi visualizado
+
+            // Caso ainda não tenha sido visualizado
+            if(orcamento.Visualiza == null)
+            {
+                // o atributo 'Visualiza' é atualizado para 1
+                orcamento.Visualiza = 1;
+                
+                await orcaControl.UpdateOrcamento(orcamento, orcamento.IdOrcamento);
+            }
             
+            #endregion
         }
         #endregion
 
@@ -439,58 +451,20 @@ namespace Teste03.Views
 
         #region Recusar Orçamento
 
-        private async void LblRecusarOrcamento(object sender, SelectedItemChangedEventArgs e)
-        { 
-            if (idStatusOrcamento == 1)      
-            {
-                await DisplayAlert("Aceito", "Este orçamento já foi aceito!", "OK");
-            }
-            else if(idStatusOrcamento == 14)
-            {
-                await DisplayAlert("Recusado", "Este orçamento já foi recusado!", "OK");
-            }
-            else if (await DisplayAlert("Recusa", "Deseja mesmo recusar este orçamento?", "OK", "Cancelar"))
-            {                
-                #region Atualiza o status do orçamento
-                // Captura o objeto
-                orcam = await orcaControl.GetOrcamento(idOrca);
-
-                // Atualiza o status
-                orcam.IdStatus = 14;  // 14 - Recusado
-
-                // Atualiza o status no banco
-                await orcaControl.UpdateOrcamento(orcam, idOrca);
-
-                #endregion
-
-                await DisplayAlert("Recusado", "Orçamento recusado com sucesso!", "OK");
-
-                // Volta para os orçamentos da coleta em questão
-                slClienteEncontrarColeta_Lista.IsVisible = false;
-
-                // Atualiza a lista de orçamentos
-                ListaColetas_Orcamento_(idCol);
-
-                stListaMoto_02.IsVisible = true;
-            }
+        private void LblRecusarOrcamento(object sender, SelectedItemChangedEventArgs e)
+        {
+            AceitarRecusar(2);  // Recusa
         }
 
         #endregion
 
         #region AceitarRecusar(i)
 
-        private void AceitarRecusar(int tipo) // Verifica o tipo de operação e faz o que for necessário
+        private async void AceitarRecusar(int tipo) // Verifica o tipo de operação e faz o que for necessário
         {
+            // Aceitar = 1
+            // Recusar = 2
 
-        }
-
-        #endregion
-
-
-        #region Aceitar Orçamento
-
-        private async void LblAceitarOrcamento(object sender, SelectedItemChangedEventArgs e)
-        {
             if (idStatusOrcamento == 1)
             {
                 await DisplayAlert("Aceito", "Este orçamento já foi aceito!", "OK");
@@ -499,35 +473,84 @@ namespace Teste03.Views
             {
                 await DisplayAlert("Recusado", "Este orçamento já foi recusado!", "OK");
             }
-            else if (await DisplayAlert("Aceite", "Deseja mesmo aceitar este orçamento?", "OK", "Cancelar"))
+
+            #region Aceitar
+
+            else if (tipo == 1)
             {
-                #region Atualiza status - Orçamento
+                if (await DisplayAlert("Aceite", "Deseja mesmo aceitar este orçamento?", "OK", "Cancelar"))
+                {
+                    #region Atualiza status - Orçamento
 
-                // Captura o objeto
-                orcam = await orcaControl.GetOrcamento(idOrca);
+                    // Captura o objeto
+                    orcam = await orcaControl.GetOrcamento(idOrca);
 
-                // Atualiza o status
-                orcam.IdStatus = 1;
+                    // Atualiza o status
+                    orcam.IdStatus = 1;
 
-                // Atualiza o status no banco
-                await orcaControl.UpdateOrcamento(orcam, idOrca);
+                    // Atualiza o status no banco
+                    await orcaControl.UpdateOrcamento(orcam, idOrca);
 
-                // Atualiza o status dos demais orçamentos como 'Recusado' (ID: 14)
-                AtualizaStatus(orcam.IdColeta, 14, orcam.IdOrcamento);
+                    // Atualiza o status dos demais orçamentos como 'Recusado' (ID: 14)
+                    AtualizaStatus(orcam.IdColeta, 14, orcam.IdOrcamento);
 
 
-                #endregion
+                    #endregion
 
-                await DisplayAlert("Aceito!", "Orçamento aceito com sucesso!", "OK");
+                    await DisplayAlert("Aceito!", "Orçamento aceito com sucesso!", "OK");
 
-                // Volta para os orçamentos da coleta em questão
-                slClienteEncontrarColeta_Lista.IsVisible = false;
+                    // Volta para os orçamentos da coleta em questão
+                    slClienteEncontrarColeta_Lista.IsVisible = false;
 
-                // Atualiza a lista de orçamentos
-                ListaColetas_Orcamento_(idCol);
+                    // Atualiza a lista de orçamentos
+                    ListaColetas_Orcamento_(idCol);
 
-                stListaMoto_02.IsVisible = true;
+                    stListaMoto_02.IsVisible = true;
+                }
             }
+            #endregion
+
+            #region Recusar
+
+            else if (tipo == 2)  // Recusa
+            {
+                if (await DisplayAlert("Recusa", "Deseja mesmo recusar este orçamento?", "OK", "Cancelar"))
+                {
+                    #region Atualiza o status do orçamento
+                    // Captura o objeto
+                    orcam = await orcaControl.GetOrcamento(idOrca);
+
+                    // Atualiza o status
+                    orcam.IdStatus = 14;  // 14 - Recusado
+
+                    // Atualiza o status no banco
+                    await orcaControl.UpdateOrcamento(orcam, idOrca);
+
+                    #endregion
+
+                    await DisplayAlert("Recusado", "Orçamento recusado com sucesso!", "OK");
+
+                    // Volta para os orçamentos da coleta em questão
+                    slClienteEncontrarColeta_Lista.IsVisible = false;
+
+                    // Atualiza a lista de orçamentos
+                    ListaColetas_Orcamento_(idCol);
+
+                    stListaMoto_02.IsVisible = true;
+                }
+            }
+            #endregion
+            
+        }
+
+        #endregion
+
+
+        #region Aceitar Orçamento
+
+        private  void LblAceitarOrcamento(object sender, SelectedItemChangedEventArgs e)
+        {
+            AceitarRecusar(1); // Aceitar
         }
 
         #endregion
