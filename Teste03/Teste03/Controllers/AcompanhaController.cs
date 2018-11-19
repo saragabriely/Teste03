@@ -39,7 +39,53 @@ namespace Teste03.Controllers
             }
         }
         #endregion
-        
+
+        #region GET - LIST - Todas as coletas
+        public async Task<List<AcompanhaColeta>> GetList()
+        {
+            HttpClient client = new HttpClient();
+
+            try
+            {
+                string webService = url;
+
+                var response = await client.GetStringAsync(webService);
+
+                var coleta = JsonConvert.DeserializeObject<List<AcompanhaColeta>>(response);
+
+                return coleta;
+            }
+            catch (Exception ex)
+            { throw ex; }
+        }
+        #endregion
+
+        #region GET - LIST - Todas as coletas 000000
+        public async Task<List<AcompanhaColeta>> GetList(int idCliente)
+        {
+            try
+            {
+                #region Busca as coletas relacionadas ao cliente, que não estejam finalizadas
+
+                ColetaController coletaController = new ColetaController();
+
+                var lista_Coleta = await coletaController.GetListColetas(idCliente);
+
+                #endregion
+
+                // Pega todos cadastrados
+                var lista = await  GetList();
+
+                // Filtra a consulta acima de acordo com o 'idCliente'
+                var coleta = lista.Where(l => l.IdCliente == idCliente).ToList();
+
+                return coleta;
+            }
+            catch (Exception ex)
+            { throw ex; }
+        }
+        #endregion
+
         #region GET - IdAcompanha
         public async Task<AcompanhaColeta> GetAcompanha(int idAcompanha)
         {
@@ -138,8 +184,6 @@ namespace Teste03.Controllers
 
                 var acompanha = JsonConvert.DeserializeObject<List<AcompanhaColeta>>(response);
 
-               // var filtro = acompanha.Where(l => l.IdStatus != 10).ToList();
-
                 return acompanha;
             }
             catch (Exception ex)
@@ -149,7 +193,8 @@ namespace Teste03.Controllers
         }
         #endregion
 
-        #region GET - idCliente
+        
+        #region GET - idCliente ------------------------------------
         public async Task<List<AcompanhaColeta>> GetAcompanhaLista_Cliente(int idCliente)
         {
             HttpClient client = new HttpClient();
@@ -168,7 +213,8 @@ namespace Teste03.Controllers
                 throw ex;
             }
         }
-        #endregion
+        #endregion 
+
 
         #region UPDATE 
         public async Task UpdateMaterial(AcompanhaColeta acompanha)

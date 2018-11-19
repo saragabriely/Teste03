@@ -52,6 +52,9 @@ namespace Teste03.Views
 
         #region Cliente
 
+        #region Listas
+
+        #region Lista 01 - Coletas em andamento
 
         #region ListaColetas 
 
@@ -62,10 +65,11 @@ namespace Teste03.Views
             AcompanhaColeta     acompanha  = new AcompanhaColeta();
 
             AcompanhaController controller = new AcompanhaController();
-
+            
             #endregion
 
-            var _list = await coletaControl.GetListColetas_Acompanha(idCliente);
+            //var _list = await controller.GetAcompanhaLista_Cliente(idCliente);
+            var _list = await coletaControl.GetList(idCliente);
 
             if (_list == null)
             {
@@ -112,6 +116,9 @@ namespace Teste03.Views
 
         #endregion
 
+        #endregion
+
+        #endregion
 
         #endregion
 

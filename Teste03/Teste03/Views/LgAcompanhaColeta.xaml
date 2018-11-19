@@ -39,7 +39,7 @@
                 </StackLayout>
 
                 <!-- FILTRO -->
-                <StackLayout x:Name="stFiltrarColetas" IsVisible="false" Spacing="10"  >
+                <StackLayout x:Name="stFiltrarColetas" IsVisible="true" Spacing="10"  >
 
                     <Picker x:Name="etFiltroColeta" Title="Escolha uma das opções" FontSize="14" HeightRequest="60"  > 
                         <!-- Grid.Column="1" Grid.Row="2" SelectedIndexChanged="lstOrcamento_Motorista" -->
@@ -72,11 +72,11 @@
                             <RowDefinition Height="35" />
                         </Grid.RowDefinitions>
 
-                        <Label x:Name="lbApelido"  Text="Apelido"     FontSize="13" FontAttributes="Bold" Grid.Column="0" Grid.Row="0"  VerticalTextAlignment="Center" />
+                        <Label x:Name="lbApelido"  Text="Resumo Coleta" FontSize="13" FontAttributes="Bold" Grid.Column="0" Grid.Row="0"  VerticalTextAlignment="Center" />
 
-                        <Label x:Name="lbValor_"   Text="Data"        FontSize="13" FontAttributes="Bold" Grid.Column="1" Grid.Row="0" VerticalTextAlignment="Center" />
+                        <Label x:Name="lbValor_"   Text="Data Cadastro" FontSize="13" FontAttributes="Bold" Grid.Column="1" Grid.Row="0" VerticalTextAlignment="Center" />
 
-                        <Label x:Name="lbQtde"     Text="Orçamentos"  FontSize="13" FontAttributes="Bold" Grid.Column="2" Grid.Row="0" VerticalTextAlignment="Center" />
+                        <Label x:Name="lbQtde"     Text="Orçamentos"    FontSize="13" FontAttributes="Bold" Grid.Column="2" Grid.Row="0" VerticalTextAlignment="Center" />
 
                         <Label x:Name="lbListaVaziaMoto_" Text="Você não possui orçamentos!" FontSize="14" FontAttributes="Bold"
                                Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="3" IsVisible="false"  />
@@ -113,49 +113,45 @@
                     </Grid>
 
                 </StackLayout>
-
-
-
-
+                
+                
 
             </StackLayout>
-
-
+            
             
 
-
-
             <!-- HOME -->
-            <StackLayout Grid.Row="2"  Grid.Column="0" Spacing="-3" >
+            <StackLayout Grid.Row="2"  Grid.Column="0" Spacing="-3" BackgroundColor="{StaticResource Default}" >
 
                 <StackLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="BtnHome_Clicked" NumberOfTapsRequired="1" />
                 </StackLayout.GestureRecognizers>
 
-                <Image Source="home2.png"    VerticalOptions="CenterAndExpand"     HorizontalOptions="CenterAndExpand"
+                <Image Source="home.png"    VerticalOptions="CenterAndExpand"     HorizontalOptions="CenterAndExpand"
                        HeightRequest="26"   WidthRequest="26"  />
 
-                <Label Text="Página Inicial" FontSize="10"  FontAttributes="Bold"      TextColor="{StaticResource Blue}"  
+                <Label Text="Página Inicial" FontSize="10"  
                        VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center"  />
 
             </StackLayout>
 
             <!-- COLETAS -->
-            <StackLayout Grid.Row="2"  Grid.Column="1" Spacing="-3"  >
+            <StackLayout Grid.Row="2"  Grid.Column="1" Spacing="-3"  BackgroundColor="{StaticResource Default}" >
 
                 <StackLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="BtnColetas_Clicked" NumberOfTapsRequired="1" />
                 </StackLayout.GestureRecognizers>
 
-                <Image Source="car.png"     VerticalOptions="CenterAndExpand"  HorizontalOptions="CenterAndExpand"
+                <Image Source="car2.png"     VerticalOptions="CenterAndExpand"  HorizontalOptions="CenterAndExpand"
                        HeightRequest="26"   WidthRequest="26"   />
 
-                <Label Text="Coletas" FontSize="10" VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center" />
+                <Label Text="Coletas" FontSize="10"  FontAttributes="Bold"      TextColor="{StaticResource Blue}"  
+                       VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center" />
 
             </StackLayout>
 
             <!-- PESQUISAR -->
-            <StackLayout Grid.Row="2"  Grid.Column="2" Spacing="-3"  >
+            <StackLayout Grid.Row="2"  Grid.Column="2" Spacing="-3" BackgroundColor="{StaticResource Default}"  >
 
                 <StackLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="BtnPesquisar_Clicked" NumberOfTapsRequired="1" />
@@ -169,7 +165,7 @@
             </StackLayout>
 
             <!-- ORÇAMENTOS -->
-            <StackLayout Grid.Row="2"  Grid.Column="3"  Spacing="-3" >
+            <StackLayout Grid.Row="2"  Grid.Column="3"  Spacing="-3" BackgroundColor="{StaticResource Default}" >
 
                 <StackLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="BtnOrcamentos_Clicked" NumberOfTapsRequired="1" />
@@ -183,7 +179,7 @@
             </StackLayout>
 
             <!-- MINHA CONTA -->
-            <StackLayout Grid.Row="2"  Grid.Column="4"  Spacing="-3">
+            <StackLayout Grid.Row="2"  Grid.Column="4"  Spacing="-3" BackgroundColor="{StaticResource Default}">
 
                 <StackLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="BtnMinhaConta_Clicked" NumberOfTapsRequired="1" />
