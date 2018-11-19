@@ -62,15 +62,10 @@ namespace Teste03.Views
             AcompanhaColeta     acompanha  = new AcompanhaColeta();
 
             AcompanhaController controller = new AcompanhaController();
-            
 
             #endregion
-            
-            
 
-           // _list = await coletaControl.GetListColeta_Orcamento(idCliente);
-
-            var _list = await controller.GetAcompanha()
+            var _list = await coletaControl.GetListColetas_Acompanha(idCliente);
 
             if (_list == null)
             {
@@ -80,8 +75,6 @@ namespace Teste03.Views
             {
                 LstColeta_Cliente.ItemsSource = _list;
             }
-            
-
         }
 
         #endregion

@@ -376,7 +376,34 @@ namespace Teste03.Controllers
             }
         }
         #endregion
-        
+
+        #region GET - GetListColetas_Acompanha(int idCliente)  - Coletas que estão em andamento
+        public async Task<List<Coleta>> GetListColetas_Acompanha(int idCliente)
+        {
+            AcompanhaController   acompanhaControll = new AcompanhaController();
+
+            try
+            {   // Captura todas as coletas do cliente
+                var coleta = await GetListColetas(idCliente);
+
+                // Captura todas as coletas em andamento do cliente
+                var lista = await acompanhaControll.GetAcompanhaLista_Cliente(idCliente);
+
+                // Captura os IDs da consulta acima 
+                var listaId = lista.Select(l => l.IdColeta).ToList();
+
+                // Filtra a lista pelos IDs das coletas que estão em andamento
+                var coletas = coleta.Where(l => listaId.Contains(l.IdColeta)).ToList();
+
+                return coletas;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
         #region UPDATE 
         public async Task UpdateColeta(Coleta coleta)
         {

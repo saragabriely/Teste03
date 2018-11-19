@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -45,7 +46,7 @@ namespace Teste03.Controllers
             HttpClient client = new HttpClient();
             try
             {
-                string webService = url + id.ToString();
+                string webService = url + idAcompanha.ToString();
 
                 var response = await client.GetStringAsync(webService);
 
@@ -81,10 +82,32 @@ namespace Teste03.Controllers
         }
         #endregion
 
+        #region GET - idCliente
+        public async Task<AcompanhaColeta> GetAcompanha_Cliente(int idCliente)
+        {
+            HttpClient client = new HttpClient();
+            try
+            {
+                string webService = url + "cliente/" + idCliente.ToString();
+
+                var response = await client.GetStringAsync(webService);
+
+                var acompanha = JsonConvert.DeserializeObject<AcompanhaColeta>(response);
+
+                return acompanha;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
         #region GET - idOrcamento
         public async Task<AcompanhaColeta> GetAcompanha_Orcamento(int idOrcamento)
         {
             HttpClient client = new HttpClient();
+
             try
             {
                 string webService = url + "orcamento/" + idOrcamento.ToString();
@@ -92,6 +115,51 @@ namespace Teste03.Controllers
                 var response = await client.GetStringAsync(webService);
 
                 var acompanha = JsonConvert.DeserializeObject<AcompanhaColeta>(response);
+
+                return acompanha;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region GET - List - idOrcamento
+        public async Task<List<AcompanhaColeta>> GetAcompanhaLista_Orcamento(int idOrcamento)
+        {
+            HttpClient client = new HttpClient();
+
+            try
+            {
+                string webService = url + "orcamento/" + idOrcamento.ToString();
+
+                var response = await client.GetStringAsync(webService);
+
+                var acompanha = JsonConvert.DeserializeObject<List<AcompanhaColeta>>(response);
+
+               // var filtro = acompanha.Where(l => l.IdStatus != 10).ToList();
+
+                return acompanha;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region GET - idCliente
+        public async Task<List<AcompanhaColeta>> GetAcompanhaLista_Cliente(int idCliente)
+        {
+            HttpClient client = new HttpClient();
+            try
+            {
+                string webService = url + "cliente/" + idCliente.ToString();
+
+                var response = await client.GetStringAsync(webService);
+
+                var acompanha = JsonConvert.DeserializeObject<List<AcompanhaColeta>>(response);
 
                 return acompanha;
             }
