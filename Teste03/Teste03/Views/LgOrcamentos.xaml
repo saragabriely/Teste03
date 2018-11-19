@@ -514,24 +514,6 @@
                           <Label x:Name="etTipoVeiculo_Cliente" FontSize="13" IsVisible="False" HorizontalTextAlignment="Center"
                                  Grid.Column="3" Grid.Row="28" Grid.ColumnSpan="6" VerticalOptions="End"
                                  BackgroundColor="{StaticResource SilverBg}" HeightRequest="28" VerticalTextAlignment="Center"  />
-
-                          
-                          <!-- REALIZAR COLETA  - ->
-                          <Button x:Name="btnRealizarColeta" Text="Realizar Coleta" BackgroundColor="{StaticResource GreenBtn}"
-                                  Grid.Column="2" Grid.Row="26" Grid.ColumnSpan="6" IsVisible="False" TextColor="White"
-                                  FontSize="13" Clicked="BtnRealizarColeta_Motorista_Clicked" /> 
-                          
-                          <!- - VOLTAR - BUSCA - ->
-                          <StackLayout x:Name="stBtnVoltar_Moto" Grid.Row="11"  Grid.Column="0"   IsVisible="false"
-                                       VerticalOptions="End" >
-                          
-                            <StackLayout.GestureRecognizers>
-                              <TapGestureRecognizer Tapped="BtnVoltar_ClienteClicked" NumberOfTapsRequired="1" />
-                            </StackLayout.GestureRecognizers>
-                          
-                            <Image Source="btnVoltar3.png" VerticalOptions="End" HorizontalOptions="CenterAndExpand"
-                                   HeightRequest="38" WidthRequest="38" />
-                          </StackLayout> -->
                           
                           <!-- AVANÇAR - BUSCA -->
                           <StackLayout x:Name="stBtnAvancar_Cliente" Grid.Row="11" Grid.Column="7" Grid.ColumnSpan="2" IsVisible="false"

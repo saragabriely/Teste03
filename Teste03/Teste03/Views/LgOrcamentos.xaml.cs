@@ -295,11 +295,6 @@ namespace Teste03.Views
         }
         #endregion
 
-        private async void Teste_Btn(object sender, SelectedItemChangedEventArgs e)
-        {
-            await DisplayAlert("OK", "OOOKK", "OK");
-        }
-
         #endregion
 
         #region Popula campos 
@@ -486,7 +481,8 @@ namespace Teste03.Views
                     orcam = await orcaControl.GetOrcamento(idOrca);
 
                     // Atualiza o status
-                    orcam.IdStatus = 1;
+                    //orcam.IdStatus = 1;
+                    orcam.IdStatus = 30; // 'Aguardando motorista'
 
                     // Atualiza o status no banco
                     await orcaControl.UpdateOrcamento(orcam, idOrca);
@@ -494,6 +490,30 @@ namespace Teste03.Views
                     // Atualiza o status dos demais orçamentos como 'Recusado' (ID: 14)
                     AtualizaStatus(orcam.IdColeta, 14, orcam.IdOrcamento);
 
+
+                    #endregion
+
+                    #region Salva dados para acompanhamento da coleta
+
+                    int idAceite = 61; // Id - Orcamento aceito pelo cliente
+                    
+                    AcompanhaColeta acompanha; 
+
+                    AcompanhaController acompanhaController = new AcompanhaController();
+                    StatusController    statusController = new StatusController();
+
+                    var status = await statusController.GetStatus(61);
+
+                   acompanha = new AcompanhaColeta()
+                   {
+                       IdColeta      = orcam.IdColeta;
+                       IdOrcamento   = orcam.IdOrcamento;
+                       IdCliente     = orcam.IdCliente;
+                       IdMotorista   = orcam.IdMotorista;
+                       DataHora      = DateTime.Now;
+                       IdStatus      = idAceite;
+                       StatusDesc    = status;
+                   };
 
                     #endregion
 
@@ -508,6 +528,7 @@ namespace Teste03.Views
                     stListaMoto_02.IsVisible = true;
                 }
             }
+
             #endregion
 
             #region Recusar

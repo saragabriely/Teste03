@@ -36,6 +36,26 @@ namespace Teste03.Controllers
             }
         }
         #endregion
+        
+        #region GET - LIST - Todas as coletas
+        public async Task<List<Coleta>> GetList()
+        {
+            HttpClient client = new HttpClient();
+
+            try
+            {
+                string webService = url;
+
+                var response = await client.GetStringAsync(webService);
+
+                var coleta = JsonConvert.DeserializeObject<List<Coleta>>(response);
+                
+               return coleta;          
+            }
+            catch (Exception ex)
+            { throw ex; }
+        }
+        #endregion
 
         #region Motorista
 
@@ -45,9 +65,7 @@ namespace Teste03.Controllers
             // Retorna todas as coletas
 
             #region Variáveis e controllers
-
-            HttpClient client = new HttpClient();
-
+            
             List<Coleta>          _lista            = new List<Coleta>();
             List<Coleta>          _listaFiltrada;
             List<int>             lista             = new List<int>();
@@ -63,11 +81,7 @@ namespace Teste03.Controllers
 
             try
             {
-                string webService = url;
-
-                var response = await client.GetStringAsync(webService);
-
-                var coleta   = JsonConvert.DeserializeObject<List<Coleta>>(response);
+                var coleta = await GetList();
                 
                 #region Verifica as coletas visualizadas pelo motorista
 
@@ -138,9 +152,7 @@ namespace Teste03.Controllers
         public async Task<List<Coleta>> GetListColeta_Status(int id)
         {
             // Retorna todas as coletas de acordo com o id selecionado
-
-            HttpClient client = new HttpClient();
-
+            
             List<Coleta> _lista;
             List<Coleta> _listaFiltrada;
             
@@ -223,26 +235,15 @@ namespace Teste03.Controllers
         #region GET - LIST - MOTORISTA (idStatus)
         public async Task<List<Coleta>> GetListColetaMotorista_2(int idStatus)
         {
-            HttpClient client = new HttpClient();
-
-            List<Coleta> _lista;
-
             try
             {
-                string webService = url;
-
-                var response = await client.GetStringAsync(webService);
-
-                var coleta = JsonConvert.DeserializeObject<List<Coleta>>(response);
+                var coleta = await GetList();
                 
                var enti = coleta.Where(i => i.IdStatus == 2).ToList();     // Status 2 = Aguardado orçamento
 
-               _lista = new List<Coleta>(enti);
-
-               return _lista;          
+               return enti;          
             }
-            catch (Exception ex)
-            { throw ex; }
+            catch (Exception ex) {  throw ex;  }
         }
         #endregion
         
@@ -251,6 +252,170 @@ namespace Teste03.Controllers
         #region Cliente 
 
         #region INSERT
+        public async Task<bool> PostColetaAsync(Coleta coleta)
+        {
+            HttpClient httpClient = new HttpClient();
+
+            var json = JsonConvert.SerializeObject(coleta);
+
+            HttpContent httpContent = new StringContent(json);
+
+            httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            var result = await httpClient.PostAsync(url, httpContent);
+
+            if (!result.IsSuccessStatusCode)
+            {
+                throw new Exception("Erro ao incluir dados da coleta.");
+            }
+            else
+            {
+                return result.IsSuccessStatusCode;
+            }
+        }
+        #endregion
+
+        #region GET - GetListColetas(int idCliente)  - Todos as coletas
+        public async Task<List<Coleta>> GetListColetas(int idCliente)
+        {
+            // Seleciona todas as coletas
+
+            #region Variáveis e controllers
+
+            List<Coleta> _lista = new List<Coleta>();
+
+            #endregion
+
+            try
+            {
+                var coleta = await GetList();
+
+                _lista = coleta.Where(l => l.IdCliente == idCliente).ToList();
+
+                return _lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region GET - GetListColeta_Orcamento(int idCliente)  - Coletas que possuem orçamento
+        public async Task<List<Coleta>> GetListColeta_Orcamento(int idCliente)
+        {
+            // Seleciona as coletas que possuem orçamentos e que estão com o Status = 01
+
+            #region Variáveis e controllers
+
+            List<Coleta>    _listaFiltrada;
+            List<Orcamento> _listaOrca;
+
+            Orcamento           orcamento           = new Orcamento();
+
+            OrcamentoController orcamentoController = new OrcamentoController();
+
+            #endregion
+
+            try
+            {
+                var coleta = await GetList();
+
+                // Retorna todos os orçamentos relacionados ao cliente
+                _listaOrca = await orcamentoController.GetListOrcamento_Cliente(idCliente);
+
+                // Retorna os IDs das coletas
+                var retornaId = _listaOrca.Select(i => i.IdColeta).Distinct().ToList();
+                
+                _listaFiltrada = coleta.Where(l => retornaId.Contains(l.IdColeta))
+                                       .Where(l => l.IdStatus == 2)                // Status: 2 - Aguardando Orçamento
+                                       .ToList();
+
+                return _listaFiltrada;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        
+        #region GET - GetListColeta(int id)
+        public async Task<List<Coleta>> GetListColeta(int id)
+        {
+            try
+            {
+                var coleta = await GetList();
+
+                var enti   = coleta.Where(i => i.IdCliente == id).ToList();
+
+                return enti;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region GET - LIST - CLIENTE - ESPECIFICO
+        public async Task<List<Coleta>> GetListColetaEsp(int idCliente, int idStatus)
+        {
+            try
+            {
+                // Seleciona todas as coletas relacionadas a este cliente
+                var enti = await GetListColeta(idCliente);
+                
+                var teste = enti.Where(i => i.IdCliente == idCliente).Where(i => i.IdStatus == idStatus).ToList();
+
+                return teste;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        
+        #region UPDATE 
+        public async Task UpdateColeta(Coleta coleta)
+        {
+            HttpClient client = new HttpClient();
+
+            string webService = url;
+
+            var uri     = new Uri(string.Format(webService, coleta));
+            var data    = JsonConvert.SerializeObject(coleta);
+            var content = new StringContent(data, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = null;
+
+            response = await client.PutAsync(uri, content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Erro ao atualizar os dados da coleta.");
+            }
+        }
+
+        #endregion
+
+        #region DELETE - ID
+        public async Task DeleteColeta(int id)
+        {
+            HttpClient client = new HttpClient();
+
+            string webService = url + id.ToString();
+
+            var uri = new Uri(string.Format(webService, id));
+
+            await client.DeleteAsync(uri);
+        }
+        #endregion
+
+        #region OLD
+
+        /* #region INSERT
         public async Task<bool> PostColetaAsync(Coleta coleta)
         {
             HttpClient httpClient = new HttpClient();
@@ -427,6 +592,11 @@ namespace Teste03.Controllers
 
             await client.DeleteAsync(uri);
         }
+        #endregion
+         
+         
+         */
+
         #endregion
 
         #endregion

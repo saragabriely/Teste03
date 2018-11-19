@@ -40,7 +40,7 @@ namespace Teste03.Controllers
         }
         #endregion
         
-        #region GET - GetOrcamentos(int id)
+        #region GET - GetOrcamentos(int id) - Orçamento especifico
         public async Task<Orcamento> GetOrcamentos(int id)
         {
             HttpClient client = new HttpClient();
@@ -51,6 +51,50 @@ namespace Teste03.Controllers
                 var response = await client.GetStringAsync(webService);
 
                 var orcamento = JsonConvert.DeserializeObject<Orcamento>(response);
+
+                return orcamento;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region GET - GetOrcamento(int id)
+        public async Task<Orcamento> GetOrcamento(int id)
+        {
+            HttpClient client = new HttpClient();
+
+            try
+            {
+                string webService = url + id.ToString();
+
+                var response = await client.GetStringAsync(webService);
+
+                var orcamento = JsonConvert.DeserializeObject<Orcamento>(response);
+
+                return orcamento;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region GET - Lista - Todos os orçamentos
+        public async Task<List<Orcamento>> GetListOrcamento()
+        {
+            HttpClient client = new HttpClient();
+
+            try
+            {
+                string webService = url;
+
+                var response = await client.GetStringAsync(webService);
+
+                var orcamento = JsonConvert.DeserializeObject<List<Orcamento>>(response);
 
                 return orcamento;
             }
@@ -119,7 +163,7 @@ namespace Teste03.Controllers
         }
         #endregion
 
-        #region GET - Lista - Cliente (idColeta, idOrcaAceito, idStatus)
+        #region GET - Lista - Cliente (idColeta, idOrcaAceito, idStatus) - Atualiza IDs
 
         public async Task GetRecusaOrcamentos(int idColeta, int idOrcaAceito, int idStatus)
         {
@@ -158,27 +202,17 @@ namespace Teste03.Controllers
         #endregion
         
 
-        #region GET - GetListOrcamento_Geral - Motorista
+        #region GET - GetListOrcamento_Geral - Motorista - Todos os orçamentos do motorista
         public async Task<List<Orcamento>> GetListOrcamento_Geral(int idMotorista)
         {
-            HttpClient client = new HttpClient();
-
-            List<Orcamento> _lista;
-
             try
             {
-                string webService = url;
-
-                var response = await client.GetStringAsync(webService);
-
-                var orcamento = JsonConvert.DeserializeObject<List<Orcamento>>(response);
+                var orcamentos = await GetListOrcamento();
 
                 // Seleciona os orçamentos do motorista em questão
-                var enti = orcamento.Where(i => i.IdMotorista == idMotorista).ToList();
+                var enti = orcamentos.Where(i => i.IdMotorista == idMotorista).ToList();
 
-                _lista = new List<Orcamento>(enti);
-
-                return _lista;
+                return enti;
             }
             catch (Exception ex)
             {
@@ -187,28 +221,16 @@ namespace Teste03.Controllers
         }
         #endregion
 
-        #region GET - GetListOrcamento(int idStatus, int idMotorista)
+        #region GET - GetListOrcamento(int idStatus, int idMotorista) - Orçamentos do motorista de acordo com um status
         public async Task<List<Orcamento>> GetListOrcamento(int idStatus, int idMotorista)
-        {
-            HttpClient client = new HttpClient();
-            
-            List<Orcamento> _lista;
-
+        { 
             try
-            {   
-                string webService = url;
-
-                var response  = await client.GetStringAsync(webService);
+            {
+                var orcamento = await GetListOrcamento_Geral(idMotorista) ; 
+                            
+                var enti      = orcamento.Where(i => i.IdStatus == idStatus).ToList();
                 
-                var orcamento = JsonConvert.DeserializeObject<List<Orcamento>>(response);
-                
-                var enti      = orcamento.Where(i => i.IdStatus    == idStatus)
-                                         .Where(i => i.IdMotorista == idMotorista)
-                                         .ToList();
-                
-                _lista = new List<Orcamento>(enti);
-                
-                return _lista;
+                return enti;
             }
             catch (Exception ex)
             {
@@ -217,20 +239,33 @@ namespace Teste03.Controllers
         }
         #endregion
 
-
-        #region GET - GetOrcamento(int id)
-        public async Task<Orcamento> GetOrcamento(int id)
+        #region GET - GetListOrcamentoAceito(int idMotorista) 
+        public async Task<List<Orcamento>> GetListOrcamentoAceito(int idMotorista)
         {
-            HttpClient client = new HttpClient();
+            ColetaController coletaController = new ColetaController();
+
             try
             {
-                string webService = url + id.ToString();
+                // Orcamentos aceitos
+                var orcamentos = await GetListOrcamento(1, idMotorista); // status 1 - aceito
 
-                var response      = await client.GetStringAsync(webService);
+                // Captura os IDs das coletas correspondentes e filtra pelo status
+                var coletaId  = orcamentos.Where(l => l.IdStatus == 1)
+                                          .Select(l => l.IdColeta).ToList();
 
-                var orcamento     = JsonConvert.DeserializeObject<Orcamento>(response);
-                
-                return orcamento;
+                // Captura todas as coletas
+                var coletas = await coletaController.GetList();
+
+                // Filtra as coletas
+                var orca = coletas.Where(l => coletaId.Contains(l.IdColeta))
+                                  .Where(l => l.IdStatus == 30)                     // status: 'aguardando motorista'
+                                  .ToList();
+
+                var orcamentoId = orca.Select(l => l.IdColeta).ToList();
+
+                orcamentos = orcamentos.Where(l => orcamentoId.Contains(l.IdColeta)).ToList();
+
+                return orcamentos;
             }
             catch (Exception ex)
             {
@@ -238,6 +273,8 @@ namespace Teste03.Controllers
             }
         }
         #endregion
+
+       
 
         #region GET - IdMotorista + IdColeta
         public async Task<Orcamento> GetOrcamento(int idMotorista, int idColeta)
