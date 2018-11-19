@@ -6,6 +6,7 @@ using Teste03.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
+using System.Linq;
 
 namespace Teste03.Views
 {
@@ -20,8 +21,8 @@ namespace Teste03.Views
         public int idStatusColeta;
 
         public int idMotorista =  Models.Session.Instance.IdMotorista;    // Motorista: 1; //
-        public int idCliente   =  Models.Session.Instance.IdCliente;      // Motorista: 8; //  7; //
-        public int idTipoUser  =  Models.Session.Instance.IdTipoUsuario;  // Motorista: 3; // 2; //
+        public int idCliente   =  7; //Models.Session.Instance.IdCliente;      // Motorista: 8; //  7; //
+        public int idTipoUser  =  2; //Models.Session.Instance.IdTipoUsuario;  // Motorista: 3; // 2; //
 
         public string enderecoRetirada;
         public string enderecoEntrega;
@@ -190,11 +191,13 @@ namespace Teste03.Views
 
         public async void ListaColetas_Orcamento_(int idColeta)
         {
-            List<Orcamento> _list;
+            StatusController statusController = new StatusController();
+            
+            var _list = await orcaControl.GetListOrcamento_Cliente_(idColeta);
 
-            _list = null;
+            var id = _list.Select(l => l.IdStatus).ToList();
 
-            _list = await orcaControl.GetListOrcamento_Cliente_(idColeta);
+            //var status = await statusController.GetStatus();
 
             if (_list == null)
             {
@@ -502,18 +505,24 @@ namespace Teste03.Views
                     AcompanhaController acompanhaController = new AcompanhaController();
                     StatusController    statusController = new StatusController();
 
-                    var status = await statusController.GetStatus(61);
+                    var statusColeta = await statusController.GetStatus(61);
+                    
+                    #region objeto
 
-                   acompanha = new AcompanhaColeta()
-                   {
-                       IdColeta      = orcam.IdColeta;
-                       IdOrcamento   = orcam.IdOrcamento;
-                       IdCliente     = orcam.IdCliente;
-                       IdMotorista   = orcam.IdMotorista;
-                       DataHora      = DateTime.Now;
-                       IdStatus      = idAceite;
-                       StatusDesc    = status;
-                   };
+                    acompanha = new AcompanhaColeta()
+                    {
+                        IdColeta      = orcam.IdColeta,
+                        IdOrcamento   = orcam.IdOrcamento,
+                        IdCliente     = orcam.IdCliente,
+                        IdMotorista   = orcam.IdMotorista,
+                        DataHora      = DateTime.Now,
+                        IdStatus      = idAceite,
+                        StatusDesc    = statusColeta.DescricaoStatus
+                    };
+
+                    #endregion
+
+                    await acompanhaController.PostAcompanhaAsync(acompanha);
 
                     #endregion
 
@@ -792,6 +801,8 @@ namespace Teste03.Views
         #endregion
 
         #endregion
+
+
 
         //----------------------------------------------------------------------------------------------------------
 

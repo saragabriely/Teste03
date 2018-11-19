@@ -196,21 +196,13 @@
 
                                                     <Label Text="{Binding Valor}"            FontSize="13" Grid.Column="0" Grid.Row="0" 
                                                            VerticalTextAlignment="Center"/>
+                                                    
                                                     <Label Text="{Binding DataCadastro}"     FontSize="13" Grid.Column="1" Grid.Row="0"
                                                            VerticalTextAlignment="Center" />
                                                   
                                                     <Label Text="{Binding IdStatus}"         FontSize="13" Grid.Column="2" Grid.Row="0" 
                                                            VerticalTextAlignment="Center" /> 
-                                                  
-                                                  <!--
-                                                    <Button x:Name="BtnTeste" Text="X" Clicked="Teste_Btn" Grid.Column="2" Grid.Row="0"
-                                                            HeightRequest="34" WidthRequest="34" TextColor="{StaticResource Red}" 
-                                                            HorizontalOptions="Center"    />
-                                                   
-                                                    <Button x:Name="BtnTeste2" Text="OK" Clicked="Teste_Btn" Grid.Column="3" Grid.Row="0"
-                                                            HeightRequest="34" WidthRequest="34" TextColor="{StaticResource GreenBtn}"
-                                                            HorizontalOptions="Center"    /> -->
-                                                                                                    
+                                                                                                                                                      
                                                 </Grid>
                                             </StackLayout>
                                         </ViewCell>

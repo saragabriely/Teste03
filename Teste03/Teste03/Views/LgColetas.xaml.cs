@@ -17,8 +17,8 @@ namespace Teste03.Views
 	{
         #region Variaveis e controllers
 
-        public int idCliente     = 8; // 3; //  Session.Instance.IdCliente;
-        public int idTipoCliente = 3; // Session.Instance.IdTipoUsuario;
+        public int idCliente     = 7; // 3; //  Session.Instance.IdCliente; // Motorista: 8;
+        public int idTipoCliente = 2; // Session.Instance.IdTipoUsuario;  // Motorista: 3
         public int verificaOperacao;
         public int idCol;
         public int verifica;
@@ -38,8 +38,6 @@ namespace Teste03.Views
 		{ 
 			InitializeComponent ();
             
-            idTipoCliente = 3;
-
             #region Verifica o tipo de usuário
             if (idTipoCliente == 2)
             {
@@ -352,6 +350,13 @@ namespace Teste03.Views
         #endregion
 
         #region Botões
+
+        #region Btn - Acompanhar Coleta
+        private async void BtnAcompanharColeta_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new Views.LgAcompanhaColeta());
+        }
+        #endregion
 
         #region Btn - Cadastrar Coleta
         private void BtnCadastrarColeta_Clicked(object sender, EventArgs e)

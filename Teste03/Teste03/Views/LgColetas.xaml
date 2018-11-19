@@ -48,25 +48,21 @@
                     <!-- BOTÕES - CLIENTE -->
                     <StackLayout x:Name="stBtnCliente" Margin="15" Spacing="40" VerticalOptions="Center">
 
-                        <!-- Btn - Cadastrar Coletas - ->
-                        <Label Text="Cadastrar Coletas" FontSize="14" FontAttributes="Bold" VerticalOptions="End" 
-                               HorizontalOptions="Center"  /> - ->
-
-                        <Label Text="Cadastre novas coletas!" FontSize="14" VerticalOptions="Start" HorizontalOptions="Center" />
--->
+                        <!-- Btn - Cadastrar Coletas -->
                         <Button x:Name="btnClienteCadastrarColeta" Text="Cadastrar Coleta" Clicked="BtnCadastrarColeta_Clicked"  
                                 BackgroundColor="{StaticResource BlueBtn}" TextColor="{StaticResource White}"
                                 WidthRequest="300"  />
 
-                        <!-- Btn - Pesquisar Coletas - ->
-                        <Label Text="Pesquisar Coletas" FontSize="14" FontAttributes="Bold" VerticalOptions="End"
-                               HorizontalOptions="Center" /> - ->
-                        <Label Text="Encontre coletas cadastradas!" FontSize="14" VerticalOptions="Start" HorizontalOptions="Center" />
--->
+                        <!-- Btn - Pesquisar Coletas -->
                         <Button x:Name="btnClientePesquisarColeta" Text="Pesquisar Coletas" Clicked="BtnPesquisarColeta_Clicked" 
                                 BackgroundColor="{StaticResource MotoristaBtn}" TextColor="{StaticResource White}" 
                                 WidthRequest="300"/>
 
+                        <!-- Btn - Acompanhar Coletas -->
+                        <Button x:Name="btnClienteAcompanharColeta" Text="Acompanhar Coleta" Clicked="BtnAcompanharColeta_Clicked"  
+                                BackgroundColor="{StaticResource BlueBtn}" TextColor="{StaticResource White}"
+                                WidthRequest="300"  />
+                        
                     </StackLayout>
 
                     <!-- FILTRO - CLIENTE -->

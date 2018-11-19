@@ -60,6 +60,8 @@ namespace Teste03.Views
             #endregion
         }
 
+        // --------------------------------------------------------------
+
         #region Cliente 
 
         #region Notificações
@@ -98,7 +100,7 @@ namespace Teste03.Views
             
             string coletaEmAndamento = "Uma coleta está em andamento. Acompanhe!";
             string coletaFinalizada  = "Uma coleta foi finalizada. Confira!";
-            string notifcoleta = "Aqui aparecerá informações/status sobre o andamento de coletas cadastradas.";
+            string notifcoleta       = "Aqui aparecerá informações/status sobre o andamento de coletas cadastradas.";
 
             ColetaController controller = new ColetaController();
 
@@ -312,9 +314,10 @@ namespace Teste03.Views
             await Navigation.PushModalAsync(new Views.LgColetas());
         }
         #endregion
-        
+
         #endregion
 
+        // --------------------------------------------------------------
 
         #region Navegação entre as telas 
 

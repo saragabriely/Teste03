@@ -21,6 +21,7 @@
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
 
+            <!-- MeTransporta -->
             <Label  Text="MeTransporta"  TextColor="{StaticResource LightBlue}"  BackgroundColor="{StaticResource Blue}"
                     HorizontalOptions="FillAndExpand"   VerticalOptions="Center" 
                     VerticalTextAlignment="Center"      HorizontalTextAlignment="Center"
@@ -37,7 +38,90 @@
 
                 </StackLayout>
 
+                <!-- FILTRO -->
+                <StackLayout x:Name="stFiltrarColetas" IsVisible="false" Spacing="10"  >
+
+                    <Picker x:Name="etFiltroColeta" Title="Escolha uma das opções" FontSize="14" HeightRequest="60"  > 
+                        <!-- Grid.Column="1" Grid.Row="2" SelectedIndexChanged="lstOrcamento_Motorista" -->
+                    </Picker>
+                </StackLayout>
+
+                <!-- LISTA - 01 - CLIENTE -->
+                <StackLayout x:Name="stListaCliente" IsVisible="true" Spacing="-3" >
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition  Width="130" />
+                            <ColumnDefinition  Width="90" />
+                            <ColumnDefinition  Width="80"  />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions >
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="35" />
+                        </Grid.RowDefinitions>
+
+                        <Label x:Name="lbApelido"  Text="Apelido"     FontSize="13" FontAttributes="Bold" Grid.Column="0" Grid.Row="0"  VerticalTextAlignment="Center" />
+
+                        <Label x:Name="lbValor_"   Text="Data"        FontSize="13" FontAttributes="Bold" Grid.Column="1" Grid.Row="0" VerticalTextAlignment="Center" />
+
+                        <Label x:Name="lbQtde"     Text="Orçamentos"  FontSize="13" FontAttributes="Bold" Grid.Column="2" Grid.Row="0" VerticalTextAlignment="Center" />
+
+                        <Label x:Name="lbListaVaziaMoto_" Text="Você não possui orçamentos!" FontSize="14" FontAttributes="Bold"
+                               Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="3" IsVisible="false"  />
+
+                        <!-- LIST VIEW -->
+                        <ListView x:Name="LstColeta_Cliente" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="8"
+                                  IsVisible="true" ItemSelected="LstOrcamento_Cliente_ItemSelected" >
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Orientation="Horizontal" WidthRequest="300" VerticalOptions="CenterAndExpand" Padding="5"   >
+
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition  Width="130" />
+                                                    <ColumnDefinition  Width="110" />
+                                                    <ColumnDefinition  Width="80"  />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Grid.RowDefinitions >
+                                                    <RowDefinition Height="35" />
+                                                </Grid.RowDefinitions>
+
+                                                <Label Text="{Binding ApelidoColeta}"  FontSize="13" Grid.Column="0" Grid.Row="0" 
+                                                           VerticalTextAlignment="Center"/>
+                                                <Label Text="{Binding IdStatus}"   FontSize="13" Grid.Column="1" Grid.Row="0"
+                                                           VerticalTextAlignment="Center" />
+                                            </Grid>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+
+                </StackLayout>
+
+
+
+
+
             </StackLayout>
+
+
+            
 
 
 

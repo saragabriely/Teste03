@@ -38,18 +38,39 @@ namespace Teste03.Controllers
             }
         }
         #endregion
-
-        #region GET - IdOrcamento
-        public async Task<AcompanhaColeta> GetAcompanha(int id)
+        
+        #region GET - IdAcompanha
+        public async Task<AcompanhaColeta> GetAcompanha(int idAcompanha)
         {
             HttpClient client = new HttpClient();
             try
             {
                 string webService = url + id.ToString();
 
-                var    response   = await client.GetStringAsync(webService);
-                                  
-                var    acompanha  = JsonConvert.DeserializeObject<AcompanhaColeta>(response);
+                var response = await client.GetStringAsync(webService);
+
+                var acompanha = JsonConvert.DeserializeObject<AcompanhaColeta>(response);
+                
+                return acompanha;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region GET - idColeta
+        public async Task<AcompanhaColeta> GetAcompanha_Coleta(int idColeta)
+        {
+            HttpClient client = new HttpClient();
+            try
+            {
+                string webService = url + "coleta/" + idColeta.ToString();
+
+                var response = await client.GetStringAsync(webService);
+
+                var acompanha = JsonConvert.DeserializeObject<AcompanhaColeta>(response);
 
                 return acompanha;
             }
@@ -59,7 +80,28 @@ namespace Teste03.Controllers
             }
         }
         #endregion
-        
+
+        #region GET - idOrcamento
+        public async Task<AcompanhaColeta> GetAcompanha_Orcamento(int idOrcamento)
+        {
+            HttpClient client = new HttpClient();
+            try
+            {
+                string webService = url + "orcamento/" + idOrcamento.ToString();
+
+                var response = await client.GetStringAsync(webService);
+
+                var acompanha = JsonConvert.DeserializeObject<AcompanhaColeta>(response);
+
+                return acompanha;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
         #region UPDATE 
         public async Task UpdateMaterial(AcompanhaColeta acompanha)
         {
