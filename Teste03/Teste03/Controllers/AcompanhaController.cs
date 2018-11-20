@@ -108,7 +108,32 @@ namespace Teste03.Controllers
         #endregion
 
         #region GET - idColeta
-        public async Task<AcompanhaColeta> GetAcompanha_Coleta(int idColeta)
+        public async Task<List<AcompanhaColeta>> GetAcompanha_Coleta(int idColeta)
+        {
+            HttpClient client = new HttpClient();
+
+            try
+            {
+                /*
+                string webService = url + "coleta/" + idColeta.ToString();
+
+                var response  = await client.GetStringAsync(webService);
+
+                var acompanha = JsonConvert.DeserializeObject<List<AcompanhaColeta>>(response); */
+
+                var acompanha = await GetList();
+
+                return acompanha;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region GET - idColeta
+        public async Task<List<AcompanhaColeta>> GetAcompanhaLista_Coleta(int idColeta)
         {
             HttpClient client = new HttpClient();
             try
@@ -117,7 +142,7 @@ namespace Teste03.Controllers
 
                 var response = await client.GetStringAsync(webService);
 
-                var acompanha = JsonConvert.DeserializeObject<AcompanhaColeta>(response);
+                var acompanha = JsonConvert.DeserializeObject<List<AcompanhaColeta>>(response);
 
                 return acompanha;
             }

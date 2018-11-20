@@ -83,6 +83,7 @@ namespace Teste03.Controllers
         }
         #endregion
 
+
         #region GET - Lista - Todos os orçamentos
         public async Task<List<Orcamento>> GetListOrcamento()
         {
@@ -108,24 +109,14 @@ namespace Teste03.Controllers
         #region GET - Lista - Cliente (IdCliente)
         public async Task<List<Orcamento>> GetListOrcamento_Cliente(int idCliente)
         {
-            HttpClient client = new HttpClient();
-
-            List<Orcamento> _lista;
-            
             try
             {
-                string webService = url;
-
-                var response = await client.GetStringAsync(webService);
-
-                var orcamento = JsonConvert.DeserializeObject<List<Orcamento>>(response);
+                var orcamento = await GetListOrcamento();
 
                 // Seleciona os orçamentos do cliente em questão
                 var enti = orcamento.Where(i => i.IdCliente == idCliente).ToList();
 
-                _lista = new List<Orcamento>(enti);
-
-                return _lista;
+                return enti;
             }
             catch (Exception ex)
             {
@@ -137,24 +128,14 @@ namespace Teste03.Controllers
         #region GET - Lista - Cliente (IdColeta)
         public async Task<List<Orcamento>> GetListOrcamento_Cliente_(int idColeta)
         {
-            HttpClient client = new HttpClient();
-
-            List<Orcamento> _lista;
-
             try
             {
-                string webService = url;
-
-                var response = await client.GetStringAsync(webService);
-
-                var orcamento = JsonConvert.DeserializeObject<List<Orcamento>>(response);
+                var orcamento = await GetListOrcamento();
 
                 // Seleciona os orçamentos do cliente em questão
                 var enti = orcamento.Where(i => i.IdColeta == idColeta).ToList();
-
-                _lista = new List<Orcamento>(enti);
-
-                return _lista;
+                
+                return enti;
             }
             catch (Exception ex)
             {
@@ -228,7 +209,9 @@ namespace Teste03.Controllers
             {
                 var orcamento = await GetListOrcamento_Geral(idMotorista) ; 
                             
-                var enti      = orcamento.Where(i => i.IdStatus == idStatus).ToList();
+                var enti      = orcamento.Where(i => i.IdStatus == idStatus)
+                                         .Where(i => i.IdMotorista == idMotorista)
+                                         .ToList();
                 
                 return enti;
             }
@@ -273,8 +256,7 @@ namespace Teste03.Controllers
             }
         }
         #endregion
-
-       
+        
 
         #region GET - IdMotorista + IdColeta
         public async Task<Orcamento> GetOrcamento(int idMotorista, int idColeta)

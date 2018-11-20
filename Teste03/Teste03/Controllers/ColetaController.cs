@@ -378,6 +378,82 @@ namespace Teste03.Controllers
         #endregion
 
         #region GET - LIST - Coletas em andamento
+        public async Task<List<Coleta>> GetList_(int idCliente)
+        {
+            AcompanhaController controller = new AcompanhaController();
+
+            try
+            {   // Lista de coletas (todas)
+                var coleta = await GetList();
+                              
+                // Filtra pelo Id do cliente e do Status
+                var filtra = coleta.Where(l => l.IdCliente == idCliente)
+                                   .Where(l => l.IdStatus == 10)  // Finalizada(o)
+                                   .ToList();
+                    
+                // Captura os IDs da consulta acima 
+                var filtraId = coleta.Select(l => l.IdColeta).ToList();
+
+                // Pega a lista das coletas cadastradas em 'AcompanhaColeta' (que já foram iniciadas)
+                var acompanha = await controller.GetList();
+
+                // Seleciona o Id das coletas (de acordo com o ID do cliente)
+                var acompanhaID = acompanha.Where(l => l.IdCliente == idCliente)
+                                           .Select(l => l.IdColeta)
+                                           .Distinct()
+                                           .ToList();
+
+                // Filtra as coletas que foram iniciadas
+                var filtraColeta = filtra.Where(l => acompanhaID.Contains(l.IdColeta)).ToList();
+                
+                return filtraColeta;
+            }
+            catch (Exception ex)
+            {  throw ex;  }
+        }
+        #endregion
+
+        #region GET - LIST - Coletas em andamento
+        public async Task<List<Coleta>> GetList(int idCliente)
+        {
+            AcompanhaController controller = new AcompanhaController();
+
+            try
+            {   // Lista de coletas (todas)
+                var coleta = await GetList();
+                              
+                // Filtra pelo Id do cliente e do Status
+                var filtra = coleta.Where(l => l.IdCliente == idCliente)
+                                   .Where(l => l.IdStatus != 10)  // Finalizada(o)
+                                   .Where(l => l.IdStatus != 60)  // Coleta finalizada
+                                   .Where(l => l.IdStatus != 9)   // Excluida(o)
+                                   .ToList();
+                    
+                // Captura os IDs da consulta acima 
+                var filtraId = coleta.Select(l => l.IdColeta).ToList();
+
+                // Pega a lista das coletas cadastradas em 'AcompanhaColeta' (que já foram iniciadas)
+                var acompanha = await controller.GetList();
+
+                // Seleciona o Id das coletas (de acordo com o ID do cliente)
+                var acompanhaID = acompanha.Where(l => l.IdCliente == idCliente)
+                                           .Select(l => l.IdColeta)
+                                           .Distinct()
+                                           .ToList();
+
+                // Filtra as coletas que foram iniciadas
+                var filtraColeta = filtra.Where(l => acompanhaID.Contains(l.IdColeta)).ToList();
+                
+                return filtraColeta;
+            }
+            catch (Exception ex)
+            {  throw ex;  }
+        }
+        #endregion
+
+        #region OLDD
+        /*
+         * #region GET - LIST - Coletas em andamento
         public async Task<List<Coleta>> GetList(int idCliente)
         {
             AcompanhaController controller = new AcompanhaController();
@@ -414,8 +490,9 @@ namespace Teste03.Controllers
             {  throw ex;  }
         }
         #endregion
-
-
+         
+             */
+        #endregion
 
         #region Old
 

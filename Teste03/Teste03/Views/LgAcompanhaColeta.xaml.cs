@@ -27,12 +27,14 @@ namespace Teste03.Views
         public string nomeMotorista;
         public string telefoneMotorista;
 
-        Cliente   cli, cliMotorista;
-        Coleta    coleta;
-        Orcamento orcam;
-        Status    status;
-        Motorista motorista;
+        AcompanhaColeta acompanha;
+        Cliente         cli, cliMotorista;
+        Coleta          coleta;
+        Orcamento       orcam;
+        Status          status;
+        Motorista       motorista;
 
+        AcompanhaController acompanhaController = new AcompanhaController();
         ClienteController   clienteController   = new ClienteController();
         ColetaController    coletaControl       = new ColetaController();
         OrcamentoController orcaControl         = new OrcamentoController();
@@ -45,77 +47,239 @@ namespace Teste03.Views
 		{
 			InitializeComponent ();
 
-            // Atualiza a lista
-            ListaColetas(idCliente);
+            Filtro_Cliente();
 
+            // Atualiza a lista
+            // ListaColetas(idCliente);
 		}
 
         #region Cliente
+
+        #region Filtro
+
+        #region Filtro_Cliente()
+
+        private void Filtro_Cliente()
+        {
+            #region Lista - Encontrar
+
+            List<string> lstOrcamento_Cliente = new List<string>
+            {
+                "Coleta(s) em andamento",
+                "Coleta(s) finalizada(s)"
+            };
+
+            #endregion
+
+            // 1 - Carrega o dropdown
+            etFiltroColeta.ItemsSource   = lstOrcamento_Cliente;
+            etFiltroColeta.SelectedIndex = 0;
+
+            // 2 - Atualiza a lista de acordo com a opção escolhida
+            ListaColetas(idCliente, 0);
+        }
+        #endregion
+
+        #region Filtro - Coleta - Motorista
+        private void pckFiltroColeta_Motorista(object sender, EventArgs e)
+        {
+            var itemSelecionado = etFiltroColeta.Items[etFiltroColeta.SelectedIndex];
+
+            if (itemSelecionado.Equals("Coleta(s) em andamento"))
+            {
+                ListaColetas(idCliente, 0);
+            }
+            else if (itemSelecionado.Equals("Coleta(s) finalizada(s)"))
+            {
+                ListaColetas(idCliente, 1);
+            }
+
+        }
+        #endregion
+
+        #endregion
 
         #region Listas
 
         #region Lista 01 - Coletas em andamento
 
-        #region ListaColetas 
+        #region ListaColetas - 01
 
-        public async void ListaColetas(int idCliente)
+        public async void ListaColetas(int idCliente, int id)
         {
-            #region Variáveis e controllers
-            
-            AcompanhaColeta     acompanha  = new AcompanhaColeta();
-
-            AcompanhaController controller = new AcompanhaController();
-            
-            #endregion
-
-            //var _list = await controller.GetAcompanhaLista_Cliente(idCliente);
-            var _list = await coletaControl.GetList(idCliente);
-
-            if (_list == null)
+            // Coletas em andamento
+            if (id == 0)
             {
-                LstColeta_Cliente.IsVisible = false;
+                var _list = await coletaControl.GetList(idCliente);
+
+                if (_list == null)
+                {
+                    LstColeta_Cliente.IsVisible = false;
+                }
+                else
+                {
+                    LstColeta_Cliente.ItemsSource = _list;
+                }
             }
-            else
+            // Coletas finalizadas
+            else if (id == 1)
             {
-                LstColeta_Cliente.ItemsSource = _list;
+                var _list = await coletaControl.GetList_(idCliente);
+
+                if (_list == null)
+                {
+                    LstColeta_Cliente.IsVisible = false;
+                }
+                else
+                {
+                    LstColeta_Cliente.ItemsSource = _list;
+                }
             }
         }
 
         #endregion
 
-        #region Lista - ItemSelected
+        #region Lista - ItemSelected 01
 
-        private void LstOrcamento_Cliente_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private async void LstOrcamento_Cliente_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem == null)
             {
                 return;
             }
-            // obtem o item do listview
-            var orcamento = e.SelectedItem as Coleta;
 
-            /*
+            // obtem o item do listview - COLETA
+            var coleta = e.SelectedItem as Coleta;
 
-            lblOrcaColeta.Text = "'" + orcamento.ApelidoColeta + "'";
+            var acompanha = await acompanhaController.GetList();
+            
+            var idColeta    = acompanha.Select(l => l.IdColeta).Distinct().First();
+            var idMotorista = acompanha.Select(l => l.IdMotorista).Distinct().First();
+            var idCliente   = acompanha.Select(l => l.IdCliente).Distinct().First();
+            
+            // obtem os dados do orçamento
+            var orcamento = await orcaControl.GetOrcamento(idColeta);
 
-            // Mostra
-            stFiltrarColetas_Cliente.IsVisible = false;
-            stOrca.IsVisible = true;
+            // obtem os dados do motorista
+            var motorista   = await motoristaController.GetMotorista(idMotorista);
+            var clienteMoto = await clienteController.GetCliente(idCliente);
 
-            //  Esconde
+            #region Popula
+
+            lbColeta_.Text         = coleta.ApelidoColeta;
+            lblNomeMotorista_.Text = clienteMoto.Cnome;
+            lblTelMotorista_.Text  = clienteMoto.Ccelular;
+            lblQtdeMotorista_.Text = "R$ " + orcamento.Valor;
+
+            #endregion
+
+            stAcompanha.IsVisible           = true;
+            LstColeta_Acompanha.ItemsSource = acompanha;
+
+            // Mostra campos
+            MostraCampos();
+            stAcompanhaDados.IsVisible = true;
+
+            // Esconde lista inicial e filtro
             stListaCliente.IsVisible = false;
-            lbColetaOrcamento.IsVisible = false;
+            stFiltrarColetas.IsVisible = false;
 
-            idCol = orcamento.IdColeta;
+            // Mostra a lista de acompanhamento e popula
 
-            ListaColetas_Orcamento_(orcamento.IdColeta);
+            LstColeta_Acompanha.IsVisible = true;
 
-            stBtnVoltar_Cliente_.IsVisible = false; */
+            stBtnVoltar_Cliente.IsVisible = true;
         }
-
 
         #endregion
 
+        #endregion
+
+        #endregion
+
+        #region PopulaCamposLista()
+
+        private async void PopulaCamposListaAsync(Coleta coleta, Orcamento orcamento, Cliente motorista)
+        {
+            // Popula Campos
+            #region Motorista
+            
+            lblNomeMotorista_.Text  = motorista.Cnome;
+         // lblQtdeMotorista_.Text  = 
+            lblTelMotorista_.Text   = motorista.Ccelular;
+
+            #endregion
+
+            // Popula lista
+            var acompanhamento = await acompanhaController.GetAcompanhaLista_Coleta(coleta.IdColeta);
+
+            LstColeta_Acompanha.ItemsSource = acompanhamento;
+        }
+
+        #endregion
+
+        #region Mostra e esconde campos
+
+        #region MostraCampos()
+
+        private void MostraCampos()
+        {
+            lbColeta.IsVisible          = true;
+            lbColeta_.IsVisible         = true;
+            lbNomeMotorista.IsVisible   = true;
+            lblNomeMotorista_.IsVisible = true;
+            lbQtdeMotorista.IsVisible   = true;
+            lblQtdeMotorista_.IsVisible = true;
+            lbTelMotorista.IsVisible    = true;
+            lblTelMotorista_.IsVisible  = true;
+            lbVeiculo.IsVisible         = true;
+            lbVeiculo_.IsVisible        = true;
+         //   lbPlaca.IsVisible           = true;
+            lbPlaca_.IsVisible          = true;
+        }
+        #endregion
+
+         #region EscondeCampos()
+
+        private void EscondeCampos()
+        {
+            lbColeta.IsVisible          = false;
+            lbColeta_.IsVisible         = false;
+            lbNomeMotorista.IsVisible   = false;
+            lblNomeMotorista_.IsVisible = false;
+            lbQtdeMotorista.IsVisible   = false;
+            lblQtdeMotorista_.IsVisible = false;
+            lbTelMotorista.IsVisible    = false;
+            lblTelMotorista_.IsVisible  = false;
+            lbVeiculo.IsVisible         = false;
+            lbVeiculo_.IsVisible        = false;
+          //  lbPlaca.IsVisible           = false;
+            lbPlaca_.IsVisible          = false;
+        }
+        #endregion
+
+        #endregion
+
+        #region Botões
+
+        #region Btn - Voltar
+        private void BtnVoltar_Clicked(object sender, EventArgs e)
+        {
+            if (stAcompanha.IsVisible)
+            {
+                // Esconde
+                stAcompanhaDados.IsVisible = false;
+
+                EscondeCampos();
+
+                stBtnVoltar_Cliente.IsVisible = false;
+
+                // Mostra
+                stListaCliente.IsVisible   = true;
+                stFiltrarColetas.IsVisible = true;
+            }
+
+        }
         #endregion
 
         #endregion
@@ -151,6 +315,8 @@ namespace Teste03.Views
         {
             await Navigation.PushModalAsync(new Views.LgOrcamentos());
         }
+
+        
         #endregion
 
         #region Btn - Minha Conta
