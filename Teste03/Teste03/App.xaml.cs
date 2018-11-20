@@ -22,7 +22,7 @@ namespace Teste03
 
             InitializeComponent();
 
-            MainPage = new Views.LgAcompanhaColeta();
+            MainPage = new Views.LgColetas();
 
             /*
             if(Models.Session.Instance.IdCliente == 0)

@@ -11,7 +11,7 @@ namespace Teste03.Models
         public string   EndRetCep             { get; set; }
         public string   EndRetUf              { get; set; }
         public string   EndRetEndereco        { get; set; }
-        public int      EndRetNumero          { get; set; }
+        public string   EndRetNumero          { get; set; }
         public string   EndRetComplemento     { get; set; }
         public string   EndRetBairro          { get; set; }
         public string   EndRetCidade          { get; set; }
@@ -20,7 +20,7 @@ namespace Teste03.Models
         public string   EndEntCep             { get; set; }
         public string   EndEntUf              { get; set; }
         public string   EndEntEndereco        { get; set; }
-        public int      EndEntNumero          { get; set; }
+        public string   EndEntNumero          { get; set; }
         public string   EndEntComplemento     { get; set; }
         public string   EndEntBairro          { get; set; }
         public string   EndEntCidade          { get; set; }
@@ -44,6 +44,7 @@ namespace Teste03.Models
         public int       IdCliente            { get; set; }
         public string    HorarioLimite02      { get; set; }
         public string    TipoVeiculo          { get; set; }
+        public string    DescricaoStatus      { get; set; }
 
         public Coleta() { }
 
@@ -52,14 +53,14 @@ namespace Teste03.Models
             this.IdColeta = idColeta;
         }
 
-        public Coleta (int IdColeta, string EndRetCep, string EndRetUf, string EndRetEndereco, int EndRetNumero,
+        public Coleta (int IdColeta, string EndRetCep, string EndRetUf, string EndRetEndereco, string EndRetNumero,
                        string EndRetComplemento,  string EndRetBairro, string EndRetCidade,string EndRetNomeResponsavel,
-                       string EndRetRespTelefone, string EndEntCep,    string EndEntUf,    string EndEntEndereco, int EndEntNumero, 
+                       string EndRetRespTelefone, string EndEntCep,    string EndEntUf,    string EndEntEndereco, string EndEntNumero, 
                        string EndEntComplemento,  string EndEntBairro, string EndEntCidade,string EndEntNomeResponsavel, 
                        string EndEntRespTelefone, string DataMaxima, string HorarioLimite, string ValorPretendido, string Observacoes,
                        string   ApelidoColeta, int IdStatus, string MatTipo, string MatFragilidade, string MatDescricao, string MatPeso,
                        string MatVolume, string MatAltura, string MatLargura, DateTime DataCadastro, DateTime UltimaAtualizacao, 
-                       int idCliente, string HorarioLimite02, string TipoVeiculo)
+                       int idCliente, string HorarioLimite02, string TipoVeiculo, string DescricaoStatus)
         {
             this.IdColeta              = IdColeta;
             this.EndRetCep             = EndRetCep;
@@ -98,16 +99,17 @@ namespace Teste03.Models
             this.IdCliente             = idCliente;
             this.HorarioLimite02       = HorarioLimite02;
             this.TipoVeiculo           = TipoVeiculo;
+            this.DescricaoStatus       = DescricaoStatus;
         }
 
-        public Coleta ( string EndRetCep, string EndRetUf, string EndRetEndereco, int EndRetNumero,
+        public Coleta ( string EndRetCep, string EndRetUf, string EndRetEndereco, string EndRetNumero,
                        string EndRetComplemento, string EndRetBairro, string EndRetCidade, string EndRetNomeResponsavel,
-                       string EndRetRespTelefone, string EndEntCep, string EndEntUf, string EndEntEndereco, int EndEntNumero,
+                       string EndRetRespTelefone, string EndEntCep, string EndEntUf, string EndEntEndereco, string EndEntNumero,
                        string EndEntComplemento, string EndEntBairro, string EndEntCidade, string EndEntNomeResponsavel,
                        string EndEntRespTelefone, string DataMaxima, string HorarioLimite, string ValorPretendido, string Observacoes,
                        string ApelidoColeta, int IdStatus, string MatTipo, string MatFragilidade, string MatDescricao, string MatPeso,
                        string MatVolume, string MatAltura, string MatLargura, DateTime DataCadastro, DateTime UltimaAtualizacao,
-                       int idCliente, string HorarioLimite02, string TipoVeiculo)
+                       int idCliente, string HorarioLimite02, string TipoVeiculo, string DescricaoStatus)
         {
             
             this.EndRetCep             = EndRetCep;
@@ -146,6 +148,7 @@ namespace Teste03.Models
             this.IdCliente             = idCliente;
             this.HorarioLimite02       = HorarioLimite02;
             this.TipoVeiculo           = TipoVeiculo;
+            this.DescricaoStatus       = DescricaoStatus;
         }
         
     } 

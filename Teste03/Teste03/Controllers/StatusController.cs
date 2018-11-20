@@ -33,5 +33,26 @@ namespace Teste03.Controllers
         }
         #endregion
 
+        #region GET - Status - Lista - Todos os status
+        public async Task<List<Status>> GetStatus()
+        {
+            HttpClient client = new HttpClient();
+            try
+            {
+                string webService = url;
+
+                var response = await client.GetStringAsync(webService);
+
+                var status = JsonConvert.DeserializeObject<List<Status>>(response);
+
+                return status;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
     }
 }

@@ -17,8 +17,8 @@ namespace Teste03.Views
 	{
         #region Variaveis e controllers
 
-        public int idCliente     = 7; // 3; //  Session.Instance.IdCliente; // Motorista: 8;
-        public int idTipoCliente = 2; // Session.Instance.IdTipoUsuario;  // Motorista: 3
+        public int idCliente     = 7;//  Session.Instance.IdCliente; // Motorista: 8; // 7; // 3; //
+        public int idTipoCliente = 2; // Session.Instance.IdTipoUsuario;  // Motorista: 3 // 2; //
         public int verificaOperacao;
         public int idCol;
         public int verifica;
@@ -29,7 +29,11 @@ namespace Teste03.Views
 
         private List<Coleta> coletas;
 
-        ColetaController coletaControl = new ColetaController();
+        Coleta colet = new Coleta();
+
+        ColetaController    coletaControl    = new ColetaController();
+        OrcamentoController orcaControl      = new OrcamentoController();
+        StatusController    statusController = new StatusController();
         
         #endregion
 
@@ -67,7 +71,7 @@ namespace Teste03.Views
             if(i == 0)                              // TODAS AS COLETAS
             {
                  _list = await coletaControl.GetListColeta(idCliente);
-
+                
                 if (_list == null)
                 {
                     LstColeta.IsVisible = false;
@@ -132,23 +136,23 @@ namespace Teste03.Views
             int idStatus = 0;
             var itemSelecionado = etClienteFiltroColeta.Items[etClienteFiltroColeta.SelectedIndex];
 
-            if(itemSelecionado.Equals("TODAS AS COLETAS"))
+            if(itemSelecionado.Equals("Todas as coletas"))
             {
                 idStatus = 0;
             }
-            else if (itemSelecionado.Equals("COLETAS FINALIZADAS"))
+            else if (itemSelecionado.Equals("Coletas Finalizadas"))
             {
                 idStatus = 10;
             }
-            else if (itemSelecionado.Equals("COLETAS PENDENTES"))
+            else if (itemSelecionado.Equals("Coletas Pendentes"))
             {
                 idStatus = 12;
             }
-            else if (itemSelecionado.Equals("COLETAS CANCELADAS"))
+            else if (itemSelecionado.Equals("Coletas Canceladas"))
             {
                 idStatus = 6;
             }
-            else if (itemSelecionado.Equals("COLETAS EM ANDAMENTO"))
+            else if (itemSelecionado.Equals("Coletas em Andamento"))
             {
                 idStatus = 8;
             }
@@ -161,10 +165,12 @@ namespace Teste03.Views
 
         #region Popula os campos com dados do campo
 
-        public void Popula(Coleta coleta)
+        public async void Popula(Coleta coleta)
         {
             if(coleta != null)
             {
+                colet = coleta;
+
                 stLista.IsVisible = false;
 
                 DadosNotEnabled();
@@ -197,7 +203,7 @@ namespace Teste03.Views
                 etEndEntCep.Text            = coleta.EndEntCep;           
                 etEndEntUf.Text             = coleta.EndEntUf;            
                 etEndEnt.Text               = coleta.EndEntEndereco;              
-                etEndRetNumero.Text         = coleta.EndEntNumero.ToString();        
+                etEndEntNumero.Text         = coleta.EndEntNumero;        
                 etEndEntCompl.Text          = coleta.EndEntComplemento;         
                 etEndEntBairro.Text         = coleta.EndEntBairro;        
                 etEndEntCidade.Text         = coleta.EndEntCidade;        
@@ -222,12 +228,28 @@ namespace Teste03.Views
                 stFiltrarColetas.IsVisible = false;
 
                 DadosMaterialVisible();
+
+                // Verifica se a coleta possui orçamentos
+                var verifica  = await orcaControl.GetListOrcamento_Cliente_(coleta.IdColeta);
+                var _verifica = verifica.Where(l => l.IdStatus != 13).ToList(); // 13 - 'Aguardando aprovação'
                 
                 btnAvancar.IsVisible      = false;
                 stBtnVoltar.IsVisible     = true;
                 stBtnAvancar.IsVisible    = true;
-                slEditarColeta.IsVisible  = true;
-                slExcluirColeta.IsVisible = true;
+
+                // Só será possível alterar a coleta, caso não tenha orçamento(s) aguardando aprovação
+                // logo, caso todos os orçamentos tenham sido rejeitados, é possível editar
+                if (_verifica.Count == 0)
+                {
+                    slEditarColeta.IsVisible = true;
+                }
+                
+                // a coleta só poderá ser excluida, caso ainda esteja com o status 'Aguardando orçamento'
+                // ou seja, nenhum status foi 
+                if (coleta.IdStatus != 10 || coleta.IdStatus != 60 || coleta.IdStatus != 9)  // 10 - Finalizada(o)  
+                {                                                                            // 60 - Coleta finalizada 
+                    slExcluirColeta.IsVisible = true;                                        // 9 - Excluida(o)
+                }
 
                 idCol = coleta.IdColeta;
             }
@@ -269,7 +291,7 @@ namespace Teste03.Views
             etEndEntCep.IsEnabled            = false;
             etEndEntUf.IsEnabled             = false;
             etEndEnt.IsEnabled               = false;      
-            etEndRetNumero.IsEnabled         = false;       
+            etEndEntNumero.IsEnabled         = false;       
             etEndEntCompl.IsEnabled          = false;    
             etEndEntBairro.IsEnabled         = false;
             etEndEntCidade.IsEnabled         = false;
@@ -324,7 +346,7 @@ namespace Teste03.Views
             etEndEntCep.IsEnabled            = true;
             etEndEntUf.IsEnabled             = true;
             etEndEnt.IsEnabled               = true;      
-            etEndRetNumero.IsEnabled         = true;       
+            etEndEntNumero.IsEnabled         = true;       
             etEndEntCompl.IsEnabled          = true;    
             etEndEntBairro.IsEnabled         = true;
             etEndEntCidade.IsEnabled         = true;
@@ -372,7 +394,26 @@ namespace Teste03.Views
         #region Btn - Pesquisar Coleta
         private void BtnPesquisarColeta_Clicked(object sender, EventArgs e)
         {
-            stBtnCliente.IsVisible = false;
+            #region Lista - Encontrar
+
+            List<string> lstEncontrar = new List<string>
+            {
+                "Todas as coletas",     
+                "Coletas finalizadas",  
+                "Coletas pendentes",
+                "Coletas canceladas",
+                "Coletas em andamento"
+            };
+            #endregion
+
+            #region Motra botões e views
+
+            etClienteFiltroColeta.ItemsSource = lstEncontrar;
+            etClienteFiltroColeta.SelectedIndex = 0;
+            
+            #endregion
+            
+            stBtnCliente.IsVisible     = false;
 
             stFiltrarColetas.IsVisible = true;
             
@@ -387,7 +428,12 @@ namespace Teste03.Views
         {
             if(await DisplayAlert("Excluir", "Deseja mesmo excluir esta coleta?", "OK", "Cancelar"))
             {
-                await coletaControl.DeleteColeta(idCol);
+                colet.IdStatus = 9;
+
+                // Atualiza status da coleta para 9 - Excluida
+                await coletaControl.UpdateColeta(colet);
+
+               // await coletaControl.DeleteColeta(idCol);
 
                 await DisplayAlert("Excluído", "Coleta excluída com sucesso!", "OK");
 
@@ -403,11 +449,12 @@ namespace Teste03.Views
             DadosEnabled();
 
             #region Botões - Mostrar e esconder
-
-            slEditarColeta.IsVisible  = false;        // EDITAR
+            
+            slEditarColeta.IsVisible = false;        // EDITAR
+            
             slExcluirColeta.IsVisible = false;        // EXCLUIR
 
-            btnAvancar.IsVisible = true;                // AVANÇAR
+            btnAvancar.IsVisible   = true;                // AVANÇAR
 
             stBtnVoltar.IsVisible  = false;              // VOLTAR
             stBtnAvancar.IsVisible = false;              // AVANÇAR
@@ -421,22 +468,28 @@ namespace Teste03.Views
         #region Btn - Voltar - Busca
         private async void BtnVoltar2_Clicked(object sender, EventArgs e)
         {
-            #region Comentário
-            /*
-            if (lblDescricaoMaterial.IsVisible && etDescricaoMaterial.IsEnabled)
-            {
-                if ((await DisplayAlert("Deseja sair?", "Tem certeza que deseja sair? Todos os dados serão perdidos.",
-                    "OK", "Cancelar")))
-                {
-                    stLista.IsVisible = true;
-                    slClienteCadastrarColeta.IsVisible = false;
-                    slEditarColeta.IsVisible = false;
-                    slExcluirColeta.IsVisible = false;
+            #region Variáveis e verificação
 
-                    DadosMaterialNotVisible();
-                }
+            int editar = 0, excluir = 0;
+            
+            // Verifica se a coleta possui orçamentos
+            var verifica = await orcaControl.GetListOrcamento_Cliente_(colet.IdColeta);
+            var _verifica = verifica.Where(l => l.IdStatus != 13).ToList(); // 13 - 'Aguardando aprovação'
+
+            // Só será possível alterar a coleta, caso não tenha orçamento(s) aguardando aprovação
+            // logo, caso todos os orçamentos tenham sido rejeitados, é possível editar
+            if (_verifica.Count > 0)
+            {
+                editar = 1;
             }
-            else */
+
+            // a coleta só poderá ser excluida, caso ainda esteja com o status 'Aguardando orçamento'
+            // ou seja, nenhum status foi 
+            if (colet.IdStatus != 10 || colet.IdStatus != 60 || colet.IdStatus != 9)  // 10 - Finalizada(o)  
+            {                                                                         // 60 - Coleta finalizada 
+                excluir = 1;                                                          // 9 - Excluida(o)
+            }
+
             #endregion
 
             if (lblDescricaoMaterial.IsVisible)
@@ -444,16 +497,26 @@ namespace Teste03.Views
                 stLista.IsVisible                  = true;
                 stFiltrarColetas.IsVisible         = true;
                 slClienteCadastrarColeta.IsVisible = false;
-                slEditarColeta.IsVisible           = false;
-                slExcluirColeta.IsVisible          = false;
+                
+                slEditarColeta.IsVisible = false;
+                slExcluirColeta.IsVisible = false;
+                
 
                 DadosMaterialNotVisible();
             }
             else if (lblEndRet.IsVisible)
             {
                 // Deixa os botões visiveis
-                slEditarColeta.IsVisible = true;
-                slExcluirColeta.IsVisible = true;
+                if (editar != 1)
+                {
+                    slEditarColeta.IsVisible = true;
+                }
+
+                if (excluir != 1)
+                {
+                    slExcluirColeta.IsVisible = true;
+                } 
+
                 stBtnAvancar.IsVisible = true;
 
                 EnderecoRetiradaNotVisible();
@@ -463,8 +526,17 @@ namespace Teste03.Views
             else if (lblEndEnt.IsVisible)
             {
                 // Deixa os botões visiveis
-                slEditarColeta.IsVisible  = true;
-                slExcluirColeta.IsVisible = true;
+
+                if (editar != 1)
+                {
+                    slEditarColeta.IsVisible = true;
+                }
+
+                if (excluir != 1)
+                {
+                    slExcluirColeta.IsVisible = true;
+                }
+
                 stBtnAvancar.IsVisible    = true;
 
                 EnderecoEntregaNotVisible();
@@ -474,8 +546,16 @@ namespace Teste03.Views
             else if (lblValorPretendido.IsVisible)
             {
                 // Deixa os botões visiveis
-                slEditarColeta.IsVisible  = true;
-                slExcluirColeta.IsVisible = true;
+                if (editar != 1)
+                {
+                    slEditarColeta.IsVisible = true;
+                }
+
+                if (excluir != 1)
+                {
+                    slExcluirColeta.IsVisible = true;
+                }
+
                 stBtnAvancar.IsVisible    = true;
                 btnSalvar.IsVisible       = false;
 
@@ -487,10 +567,41 @@ namespace Teste03.Views
         #endregion
 
         #region Btn - Avançar - Buscar
-        private void BtnAvancar2_Clicked(object sender, EventArgs e)
+        private  async void BtnAvancar2_Clicked(object sender, EventArgs e)
         {
-            slEditarColeta.IsVisible  = true;
-            slExcluirColeta.IsVisible = true;
+            #region Variáveis e verificação
+
+            int editar = 0, excluir = 0;
+
+            // Verifica se a coleta possui orçamentos
+            var verifica = await orcaControl.GetListOrcamento_Cliente_(colet.IdColeta);
+            var _verifica = verifica.Where(l => l.IdStatus != 13).ToList(); // 13 - 'Aguardando aprovação'
+
+            // Só será possível alterar a coleta, caso não tenha orçamento(s) aguardando aprovação
+            // logo, caso todos os orçamentos tenham sido rejeitados, é possível editar
+            if (_verifica.Count > 0)
+            {
+                editar = 1;
+            }
+
+            // a coleta só poderá ser excluida, caso ainda esteja com o status 'Aguardando orçamento'
+            // ou seja, nenhum status foi 
+            if (colet.IdStatus != 10 || colet.IdStatus != 60 || colet.IdStatus != 9)  // 10 - Finalizada(o)  
+            {                                                                         // 60 - Coleta finalizada 
+                excluir = 1;                                                          // 9 - Excluida(o)
+            }
+
+            #endregion
+
+            if (editar != 1)
+            {
+                slEditarColeta.IsVisible = true;
+            }
+
+            if (excluir != 1)
+            {
+                slExcluirColeta.IsVisible = true;
+            }
 
             if (lblDescricaoMaterial.IsVisible)
             {
@@ -634,7 +745,7 @@ namespace Teste03.Views
             string endRetCep            = etEndRetCep.Text;
             string endRetUf             = etEndRetUf.Text;
             string endRet               = etEndRet.Text;
-            int    endRetNumero         = Convert.ToInt32(etEndRetNumero.Text);
+            string endRetNumero         = etEndRetNumero.Text;
             string endRetCompl          = etEndRetCompl.Text;
             string endRetBairro         = etEndRetBairro.Text;
             string endRetCidade         = etEndRetCidade.Text;
@@ -646,7 +757,7 @@ namespace Teste03.Views
             string endEntCep            = etEndEntCep.Text;
             string endEntUf             = etEndEntUf.Text;
             string endEnt               = etEndEnt.Text;
-            int    endEntNumero         = Convert.ToInt32(etEndRetNumero.Text);
+            string endEntNumero         = etEndRetNumero.Text;
             string endEntCompl          = etEndEntCompl.Text;
             string endEntBairro         = etEndEntBairro.Text;
             string endEntCidade         = etEndEntCidade.Text;
@@ -872,6 +983,9 @@ namespace Teste03.Views
                     {
                         ValorNotVisible();
 
+                        // status
+                        var _status = await statusController.GetStatus(idStatus);
+
                         // COLETA ---------------------------------------
 
                         #region Coleta () 
@@ -913,7 +1027,8 @@ namespace Teste03.Views
                                 UltimaAtualizacao     = null,
                                 IdCliente             = idCliente,
                                 HorarioLimite02       = horario2,
-                                TipoVeiculo           = tipoVeiculo
+                                TipoVeiculo           = tipoVeiculo,
+                                DescricaoStatus       = _status.DescricaoStatus
                             };
 
                             #endregion
