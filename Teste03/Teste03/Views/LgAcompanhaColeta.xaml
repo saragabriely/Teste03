@@ -41,8 +41,8 @@
                 <!-- FILTRO -->
                 <StackLayout x:Name="stFiltrarColetas" IsVisible="true" Spacing="10"  >
 
-                    <Picker x:Name="etFiltroColeta" Title="Escolha uma das opções" FontSize="14" HeightRequest="60"  > 
-                        <!-- Grid.Column="1" Grid.Row="2" SelectedIndexChanged="lstOrcamento_Motorista" -->
+                    <Picker x:Name="etFiltroColeta" Title="Escolha uma das opções" FontSize="14" HeightRequest="60"
+                            SelectedIndexChanged="PckFiltroColeta" TextColor="#8B8682" >   <!-- Grid.Column="1" Grid.Row="2"  -->
                     </Picker>
                 </StackLayout>
 
@@ -72,15 +72,18 @@
                             <RowDefinition Height="35" />
                         </Grid.RowDefinitions>
 
-                        <Label x:Name="lbApelido"  Text="Resumo Coleta" FontSize="13" FontAttributes="Bold" Grid.Column="0" Grid.Row="0"  VerticalTextAlignment="Center" />
+                        <Label x:Name="lbApelido" Text="Resumo Coleta" FontSize="13" FontAttributes="Bold" Grid.Column="0" Grid.Row="0"  VerticalTextAlignment="Center" />
 
-                        <Label x:Name="lbValor_"   Text="Data Cadastro" FontSize="13" FontAttributes="Bold" Grid.Column="1" Grid.Row="0" VerticalTextAlignment="Center" />
+                        <Label x:Name="lbValor_"  Text="Data Cadastro" FontSize="13" FontAttributes="Bold" Grid.Column="1" Grid.Row="0" VerticalTextAlignment="Center" />
 
-                        <Label x:Name="lbQtde"     Text="Orçamentos"    FontSize="13" FontAttributes="Bold" Grid.Column="2" Grid.Row="0" VerticalTextAlignment="Center" />
+                        <Label x:Name="lbQtde"    Text="Orçamentos"    FontSize="13" FontAttributes="Bold" Grid.Column="2" Grid.Row="0" VerticalTextAlignment="Center" />
 
-                        <Label x:Name="lbListaVaziaMoto_" Text="Você não possui orçamentos!" FontSize="14" FontAttributes="Bold"
-                               Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="3" IsVisible="false"  />
+                        <Label x:Name="lbListaVazia_Finalizada" Text="Nenhuma coleta foi finalizada até o momento." FontSize="14" VerticalTextAlignment="End" 
+                               Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" IsVisible="false"  />
 
+                        <Label x:Name="lbListaVazia_Andamento" Text="Nenhuma coleta foi finalizada até o momento." FontSize="14" VerticalTextAlignment="End"
+                               Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" IsVisible="false"  />
+                        
                         <!-- LIST VIEW -->
                         <ListView x:Name="LstColeta_Cliente" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="8"
                                   IsVisible="true" ItemSelected="LstOrcamento_Cliente_ItemSelected" >
@@ -96,8 +99,7 @@
                                                     <ColumnDefinition  Width="80"  />
                                                 </Grid.ColumnDefinitions>
 
-                                                <Grid.RowDefinitions >
-                                                    <RowDefinition Height="35" />
+                                                <Grid.RowDefinitions > <RowDefinition Height="35" />
                                                 </Grid.RowDefinitions>
 
                                                 <Label Text="{Binding ApelidoColeta}"  FontSize="13" Grid.Column="0" Grid.Row="0" 

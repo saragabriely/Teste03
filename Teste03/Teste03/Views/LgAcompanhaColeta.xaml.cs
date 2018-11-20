@@ -80,8 +80,8 @@ namespace Teste03.Views
         }
         #endregion
 
-        #region Filtro - Coleta - Motorista
-        private void pckFiltroColeta_Motorista(object sender, EventArgs e)
+        #region Filtro - Coleta
+        private void PckFiltroColeta(object sender, EventArgs e)
         {
             var itemSelecionado = etFiltroColeta.Items[etFiltroColeta.SelectedIndex];
 
@@ -107,34 +107,53 @@ namespace Teste03.Views
 
         public async void ListaColetas(int idCliente, int id)
         {
-            // Coletas em andamento
+            #region Coletas em andamento
             if (id == 0)
             {
                 var _list = await coletaControl.GetList(idCliente);
 
-                if (_list == null)
+                if (_list == null || _list.Count == 0)
                 {
                     LstColeta_Cliente.IsVisible = false;
+
+                    lbListaVazia_Andamento.IsVisible = true;
+
+                    lbListaVazia_Finalizada.IsVisible = false;
                 }
                 else
                 {
                     LstColeta_Cliente.ItemsSource = _list;
+
+                    lbListaVazia_Andamento.IsVisible = false;
+
+                    lbListaVazia_Finalizada.IsVisible = false;
                 }
             }
-            // Coletas finalizadas
+            #endregion
+
+            #region Coletas finalizadas
             else if (id == 1)
             {
                 var _list = await coletaControl.GetList_(idCliente);
 
-                if (_list == null)
+                if (_list == null || _list.Count == 0)
                 {
                     LstColeta_Cliente.IsVisible = false;
+
+                    lbListaVazia_Andamento.IsVisible  = false;
+
+                    lbListaVazia_Finalizada.IsVisible = true;
                 }
                 else
                 {
                     LstColeta_Cliente.ItemsSource = _list;
+
+                    lbListaVazia_Andamento.IsVisible  = false;
+
+                    lbListaVazia_Finalizada.IsVisible = false;
                 }
             }
+            #endregion
         }
 
         #endregion
@@ -327,7 +346,6 @@ namespace Teste03.Views
         #endregion
 
         #endregion
-
         
     }
 }
