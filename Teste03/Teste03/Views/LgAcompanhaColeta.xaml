@@ -42,7 +42,7 @@
                 <StackLayout x:Name="stFiltrarColetas" IsVisible="true" Spacing="10"  >
 
                     <Picker x:Name="etFiltroColeta" Title="Escolha uma das opções" FontSize="14" HeightRequest="60"
-                            SelectedIndexChanged="PckFiltroColeta" TextColor="#8B8682" >   <!-- Grid.Column="1" Grid.Row="2"  -->
+                            SelectedIndexChanged="PckFiltroColeta" TextColor="{StaticResource SilverTxt}" >   <!-- Grid.Column="1" Grid.Row="2"  -->
                     </Picker>
                 </StackLayout>
 
@@ -81,7 +81,7 @@
                         <Label x:Name="lbListaVazia_Finalizada" Text="Nenhuma coleta foi finalizada até o momento." FontSize="14" VerticalTextAlignment="End" 
                                Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" IsVisible="false"  />
 
-                        <Label x:Name="lbListaVazia_Andamento" Text="Nenhuma coleta foi finalizada até o momento." FontSize="14" VerticalTextAlignment="End"
+                        <Label x:Name="lbListaVazia_Andamento" Text="Nenhuma coleta em andamento no momento." FontSize="14" VerticalTextAlignment="End"
                                Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" IsVisible="false"  />
                         
                         <!-- LIST VIEW -->
@@ -183,13 +183,13 @@
                                  Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="8" VerticalOptions="End" HeightRequest="28"
                                  VerticalTextAlignment="Center" HorizontalTextAlignment="Center"  />
 
-                        <!-- Placa -->
+                        <!-- Veículo -->
                         <Label x:Name="lbVeiculo" Text="Veiculo" FontSize="13" FontAttributes="Bold" IsVisible="False"
                                  Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand" />
 
                         <Label x:Name="lbVeiculo_"  FontSize="14"  IsVisible="False" BackgroundColor="{StaticResource WhiteBtn}"
                                  Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="5" VerticalOptions="End" HeightRequest="28"
-                                 VerticalTextAlignment="Center"   />
+                                 VerticalTextAlignment="Center"  HorizontalTextAlignment="Center"   />
 
                         <!-- Placa -->
                         <Label x:Name="lbPlaca_"  FontSize="14"  IsVisible="False" BackgroundColor="{StaticResource WhiteBtn}"
@@ -198,65 +198,66 @@
                         
 
                         <!-- LIST VIEW - Acompanhamento -->
-                        <StackLayout x:Name="stAcompanha" IsVisible="false" Spacing="-3" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="10" Grid.RowSpan="7" >
+                        <ScrollView  x:Name="stAcompanha" IsVisible="false"  Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="10" Grid.RowSpan="7" >
+                        
+                            <StackLayout >
 
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition  Width="80" />
-                                    <ColumnDefinition  Width="210" />
-                                </Grid.ColumnDefinitions>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition  Width="80"  />
+                                        <ColumnDefinition  Width="210" />
+                                    </Grid.ColumnDefinitions>
 
-                                <Grid.RowDefinitions >
-                                    <RowDefinition Height="25" />
-                                    <RowDefinition Height="30" />
-                                    <RowDefinition Height="30" />
-                                    <RowDefinition Height="30" />
-                                    <RowDefinition Height="30" />
-                                    <RowDefinition Height="30" />
-                                    <RowDefinition Height="30" />
-                                    <RowDefinition Height="30" />
-                                    <RowDefinition Height="30" />
-                                    <RowDefinition Height="30" />
-                                    <RowDefinition Height="30" />
-                                    <RowDefinition Height="30" />
-                                    <RowDefinition Height="30" />
-                                </Grid.RowDefinitions>
+                                    <Grid.RowDefinitions >
+                                        <RowDefinition Height="25" />
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30" />
+                                    </Grid.RowDefinitions>
 
-                                <Label x:Name="lbData_"     Text="Data"           FontSize="13" FontAttributes="Bold" Grid.Column="0" Grid.Row="0" 
-                                       VerticalTextAlignment="End" TextColor="{StaticResource Blue}"  />
+                                    <Label x:Name="lbData_"     Text="Data"           FontSize="13" FontAttributes="Bold" Grid.Column="0" Grid.Row="0" 
+                                           VerticalTextAlignment="End" TextColor="{StaticResource Blue}"  />
 
-                                <Label x:Name="lbDescricao" Text="Acompanhamento" FontSize="13" FontAttributes="Bold" Grid.Column="1" Grid.Row="0" 
-                                       VerticalTextAlignment="End" TextColor="{StaticResource Blue}" />
+                                    <Label x:Name="lbDescricao" Text="Acompanhamento" FontSize="13" FontAttributes="Bold" Grid.Column="1" Grid.Row="0" 
+                                           VerticalTextAlignment="End" TextColor="{StaticResource Blue}" />
 
-                                <!-- LIST VIEW -->
-                                <ListView x:Name="LstColeta_Acompanha"  IsVisible="true" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="8"  >
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <ViewCell>
-                                                <StackLayout Orientation="Horizontal" WidthRequest="300" VerticalOptions="CenterAndExpand" Padding="5"   >
+                                    <!-- LIST VIEW -->
+                                    <ListView x:Name="LstColeta_Acompanha"  IsVisible="true" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="8"  >
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <ViewCell>
+                                                        <StackLayout Orientation="Horizontal" WidthRequest="300" VerticalOptions="CenterAndExpand" Padding="5"   >
+                                                            <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition  Width="80" />
+                                                                <ColumnDefinition  Width="210" />
+                                                            </Grid.ColumnDefinitions>
 
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition  Width="80" />
-                                                            <ColumnDefinition  Width="210" />
-                                                        </Grid.ColumnDefinitions>
+                                                            <Grid.RowDefinitions > <RowDefinition Height="30" />
+                                                            </Grid.RowDefinitions>
 
-                                                        <Grid.RowDefinitions > <RowDefinition Height="30" />
-                                                        </Grid.RowDefinitions>
-
-                                                        <Label Text="{Binding DataHora}"  FontSize="12" Grid.Column="0" Grid.Row="0" 
-                                                           VerticalTextAlignment="Center"/>
-                                                        <Label Text="{Binding StatusDesc}"   FontSize="12" Grid.Column="1" Grid.Row="0"
-                                                           VerticalTextAlignment="Center" />
-                                                    </Grid>
-                                                </StackLayout>
-                                            </ViewCell>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
+                                                            <Label Text="{Binding DataHora}"  FontSize="12" Grid.Column="0" Grid.Row="0" 
+                                                               VerticalTextAlignment="Center"/>
+                                                            <Label Text="{Binding StatusDesc}"   FontSize="12" Grid.Column="1" Grid.Row="0"
+                                                               VerticalTextAlignment="Center" />
+                                                        </Grid>
+                                                    </StackLayout>
+                                                </ViewCell>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
                                 
-                            </Grid>
-                        </StackLayout>
+                                </Grid>
+                                
+                            </StackLayout>
+                            
+                        </ScrollView>
 
 
                         <!-- VOLTAR - BUSCA -->

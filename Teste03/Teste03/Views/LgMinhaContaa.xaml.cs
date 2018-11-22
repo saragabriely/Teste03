@@ -40,6 +40,10 @@ namespace Teste03.Views
             #endregion
         }
 
+        #region Botões
+
+        #region Cliente
+
         #region Btn - Cadastro - Cliente
         private async void btnClienteMeuCadastro_Clicked(object sender, EventArgs e)
         {
@@ -47,40 +51,29 @@ namespace Teste03.Views
         }
         #endregion
 
-        #region Navegação entre as páginas
-
-        #region Btn - Home
-        private async void BtnHome_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushModalAsync(new Views.LgHome());
-        }
         #endregion
 
-        #region Btn - Coletas
-        private async void BtnColetas_Clicked(object sender, EventArgs e)
+        #region Desativar Cadastro - Cliente e Motorista
+        private void BtnDesativarCadastro_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new Views.LgColetas());
-        }
-        #endregion
+            if (Models.Session.Instance.IdTipoUsuario == 2)
+            {
+                
 
-        #region Btn - Pesquisar
-        private async void BtnPesquisar_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushModalAsync(new Views.LgPesquisar());
-        }
-        #endregion
-
-        #region Btn - Orcamentos
-        private async void BtnOrcamentos_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushModalAsync(new Views.LgOrcamentos());
+                //await Navigation.PushModalAsync(new Views.ClientePF_Cadastro());
+            }
+            else if (Models.Session.Instance.IdTipoUsuario == 3)
+            {
+                //await Navigation.PushModalAsync(new Views.Motorista_Cadastro());
+            }
         }
         #endregion
         
-        #region MeuCadastro
+
+        #region MeuCadastro - Motorista e Cliente
         private async void BtnMeuCadastro_Clicked(object sender, EventArgs e)
         {
-           // Models.Session.Instance.IdTipoUsuario = 3;
+            // Models.Session.Instance.IdTipoUsuario = 3;
 
             if (Models.Session.Instance.IdTipoUsuario == 2)
             {
@@ -93,12 +86,7 @@ namespace Teste03.Views
         }
         #endregion
 
-        #region Btn - MinhaConta
-        private async void BtnMinhaConta_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushModalAsync(new Views.LgMinhaContaa());
-        }
-        #endregion
+        #region Motorista
 
         #region Btn - Veiculos
         private async void BtnVeiculos_Clicked(object sender, EventArgs e)
@@ -114,26 +102,10 @@ namespace Teste03.Views
         }
         #endregion
 
-
-        #endregion
-
-        #region Botões - Others
-
-        #region Others (Apagar?)
-        private void BtnCliente_Clicked(object sender, EventArgs e)
-        {
-           // slCliente.IsVisible = true;
-           //slMotorista.IsVisible = false;
-        }
-
-        private void BtnMotorista_Clicked(object sender, EventArgs e)
-        {
-            //slCliente.IsVisible = false;
-            //slMotorista.IsVisible = true;
-        }
         #endregion
 
         #endregion
+
 
         #region LOGOUT
         private async void BtnSair_Clicked(object sender, EventArgs e)
@@ -170,5 +142,46 @@ namespace Teste03.Views
         }
         #endregion
         
+        #region Navegação entre as páginas
+
+        #region Btn - Home
+        private async void BtnHome_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new Views.LgHome());
+        }
+        #endregion
+
+        #region Btn - Coletas
+        private async void BtnColetas_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new Views.LgColetas());
+        }
+        #endregion
+
+        #region Btn - Pesquisar
+        private async void BtnPesquisar_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new Views.LgPesquisar());
+        }
+        #endregion
+
+        #region Btn - Orcamentos
+        private async void BtnOrcamentos_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new Views.LgOrcamentos());
+        }
+        #endregion
+
+        #region Btn - MinhaConta
+        private async void BtnMinhaConta_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new Views.LgMinhaContaa());
+        }
+        #endregion
+
+        #endregion
+
+               
+
     }
 }

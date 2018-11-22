@@ -124,7 +124,6 @@ namespace Teste03.Controllers
         }
         #endregion
 
-        
         #region GET - Cliente - CPF - TENTATIVA
         /*public async Task<Cliente> GetCpf(string cpf)
         {
@@ -169,8 +168,15 @@ namespace Teste03.Controllers
             } * /
         } */
         #endregion
-        
 
+        #region Update - Cliente - Desativa status
+
+        public async Task UpdateCliente_(int idCliente, int idStatus)
+        {
+          // var cliente = 
+            
+        }
+        #endregion
 
         #region Update - Cliente
 

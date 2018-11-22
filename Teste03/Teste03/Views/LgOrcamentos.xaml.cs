@@ -19,10 +19,12 @@ namespace Teste03.Views
         public int idOrca;
         public int idStatusOrcamento;
         public int idStatusColeta;
+        public int ultimoRegistro;
+        public int idAcompanha;
 
-        public int idMotorista =  Models.Session.Instance.IdMotorista;    // Motorista: 1; //
-        public int idCliente   =  7; //Models.Session.Instance.IdCliente;      // Motorista: 8; //  7; //
-        public int idTipoUser  =  2; //Models.Session.Instance.IdTipoUsuario;  // Motorista: 3; // 2; //
+        public int idMotorista = 1; // Models.Session.Instance.IdMotorista;    // Motorista: 1; //
+        public int idCliente   = 8; // Models.Session.Instance.IdCliente;      // Motorista: 8; //  7; //
+        public int idTipoUser  = 3; // Models.Session.Instance.IdTipoUsuario;  // Motorista: 3; // 2; //
 
         public string enderecoRetirada;
         public string enderecoEntrega;
@@ -35,6 +37,7 @@ namespace Teste03.Views
         Status    status;
         Motorista motorista;
 
+        AcompanhaController acompanhaController = new AcompanhaController();
         ClienteController   clienteController   = new ClienteController();
         ColetaController    coletaControl       = new ColetaController();
         OrcamentoController orcaControl         = new OrcamentoController();
@@ -486,8 +489,7 @@ namespace Teste03.Views
                     orcam = await orcaControl.GetOrcamento(idOrca);
 
                     // Atualiza o status
-                    //orcam.IdStatus = 1;
-                    orcam.IdStatus = 30; // 'Aguardando motorista'
+                    orcam.IdStatus = 1; // 'Aceito'
 
                     // Atualiza o status no banco
                     await orcaControl.UpdateOrcamento(orcam, idOrca);
@@ -576,8 +578,7 @@ namespace Teste03.Views
         }
 
         #endregion
-
-
+        
         #region Aceitar Orçamento
 
         private  void LblAceitarOrcamento(object sender, SelectedItemChangedEventArgs e)
@@ -599,9 +600,7 @@ namespace Teste03.Views
         }
 
         #endregion
-
-
-
+        
         #endregion
 
         #region Mostra e esconde campos
@@ -821,6 +820,7 @@ namespace Teste03.Views
                 "TODOS OS ORÇAMENTOS",
                 "Orçamentos pendentes de aprovação",
                 "Orçamentos aceitos",
+                "Orçamentos finalizados",
                 "Orçamentos rejeitados",
                 "Orçamentos cancelados"
             };
@@ -861,6 +861,10 @@ namespace Teste03.Views
             {
                 ListaMotorista_OrcamentoAsync(4);
             }
+            else if (itemSelecionado.Equals("Orçamentos finalizados"))
+            {
+                ListaMotorista_OrcamentoAsync(5);
+            }
         }
         #endregion
 
@@ -872,52 +876,156 @@ namespace Teste03.Views
 
         public async void ListaMotorista_OrcamentoAsync(int i)
         {
-            List<Orcamento> _list;
+            List<Orcamento> _list = new List<Orcamento>();
 
             _list = null;
 
-            if (i == 0)                                                             // TODOS OS ORÇAMENTOS
-            {
-                List<Orcamento> listaa = new List<Orcamento>();
+            #region Variáveis
 
+            string vazio      = "Nenhum orçamento cadastrado até o momento.";
+            string pendente   = "Nenhum orçamento pendente de aprovação foi encontrado. ";
+            string aceito     = "Nenhum orçamento aceito até o momento.";
+            string rejeitado  = "Nenhum orçamento foi rejeitado até o momento.";
+            string cancelado  = "Nenhum orçamento foi cancelado até o momento.";
+            string finalizado = "Nenhum orçamento foi finalizado até agora.";
+
+            #endregion
+
+            #region Todos os orçamentos 
+            if (i == 0)                                                               // TODOS OS ORÇAMENTOS
+            {
                  _list = await orcaControl.GetListOrcamento_Geral(idMotorista);   // IdMotorista e IdStatus
 
-                if (_list == null)
+                if (_list == null || _list.Count == 0)
                 {
-                    LstOrcamento_Motorista.IsVisible = false;
+                    LstOrcamento_Motorista.IsVisible = false;   // Lista
+
+                    lbListaVaziaMoto.Text = vazio;
+                    lbListaVaziaMoto.IsVisible = true;
                 }
                 else
                 {
+                    lbListaVaziaMoto.IsVisible = false;
+
                     LstOrcamento_Motorista.ItemsSource = _list;
                 }
             }
+            #endregion
+
+            #region Orçamentos pendentes de aprovação - Id: 13
+
             else if (i == 1)                                                        // ORÇAMENTOS PENDENTES DE APROVAÇÃO 
             {                                                                       // (Aguardando aprovacao - 13)
-                _list = await orcaControl.GetListOrcamento(idMotorista, 13);
+                _list = await orcaControl.GetListOrcamento(13, idMotorista);
 
-                LstOrcamento_Motorista.ItemsSource = _list;
+                if (_list == null || _list.Count == 0)
+                {
+                    LstOrcamento_Motorista.IsVisible = false;   // Lista
+
+                    lbListaVaziaMoto.Text = pendente;
+                    lbListaVaziaMoto.IsVisible = true;
+                }
+                else
+                {
+                    lbListaVaziaMoto.IsVisible = false;
+
+                    LstOrcamento_Motorista.ItemsSource = _list;
+                }
             }
+            #endregion
+
+            #region Orçamentos aceitos - Id: 01
+
             else if (i == 2)                                                        // ORÇAMENTOS ACEITOS (Aceito - 1)
             {
-                _list = await orcaControl.GetListOrcamento(idMotorista, 1);
+                _list = await orcaControl.GetListOrcamento(1, idMotorista);
 
-                LstOrcamento_Motorista.ItemsSource = _list;
+                if (_list == null || _list.Count == 0)
+                {
+                    LstOrcamento_Motorista.IsVisible = false;   // Lista
+
+                    lbListaVaziaMoto.Text = aceito;
+                    lbListaVaziaMoto.IsVisible = true;
+                }
+                else
+                {
+                    lbListaVaziaMoto.IsVisible = false;
+
+                    LstOrcamento_Motorista.ItemsSource = _list;
+                }
             }
+
+            #endregion
+
+            #region Orçamentos rejeitados - Id: 14
+
             else if (i == 3)                                                        // ORÇAMENTOS REJEITADOS (Rejeitado - 14)
             {
-                _list = await orcaControl.GetListOrcamento(idMotorista, 14); ;
+                _list = await orcaControl.GetListOrcamento(14, idMotorista); ;
 
-                LstOrcamento_Motorista.ItemsSource = _list;
+                if (_list == null || _list.Count == 0)
+                {
+                    LstOrcamento_Motorista.IsVisible = false;   // Lista
+
+                    lbListaVaziaMoto.Text = rejeitado;
+                    lbListaVaziaMoto.IsVisible = true;
+                }
+                else
+                {
+                    lbListaVaziaMoto.IsVisible = false;
+
+                    LstOrcamento_Motorista.ItemsSource = _list;
+                }
             }
+
+            #endregion
+
+            #region Orçamentos cancelados - Id: 6
+
             else if (i == 4)                                                        // ORÇAMENTOS CANCELADOS (Cancelado - 6)
             {
-                _list = await orcaControl.GetListOrcamento(idMotorista, 6);
+                _list = await orcaControl.GetListOrcamento(6, idMotorista);
 
-                LstOrcamento_Motorista.ItemsSource = _list;
+                if (_list == null || _list.Count == 0)
+                {
+                    LstOrcamento_Motorista.IsVisible = false;   // Lista
+
+                    lbListaVaziaMoto.IsVisible = true;
+                    lbListaVaziaMoto.Text      = cancelado;
+                }
+                else
+                {
+                    lbListaVaziaMoto.IsVisible = false;
+
+                    LstOrcamento_Motorista.ItemsSource = _list;
+                }
             }
+
+            #endregion
+
+            #region Orçamentos finalizados - Id: 10
+
+            else if (i == 5)                                                        // ORÇAMENTOS FINALIZADOS (Finalizada(o) - 10)
+            {
+                _list = await orcaControl.GetListOrcamento(10, idMotorista);
+
+                if (_list == null || _list.Count == 0)
+                {
+                    LstOrcamento_Motorista.IsVisible = false;   // Lista
+
+                    lbListaVaziaMoto.Text = finalizado;
+                    lbListaVaziaMoto.IsVisible = true;
+                }
+                else
+                {
+                    lbListaVaziaMoto.IsVisible         = false;
+                    LstOrcamento_Motorista.ItemsSource = _list;
+                }
+            }
+            #endregion
         }
         #endregion
-        
+
         #region Lista de coletas - Item selecionado
         private async void LstOrcamentoMotorista_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
@@ -942,6 +1050,34 @@ namespace Teste03.Views
             // deseleciona o item do listview
             LstOrcamento_Motorista.SelectedItem = null;
             
+            // Concatena o endereço (nome da rua, numero e bairro)
+            enderecoRetirada = coleta.EndRetEndereco + ", " + coleta.EndRetNumero + " - " + coleta.EndRetBairro;
+            enderecoEntrega  = coleta.EndEntEndereco + ", " + coleta.EndEntNumero + " - " + coleta.EndEntBairro;
+
+            //var acompanha = await acompanhaController.GetAcompanhaLista_Coleta(idColeta);
+            var acompanha = await acompanhaController.GetAcompanhaLista_Coleta__(coleta.IdColeta);
+
+            acompanha = acompanha.Where(l => l.IdOrcamento == orcam.IdOrcamento)
+                                 .ToList();
+            
+            if(acompanha.Count == 1)                    // Coleta não iniciada - tem apenas o registro 'Orçamento aceito'
+            {
+                btnRealizarColeta.IsVisible = true;
+            }
+            else if(acompanha.Count > 1)
+            {
+                var final = acompanha.Last();
+
+                if (final.IdStatus == 10)                       // Permite visualizar o mesmo acompanhamento que o cliente (AcompanhaColeta)
+                {
+                    btnRelatorioColeta.IsVisible = true; 
+                }
+                else                                            // Permite continuar a coleta de onde parou
+                {
+                    btnContinuarColeta.IsVisible = true;
+                }
+            }
+                    
             #region Esconde
 
             // Esconde o filtro
@@ -966,17 +1102,16 @@ namespace Teste03.Views
             idStatusOrcamento = orcamento.IdStatus;
             idStatusColeta    = coleta.IdStatus;
             value             = orcamento.Valor;
-
-            // Concatena o endereço (nome da rua, numero e bairro)
-            enderecoRetirada = coleta.EndRetEndereco + ", " + coleta.EndRetNumero + " - " + coleta.EndRetBairro;
-            enderecoEntrega  = coleta.EndEntEndereco + ", " + coleta.EndEntNumero + " - " + coleta.EndEntBairro;
+            idCol             = coleta.IdColeta;
 
             // Mostra o botão 'Realizar Coleta', caso o orçamento tenha sido aceito
-            if (idStatusOrcamento == 1 && idStatusColeta != 10)       // IdStatus: 1 - Aceito + 10 - Finalizada
-            {
-                btnRealizarColeta.IsVisible = true;
-            }        
+          //  if (idStatusOrcamento == 1 && idStatusColeta != 10)       // IdStatus: 1 - Aceito + 10 - Finalizada
+           // {
+           //     btnRealizarColeta.IsVisible = true;
+           // }        
         }
+        #endregion
+
         #endregion
 
         #region PopulaOrcamento_Motorista(orcamento)
@@ -1028,6 +1163,66 @@ namespace Teste03.Views
 
         #endregion
 
+        #region Verifica ultimo registro - AcompanhaColeta
+
+        private async Task VerificaUltimoRegistro(int idColeta, int i)
+        {
+            //var acompanha = await acompanhaController.GetAcompanhaLista_Coleta(idColeta);
+            var acompanha = await acompanhaController.GetAcompanhaLista_Coleta__(idColeta);
+
+            var last = acompanha.Last();
+
+            if (i == 1) // Escolhe o botão que será mostrado - 'Realizar' ou 'Continuar'
+            {
+                if (last.IdStatus == 61) // IdStatus: 61 - "Orçamento aceito pelo cliente"
+                {
+                    ultimoRegistro = 1;  // libera o botão 'Realizar coleta'
+                }
+                else if (last.IdStatus == 52 || last.IdStatus == 54)  // IdStatus: 52 - "Aguardando motorista se preparar." // 54 - "Motorista seguindo para o local de retirada"
+                {
+                    ultimoRegistro = 2; // libera botão 'continuar'
+                }
+            }
+            else  if(i == 2)
+            {
+                if(last.IdStatus == 52)                // IdStatus: 52 - "Aguardando motorista se preparar"
+                {
+                    lbEtapa01.IsVisible   = true;
+                    btnRetirar.IsVisible  = true;
+
+                    btnRetirado.IsVisible = true;
+                }
+                else if(last.IdStatus == 54)          // IdStatus: 54 - "Motorista seguindo para o local de retirada"
+                {
+                    lbEtapa01.IsVisible   = true;
+                    btnRetirar.IsVisible  = true;
+
+                    btnRetirado.IsVisible = true;
+                }
+                else if(last.IdStatus == 56)          // IdStatus: 56 - Material retirado
+                {
+                    lbEtapa01.IsVisible   = true;
+                    btnRetirar.IsVisible  = true;
+
+                    lbEtapa02.IsVisible   = true;
+                    btnEntregar.IsVisible = true;
+                }
+                else if(last.IdStatus == 57)         // IdStatus: 57 - Seguindo para local de entrega
+                {
+                    lbEtapa01.IsVisible   = true;
+                    btnRetirar.IsVisible  = true;
+
+                    lbEtapa02.IsVisible   = true;
+                    btnEntregar.IsVisible = true;
+
+                    btnFinalizar.IsVisible = true;
+                }                
+            }
+
+        }
+
+        #endregion
+
         #region Botões
 
         #region Btn - Realizar Coleta (direciona)
@@ -1036,6 +1231,44 @@ namespace Teste03.Views
         {
             // Esconde o ScrollView
             slMotoristaEncontrarColeta_Lista.IsVisible = false;
+            
+            #region Salva dados para acompanhamento da coleta
+
+            int idAceite = 52; // Id - Aguardando motorista se preparar
+
+            AcompanhaColeta acompanha;
+
+            AcompanhaController acompanhaController = new AcompanhaController();
+            StatusController    statusController    = new StatusController();
+
+            var statusColeta = await statusController.GetStatus(52);
+
+            #region objeto
+
+            acompanha = new AcompanhaColeta()
+            {
+                IdColeta    = orcam.IdColeta,
+                IdOrcamento = orcam.IdOrcamento,
+                IdCliente   = orcam.IdCliente,
+                IdMotorista = orcam.IdMotorista,
+                DataHora    = DateTime.Now,
+                IdStatus    = idAceite,
+                StatusDesc  = statusColeta.DescricaoStatus
+            };
+
+            #endregion
+
+            await acompanhaController.PostAcompanhaAsync(acompanha);
+
+            #endregion
+
+            #region Mostrar botões
+
+            lbEtapa01.IsVisible  = true;
+
+            btnRetirar.IsVisible = true;
+
+            #endregion
 
             // Mostra a view 'Realizar Coleta'
             stRealizarColeta.IsVisible = true;
@@ -1054,6 +1287,111 @@ namespace Teste03.Views
 
         #endregion
 
+        #region Btn - Continuar Coleta (direciona)
+
+        private async void BtnContinuarColeta_Clicked(object sender, SelectedItemChangedEventArgs e)
+        {
+            // Esconde o ScrollView
+            slMotoristaEncontrarColeta_Lista.IsVisible = false;
+            slClienteEncontrarColeta_Lista.IsVisible   = false;
+            svClienteEncontrarColeta.IsVisible         = false;
+
+            stListaMoto.IsVisible = false;
+
+            // Mostra a view 'Realizar Coleta'
+            stRealizarColeta.IsVisible      = true;
+
+            stFiltrarColetas_Moto.IsVisible = false;
+
+            // Mostrar botões
+
+            await VerificaUltimoRegistro(idCol, 2);
+
+            // Encontra cliente
+
+            cli = await clienteController.GetCliente(idCliente);
+
+            PopulaCliente_Orcamento(cli, coleta);
+            
+        }
+
+        #endregion
+
+        #region Btn - Relatório final - coleta 
+
+        private async void BtnRelatorioColeta_Clicked(object sender, SelectedItemChangedEventArgs e)
+        {
+            // Esconde o ScrollView
+            slMotoristaEncontrarColeta_Lista.IsVisible = false;
+            slClienteEncontrarColeta_Lista.IsVisible   = false;
+            svClienteEncontrarColeta.IsVisible         = false;
+
+            stListaMoto.IsVisible = false;
+
+            lbLigar.IsVisible    = false;
+            lbDesistir.IsVisible = false;
+
+            // Mostra a view 'Realizar Coleta'
+            stRealizarColeta.IsVisible      = true;
+
+            stFiltrarColetas_Moto.IsVisible = false;
+            
+            // Popula lista
+            PopulaLista_Andamento();
+
+            // Mostrar Lista
+            stAcompanha.IsVisible = true;
+
+            // Mostrar botão
+            stBtnVoltar_Moto.IsVisible = true;
+
+            // Encontra cliente
+
+            cli = await clienteController.GetCliente(idCliente);
+
+            PopulaCliente_Orcamento(cli, coleta);
+        }
+
+        #endregion
+
+        #region PopulaLista_Andamento()
+
+        public async void PopulaLista_Andamento()
+        {
+            var acompanha = await acompanhaController.GetAcompanhaLista_Cliente(idCliente);
+
+            acompanha = acompanha.Where(l => l.IdOrcamento == orcam.IdOrcamento).ToList();
+
+            if(acompanha.Count == 0 || acompanha == null)
+            {
+                lbListaVazia_.IsVisible = true;
+            }
+            else
+            {
+                lbListaVazia_.IsVisible = false;
+
+                LstColeta_Acompanha.ItemsSource = acompanha;
+            }
+        }
+
+        #endregion
+
+        #region PopulaCliente_Orcamento()
+
+        private void PopulaCliente_Orcamento(Cliente cliente, Coleta coleta)
+        {
+            #region Campos
+
+            lblNomeCliente.Text     = cli.Cnome;
+            lblTelefoneCliente.Text = cli.Ccelular;
+
+            lblEndRetCliente.Text = coleta.EndRetEndereco + ", " + coleta.EndRetNumero + " - " + coleta.EndRetBairro;
+            lblEndEntCliente.Text = coleta.EndEntEndereco + ", " + coleta.EndEntNumero + " - " + coleta.EndEntBairro;
+
+            #endregion
+        }
+
+        #endregion
 
         #region Btn - Voltar
 
@@ -1083,11 +1421,21 @@ namespace Teste03.Views
 
                 if (idStatusOrcamento == 1 && idStatusColeta != 10)  // IdStatus: 1 - Aceito  // IdStatus: 10 - Finalizada (coleta)
                 {
-                    btnRealizarColeta.IsVisible = true;
+                    // Verifica qual foi o último status salvo em 'AcompanhaColeta'
+                    await VerificaUltimoRegistro(idCol, 1);
+
+                    if (ultimoRegistro == 1)                    // Coleta não inicia
+                    {
+                        btnRealizarColeta.IsVisible = true;
+                    }
+                    else if (ultimoRegistro == 2)               // Coleta em andamento
+                    {
+                        btnContinuarColeta.IsVisible = true;
+                    }
                 }
 
                 // Esconde a view 'Realizar Coleta'
-                stRealizarColeta.IsVisible = false;
+                stRealizarColeta.IsVisible      = false;
 
                 // Mostra o filtro e a lista
                 stFiltrarColetas_Moto.IsVisible = false;
@@ -1110,11 +1458,43 @@ namespace Teste03.Views
 
         private async void BtnFinalizar_Clicked(object sender, SelectedItemChangedEventArgs e)
         {
+
+            #region Salva dados para acompanhamento da coleta
+
+            int idAceite = 59; // Id - material entregue
+
+            AcompanhaColeta acompanha;
+
+            AcompanhaController acompanhaController = new AcompanhaController();
+            StatusController    statusController    = new StatusController();
+
+            var statusColeta = await statusController.GetStatus(59);
+
+            #region objeto
+
+            acompanha = new AcompanhaColeta()
+            {
+                IdColeta    = orcam.IdColeta,
+                IdOrcamento = orcam.IdOrcamento,
+                IdCliente   = orcam.IdCliente,
+                IdMotorista = orcam.IdMotorista,
+                DataHora    = DateTime.Now,
+                IdStatus    = idAceite,
+                StatusDesc  = statusColeta.DescricaoStatus
+            };
+
+            #endregion
+
+            await acompanhaController.PostAcompanhaAsync(acompanha);
+
+            #endregion
+
             // Mostra e esconde GRID
             gridRealizar.IsVisible = false;
             gridValor.IsVisible    = true;
 
             lblValor_Final.Text    = value;
+
         }
 
         #endregion
@@ -1123,6 +1503,60 @@ namespace Teste03.Views
 
         private async void BtnRealizarCobranca_Motorista_Clicked(object sender, SelectedItemChangedEventArgs e)
         {
+
+            #region Salva dados para acompanhamento da coleta
+
+            AcompanhaColeta acompanha;
+
+            AcompanhaController acompanhaController = new AcompanhaController();
+            StatusController    statusController    = new StatusController();
+
+            #region Verifica se já foi inserido algum registro com esse ID referente a coleta
+
+            var acompanha_ = await acompanhaController.GetAcompanhaLista_Coleta(orcam.IdColeta);
+
+            var verifica = acompanha_.Where(l => l.IdStatus == 10).ToList();
+
+            if(verifica == null || verifica.Count == 0) // verifica se algum registro igual foi inserido
+            {
+                int idAceite = 10; // Id - finalizada
+                
+                var statusColeta = await statusController.GetStatus(10);
+            
+                #region objeto
+
+                acompanha = new AcompanhaColeta()
+                {
+                    IdColeta    = orcam.IdColeta,
+                    IdOrcamento = orcam.IdOrcamento,
+                    IdCliente   = orcam.IdCliente,
+                    IdMotorista = orcam.IdMotorista,
+                    DataHora    = DateTime.Now,
+                    IdStatus    = idAceite,
+                    StatusDesc  = statusColeta.DescricaoStatus
+                };
+
+                #endregion
+                            
+                await acompanhaController.PostAcompanhaAsync(acompanha);
+            }
+          
+            #endregion
+            
+            #endregion
+
+            var coleta = await coletaControl.GetColeta(orcam.IdColeta);
+
+            coleta.IdStatus = 10;
+
+            var status = await statusController.GetStatus(10);
+
+            // Atualiza status da coleta
+            coleta.DescricaoStatus = status.DescricaoStatus;
+
+            await coletaControl.UpdateColeta(coleta);
+
+            //await DisplayAlert("Sucesso!", "Cobrança realizada com sucesso!", "OK");
             await DisplayAlert("Sucesso!", "Cobrança realizada com sucesso!", "OK");
 
             // Esconde a view de 'Realizar Coleta'
@@ -1133,46 +1567,160 @@ namespace Teste03.Views
             #region Atualiza o orçamento e a coleta (como finalizados)
 
             // Orçamento -------------------------------------------
-            orcam.IdStatus = 9;  // IdStatus: 9 - Finalizado 
+            orcam.IdStatus = 10;  // IdStatus: 10 - Finalizado 
+
+            var stat = await statusController.GetStatus(orcam.IdStatus);
+
+            orcam.DescStatus = stat.DescricaoStatus;
 
             await orcaControl.UpdateOrcamento(orcam, orcam.IdOrcamento);
 
             // Coleta -----------------------------------------------
-            coleta.IdStatus = 9;
+            coleta.IdStatus = 10;
 
             await coletaControl.UpdateColeta(coleta);
 
             #endregion
+
+            // Recarrega a lista
+            ListaMotorista_OrcamentoAsync(0);
 
             // Recarrega a página
             await Navigation.PushModalAsync(new Views.LgOrcamentos());
         }
 
         #endregion
-
         
         #region Btn - Retira
 
         private async void BtnRetirar_Clicked(object sender, SelectedItemChangedEventArgs e)
         {
+            #region Salva dados para acompanhamento da coleta
+
+            int idAceite = 54; // Id - Aguardando motorista se preparar
+
+            AcompanhaColeta acompanha;
+
+            AcompanhaController acompanhaController = new AcompanhaController();
+            StatusController    statusController    = new StatusController();
+
+            var statusColeta = await statusController.GetStatus(54);
+
+            #region objeto
+
+            acompanha = new AcompanhaColeta()
+            {
+                IdColeta    = orcam.IdColeta,
+                IdOrcamento = orcam.IdOrcamento,
+                IdCliente   = orcam.IdCliente,
+                IdMotorista = orcam.IdMotorista,
+                DataHora    = DateTime.Now,
+                IdStatus    = idAceite,
+                StatusDesc  = statusColeta.DescricaoStatus
+            };
+
+            #endregion
+
+            await acompanhaController.PostAcompanhaAsync(acompanha);
+
+            #endregion
+                       
             string retira = enderecoRetirada.Replace(" ", "+");
 
             Uri uri = new Uri(google + "/" + retira);
 
             await OpenBrowser(uri);
+
+            // Btn - Material retirado
+            btnRetirado.IsVisible = true;
         }
 
         #endregion
 
+        #region Btn - Retirado
+
+        private async void btnRetirado_Clicked(object sender, EventArgs e)
+        {
+            #region Salva dados para acompanhamento da coleta
+
+            int idAceite = 56; // Id - Aguardando motorista se preparar
+
+            AcompanhaColeta acompanha;
+
+            AcompanhaController acompanhaController = new AcompanhaController();
+            StatusController    statusController    = new StatusController();
+
+            var statusColeta = await statusController.GetStatus(56);
+
+            #region objeto
+
+            acompanha = new AcompanhaColeta()
+            {
+                IdColeta    = orcam.IdColeta,
+                IdOrcamento = orcam.IdOrcamento,
+                IdCliente   = orcam.IdCliente,
+                IdMotorista = orcam.IdMotorista,
+                DataHora    = DateTime.Now,
+                IdStatus    = idAceite,
+                StatusDesc  = statusColeta.DescricaoStatus
+            };
+
+            #endregion
+
+            await acompanhaController.PostAcompanhaAsync(acompanha);
+
+            #endregion
+
+            btnRetirado.IsVisible = false;
+
+            lbEtapa02.IsVisible   = true;
+            btnEntregar.IsVisible = true;
+        }
+
+        #endregion
+        
         #region Btn - Entrega
 
         private async void BtnEntregar_Clicked(object sender, SelectedItemChangedEventArgs e)
         {
+            #region Salva dados para acompanhamento da coleta
+
+            int idAceite = 57; // Id - Aguardando motorista se preparar
+
+            AcompanhaColeta acompanha;
+
+            AcompanhaController acompanhaController = new AcompanhaController();
+            StatusController    statusController    = new StatusController();
+
+            var statusColeta = await statusController.GetStatus(57);
+
+            #region objeto
+
+            acompanha = new AcompanhaColeta()
+            {
+                IdColeta    = orcam.IdColeta,
+                IdOrcamento = orcam.IdOrcamento,
+                IdCliente   = orcam.IdCliente,
+                IdMotorista = orcam.IdMotorista,
+                DataHora    = DateTime.Now,
+                IdStatus    = idAceite,
+                StatusDesc  = statusColeta.DescricaoStatus
+            };
+
+            #endregion
+
+            await acompanhaController.PostAcompanhaAsync(acompanha);
+
+            #endregion
+
             string entrega = enderecoEntrega.Replace(" ", "+");  // Substitui os espaços
 
             Uri uri = new Uri(google + "/" + entrega);
 
             await OpenBrowser(uri);     // Abre o browser
+
+            // Btn - Entregue
+            btnFinalizar.IsVisible = true;
         }
 
         #endregion
@@ -1206,9 +1754,7 @@ namespace Teste03.Views
         } 
 
         #endregion
-
-        #endregion
-
+        
         #region Mostra e esconde campos
 
         #region EscondeDados_Moto()
@@ -1395,6 +1941,7 @@ namespace Teste03.Views
         {
             await Navigation.PushModalAsync(new Views.LgOrcamentos());
         }
+        
         #endregion
 
         #region Btn - Minha Conta
@@ -1408,3 +1955,4 @@ namespace Teste03.Views
         
     }
 }
+ 

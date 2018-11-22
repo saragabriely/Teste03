@@ -246,7 +246,60 @@ namespace Teste03.Controllers
             catch (Exception ex) {  throw ex;  }
         }
         #endregion
-        
+
+        #region GET - LIST - Coletas - Filtro - Histórico
+        public async Task<List<Coleta>> GetList_Historico(int idMotorista, int idEscolha)
+        {
+            OrcamentoController orcaControl = new OrcamentoController();
+            
+            try
+            {
+                // Captura orçamentos relacionados ao motorista
+                var orcamentos = await orcaControl.GetListOrcamento_Geral(idMotorista);
+
+                // Captura orçamentos aceitos pelo cliente
+                var orcaFiltra = orcamentos.Where(l => l.IdStatus == 1).ToList();
+
+                // Captura os IDs da consulta acima
+                var orcaID = orcaFiltra.Select(l => l.IdColeta).ToList();
+
+                // Todas as coletas
+                var coletas = await GetList();
+
+                // Lista de coletas com os IDs acima
+                var coletaFiltra = coletas.Where(l => orcaID.Contains(l.IdColeta)).ToList();
+
+                /*
+                if(idEscolha == 0)           // todas as coletas
+                {
+                    return coletaFiltra;
+                }
+                else if(idEscolha == 1)     // coletas em andamento
+                {
+                    coletaFiltra_ = coletaFiltra.Where(l => l.IdStatus == 8).ToList();
+
+                    return coletaFiltra_;
+                }
+                else if(idEscolha == 2)     // coletas realizadas
+                {
+                    coletaFiltra_ = coletaFiltra.Where(l => l.IdStatus == 10).ToList();
+
+                    return coletaFiltra_;
+                }
+                else if(idEscolha == 3)     // coletas canceladas
+                {
+                    coletaFiltra_ = coletaFiltra.Where(l => l.IdStatus == 6).ToList();
+
+                    return coletaFiltra_;
+                } */
+
+                return coletaFiltra;
+            }
+            catch (Exception ex)
+            { throw ex; }
+        }
+        #endregion
+
         #endregion
 
         #region Cliente 

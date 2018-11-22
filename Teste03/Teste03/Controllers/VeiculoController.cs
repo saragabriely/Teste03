@@ -18,35 +18,7 @@ namespace Teste03.Controllers
         public List<Veiculo> _listaVeiculos;
 
         #region Acesso a banco
-
-        #region GET - ALL
-        /*
-        public async Task<List<Veiculo>> GetAllVeiculo()
-        {
-            HttpClient client = new HttpClient();
-            try
-            {
-                
-                string webService = url;// + id.ToString();
-
-                var response = await client.GetStringAsync(webService);
-
-                if(response.StatusCode == HttpStatusCode.NotFound)
-                {
-
-                }
-
-                var veiculo = JsonConvert.DeserializeObject<Veiculo>(response);
-
-                return veiculo; 
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        } */
-        #endregion
-            
+                    
         #region INSERT 
         public async Task<bool> PostVeiculoAsync(Veiculo veiculo)
         {
@@ -71,35 +43,38 @@ namespace Teste03.Controllers
         }
         #endregion
 
-        #region GET - LIST
-        public async Task<List<Veiculo>> GetListVeiculo(int id)
+        #region GET - List - Todos 
+        public async Task<List<Veiculo>> GetList()
         {
             HttpClient client = new HttpClient();
             
-            List<Veiculo> _lista;
-            List<Veiculo> _listaA;
-
             try
             {   
                 string webService = url;
 
                 var response = await client.GetStringAsync(webService);
                 
-                var veiculo = JsonConvert.DeserializeObject<List<Veiculo>>(response);
+                var veiculo  = JsonConvert.DeserializeObject<List<Veiculo>>(response);
                 
-                var enti = veiculo.Where(i => i.IdMotorista == id).ToList();
+                return veiculo;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
 
-                var veic = enti.Select(i => new { Texto = string.Format("{0} - {1}", i.Placa, i.Modelo), Valor = i.IdVeiculo }).ToList();
-
-                //_lista = new List<Veiculo>(veiculo);
-
-                _lista = new List<Veiculo>(enti);
+        #region GET - List - IdMotorista
+        public async Task<List<Veiculo>> GetListVeiculo(int idMotorista)
+        {
+            try
+            {
+                var veiculos = await GetList();
                 
-                var teste = _lista.Where(i => i.IdMotorista == id);
-
-                _listaA = new List<Veiculo>(teste);
+                var lista   = veiculos.Where(i => i.IdMotorista == idMotorista).ToList();
                 
-                return _listaA;
+                return lista;
             }
             catch (Exception ex)
             {
@@ -108,13 +83,13 @@ namespace Teste03.Controllers
         }
         #endregion
         
-        #region GET - ID
-        public async Task<Veiculo> GetConta(int id)
+        #region GET - idVeiculo
+        public async Task<Veiculo> GetConta(int idVeiculo)
         {
             HttpClient client = new HttpClient();
             try
             {
-                string webService = url + id.ToString();
+                string webService = url + idVeiculo.ToString();
 
                 var response = await client.GetStringAsync(webService);
 
@@ -128,6 +103,30 @@ namespace Teste03.Controllers
             }
         }
         #endregion
+
+        #region GET - Placa
+        public async Task<Veiculo> GetPlaca(string placa)
+        {
+            HttpClient client = new HttpClient();
+            
+            try
+            {
+                string webService = url + "placa/?placa=" + placa.ToString();
+
+                var response = await client.GetStringAsync(webService);
+
+                var loga = JsonConvert.DeserializeObject<Veiculo>(response);
+
+                return loga;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+
 
         #region UPDATE
         public async Task UpdateVeiculo(Veiculo veiculo, int idVeiculo)
@@ -169,6 +168,50 @@ namespace Teste03.Controllers
             await client.DeleteAsync(uri);
             
         }
+        #endregion
+
+        #region Old - Get id
+
+        /*
+         * #region GET - LIST
+        public async Task<List<Veiculo>> GetListVeiculo(int id)
+        {
+            HttpClient client = new HttpClient();
+            
+            List<Veiculo> _lista;
+            List<Veiculo> _listaA;
+
+            try
+            {   
+                string webService = url;
+
+                var response = await client.GetStringAsync(webService);
+                
+                var veiculo = JsonConvert.DeserializeObject<List<Veiculo>>(response);
+                
+                var enti = veiculo.Where(i => i.IdMotorista == id).ToList();
+
+                var veic = enti.Select(i => new { Texto = string.Format("{0} - {1}", i.Placa, i.Modelo), Valor = i.IdVeiculo }).ToList();
+
+                //_lista = new List<Veiculo>(veiculo);
+
+                _lista = new List<Veiculo>(enti);
+                
+                var teste = _lista.Where(i => i.IdMotorista == id);
+
+                _listaA = new List<Veiculo>(teste);
+                
+                return _listaA;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+         
+         */
+
         #endregion
 
         #endregion

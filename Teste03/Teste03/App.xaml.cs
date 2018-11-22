@@ -18,12 +18,12 @@ namespace Teste03
         public App ()
 		{
             // Models.Session.Instance.IdCliente = 8;
-            // Models.Session.Instance.Cnome = "Teste OK!";
+            // Models.Session.Instance.Cnome     = "Teste OK!";
 
             InitializeComponent();
 
-            MainPage = new Views.LgColetas();
-
+            MainPage = new Views.LgOrcamentos();
+            
             /*
             if(Models.Session.Instance.IdCliente == 0)
             {

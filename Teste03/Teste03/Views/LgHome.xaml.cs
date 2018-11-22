@@ -14,11 +14,11 @@ namespace Teste03.Views
 	public partial class LgHome : ContentPage
 	{
         #region Variáveis - Populando
-        public string nome     = "José Almeida"; //Models.Session.Instance.Cnome;
+        public string nome     =  Models.Session.Instance.Cnome;
 
-        public int idMotorista = 1; // Models.Session.Instance.IdMotorista;    // Motorista: 1; //
-        public int idCliente   = 8; // Models.Session.Instance.IdCliente;      // Motorista: 8; // 7; //
-        public int idTipoUser  = 3; // Models.Session.Instance.IdTipoUsuario;  // Motorista: 3; // 2; //
+        public int idMotorista =  Models.Session.Instance.IdMotorista;    // Motorista: 1; //
+        public int idCliente   =  Models.Session.Instance.IdCliente;      // Motorista: 8; // 7; //
+        public int idTipoUser  =  Models.Session.Instance.IdTipoUsuario;  // Motorista: 3; // 2; //
 
         #endregion
 

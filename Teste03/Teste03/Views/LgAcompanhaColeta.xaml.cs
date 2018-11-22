@@ -21,8 +21,8 @@ namespace Teste03.Views
         public int idStatusColeta;
 
         public int idMotorista =  Models.Session.Instance.IdMotorista;    // Motorista: 1; //
-        public int idCliente   =  7; //Models.Session.Instance.IdCliente;      // Motorista: 8; //  7; //
-        public int idTipoUser  =  2; //Models.Session.Instance.IdTipoUsuario;  // Motorista: 3; // 2; //
+        public int idCliente   =  Models.Session.Instance.IdCliente;      // Motorista: 8; //  7; //
+        public int idTipoUser  =  Models.Session.Instance.IdTipoUsuario;  // Motorista: 3; // 2; //
 
         public string nomeMotorista;
         public string telefoneMotorista;
@@ -40,6 +40,7 @@ namespace Teste03.Views
         OrcamentoController orcaControl         = new OrcamentoController();
         StatusController    statusController    = new StatusController();
         MotoristaController motoristaController = new MotoristaController();
+        VeiculoController   veiculoController   = new VeiculoController();
 
         #endregion
                 
@@ -114,17 +115,18 @@ namespace Teste03.Views
 
                 if (_list == null || _list.Count == 0)
                 {
-                    LstColeta_Cliente.IsVisible = false;
+                    LstColeta_Cliente.IsVisible       = false;
 
-                    lbListaVazia_Andamento.IsVisible = true;
+                    lbListaVazia_Andamento.IsVisible  = true;
 
                     lbListaVazia_Finalizada.IsVisible = false;
                 }
                 else
                 {
-                    LstColeta_Cliente.ItemsSource = _list;
+                    LstColeta_Cliente.IsVisible       = true;
+                    LstColeta_Cliente.ItemsSource     = _list;
 
-                    lbListaVazia_Andamento.IsVisible = false;
+                    lbListaVazia_Andamento.IsVisible  = false;
 
                     lbListaVazia_Finalizada.IsVisible = false;
                 }
@@ -138,7 +140,7 @@ namespace Teste03.Views
 
                 if (_list == null || _list.Count == 0)
                 {
-                    LstColeta_Cliente.IsVisible = false;
+                    LstColeta_Cliente.IsVisible       = false;
 
                     lbListaVazia_Andamento.IsVisible  = false;
 
@@ -146,7 +148,8 @@ namespace Teste03.Views
                 }
                 else
                 {
-                    LstColeta_Cliente.ItemsSource = _list;
+                    LstColeta_Cliente.IsVisible       = true;
+                    LstColeta_Cliente.ItemsSource     = _list;
 
                     lbListaVazia_Andamento.IsVisible  = false;
 
@@ -182,6 +185,8 @@ namespace Teste03.Views
             // obtem os dados do motorista
             var motorista   = await motoristaController.GetMotorista(idMotorista);
             var clienteMoto = await clienteController.GetCliente(idCliente);
+            var veiculo     = await veiculoController.GetConta(orcamento.IdVeiculoUsado);
+
 
             #region Popula
 
@@ -189,6 +194,8 @@ namespace Teste03.Views
             lblNomeMotorista_.Text = clienteMoto.Cnome;
             lblTelMotorista_.Text  = clienteMoto.Ccelular;
             lblQtdeMotorista_.Text = "R$ " + orcamento.Valor;
+            lbVeiculo_.Text        = veiculo.Modelo;
+            lbPlaca_.Text          = veiculo.Placa;
 
             #endregion
 
@@ -258,7 +265,7 @@ namespace Teste03.Views
         }
         #endregion
 
-         #region EscondeCampos()
+        #region EscondeCampos()
 
         private void EscondeCampos()
         {
@@ -304,8 +311,7 @@ namespace Teste03.Views
         #endregion
 
         #endregion
-
-
+        
         #region Navegação entre as telas 
 
         #region Btn - Home
@@ -346,6 +352,6 @@ namespace Teste03.Views
         #endregion
 
         #endregion
-        
+
     }
 }

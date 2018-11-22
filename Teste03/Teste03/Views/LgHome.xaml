@@ -93,11 +93,10 @@
                             
                         <!-- Inicio -->
                         <Label x:Name="lbNotifica__"  FontSize="13" VerticalOptions="Center" HorizontalOptions="Start" IsVisible="False"
-                                    HeightRequest="40" VerticalTextAlignment="Center"  Grid.Column="1" Grid.Row="1" WidthRequest="300" />
+                                    HeightRequest="40" VerticalTextAlignment="Center"  Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" WidthRequest="300" />
 
 
-                        <!-- Notifica coleta -->
-   
+                        <!-- Notifica coleta -->   
                         <Label x:Name="lbNotificacoes" Text="Coletas" FontSize="14" VerticalOptions="Center" HorizontalOptions="Start"
                                FontAttributes="Bold" Grid.Column="1" Grid.Row="3"  />
 
@@ -243,7 +242,6 @@
             </StackLayout>
 
             
-            
             <!-- HOME -->
             <StackLayout Grid.Row="2"  Grid.Column="0" Spacing="-3" >
 
@@ -251,7 +249,7 @@
                     <TapGestureRecognizer Tapped="BtnHome_Clicked" NumberOfTapsRequired="1" />
                 </StackLayout.GestureRecognizers>
 
-                <Image Source="home2.png"    VerticalOptions="CenterAndExpand"     HorizontalOptions="CenterAndExpand"
+                <Image Source="home2.png"    VerticalOptions="End"     HorizontalOptions="CenterAndExpand"
                        HeightRequest="26"   WidthRequest="26"  />
 
                 <Label Text="Página Inicial" FontSize="10"  FontAttributes="Bold"      TextColor="{StaticResource Blue}"  
@@ -266,7 +264,7 @@
                     <TapGestureRecognizer Tapped="BtnColetas_Clicked" NumberOfTapsRequired="1" />
                 </StackLayout.GestureRecognizers>
 
-                <Image Source="car.png"     VerticalOptions="CenterAndExpand"  HorizontalOptions="CenterAndExpand"
+                <Image Source="car.png"     VerticalOptions="End"  HorizontalOptions="CenterAndExpand"
                        HeightRequest="26"   WidthRequest="26"   />
 
                 <Label Text="Coletas" FontSize="10" VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center" />
@@ -280,7 +278,7 @@
                     <TapGestureRecognizer Tapped="BtnPesquisar_Clicked" NumberOfTapsRequired="1" />
                 </StackLayout.GestureRecognizers>
 
-                <Image Source="pesquisar.png"     VerticalOptions="CenterAndExpand"  HorizontalOptions="CenterAndExpand"
+                <Image Source="pesquisar.png"     VerticalOptions="End"  HorizontalOptions="CenterAndExpand"
                        HeightRequest="26"   WidthRequest="26"   />
 
                 <Label Text="Pesquisar" FontSize="10" VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center" />
@@ -294,7 +292,7 @@
                     <TapGestureRecognizer Tapped="BtnOrcamentos_Clicked" NumberOfTapsRequired="1" />
                 </StackLayout.GestureRecognizers>
 
-                <Image Source="orcamentos.png"    VerticalOptions="CenterAndExpand"     HorizontalOptions="CenterAndExpand"
+                <Image Source="orcamentos.png"    VerticalOptions="End"     HorizontalOptions="CenterAndExpand"
                        HeightRequest="26"  WidthRequest="26"   />
 
                 <Label Text="Orçamentos" FontSize="10" VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center" />
@@ -308,7 +306,7 @@
                     <TapGestureRecognizer Tapped="BtnMinhaConta_Clicked" NumberOfTapsRequired="1" />
                 </StackLayout.GestureRecognizers>
 
-                <Image Source="minhaconta.png"  VerticalOptions="CenterAndExpand"  HorizontalOptions="CenterAndExpand"
+                <Image Source="minhaconta.png"  VerticalOptions="End"  HorizontalOptions="CenterAndExpand"
                        HeightRequest="26"    WidthRequest="26"   />
 
                 <Label Text="MinhaConta"   FontSize="10"      

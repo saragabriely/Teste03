@@ -28,6 +28,8 @@
             <Color x:Key="SilverText"    >#333333</Color>
             <Color x:Key="White"         >#ffffff</Color>
             <Color x:Key="WhiteBtn"      >#e8e8e8</Color>
+            <Color x:Key="SilverTxt"     >#8B8682</Color>
+            <Color x:Key="SilverBtn"     >#8B8989</Color> 
 
             <!--
             <StackLayout x:Name="MenuInicial">
