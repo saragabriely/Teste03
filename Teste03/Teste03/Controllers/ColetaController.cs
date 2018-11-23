@@ -355,6 +355,43 @@ namespace Teste03.Controllers
         #endregion
 
         #region GET - GetListColeta_Orcamento(int idCliente)  - Coletas que possuem orçamento
+        public async Task<List<Coleta>> GetListColetaComOrcamento(int idCliente)
+        {
+            // Seleciona as coletas que possuem orçamentos e que estão com o Status = 01
+
+            #region Variáveis e controllers
+
+            List<Coleta>    _listaFiltrada;
+            List<Orcamento> _listaOrca;
+
+            Orcamento           orcamento           = new Orcamento();
+
+            OrcamentoController orcamentoController = new OrcamentoController();
+
+            #endregion
+
+            try
+            {
+                var coleta = await GetList();
+
+                // Retorna todos os orçamentos relacionados ao cliente
+                _listaOrca = await orcamentoController.GetListOrcamento_Cliente(idCliente);
+
+                // Retorna os IDs das coletas
+                var retornaId = _listaOrca.Select(i => i.IdColeta).Distinct().ToList();
+                
+                _listaFiltrada = coleta.Where(l => retornaId.Contains(l.IdColeta)).ToList();
+
+                return _listaFiltrada;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region GET - GetListColeta_Orcamento(int idCliente)  - Coletas que possuem orçamento
         public async Task<List<Coleta>> GetListColeta_Orcamento(int idCliente)
         {
             // Seleciona as coletas que possuem orçamentos e que estão com o Status = 01

@@ -17,8 +17,8 @@ namespace Teste03.Views
 	{
         #region Variaveis e controllers
 
-        public int idCliente     =  Session.Instance.IdCliente;      // Motorista: 8; // 7; // 3; //
-        public int idTipoCliente =  Session.Instance.IdTipoUsuario;  // Motorista: 3 // 2; //
+        public int idCliente     = 8;  // Session.Instance.IdCliente;      // Motorista: 8; // Cliente: 7; // 3; //
+        public int idTipoCliente = 3;  // Session.Instance.IdTipoUsuario;  // Motorista: 3  // Cliente: 2; //
         public int verificaOperacao;
         public int idCol;
         public int verifica;
@@ -30,9 +30,7 @@ namespace Teste03.Views
         public int idColetaOrcamento;
 
         public string itemVeiculo;
-
-        private List<Coleta> coletas;
-
+        
         Coleta colet = new Coleta();
 
         ColetaController    coletaControl    = new ColetaController();

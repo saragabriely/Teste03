@@ -181,7 +181,33 @@ namespace Teste03.Controllers
             }
         }
         #endregion
-        
+
+        #region GET - Lista - Cliente (IdColeta)
+        public async Task<List<Orcamento>> GetListColetaComOrcamento(int idCliente)
+        {
+          //  ColetaController
+
+            try
+            {   // Todos os orçamentos
+                var orcamento = await GetListOrcamento();
+
+                // Seleciona os orçamentos do cliente em questão
+                var enti = orcamento.Where(i => i.IdCliente == idCliente).ToList();
+
+                // Pega o ID das coletas que receberam orçamentos
+                var idColetas = enti.Select(l => l.IdColeta).Distinct().ToList();
+
+                //var coletas = await 
+
+                return enti;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
 
         #region GET - GetListOrcamento_Geral - Motorista - Todos os orçamentos do motorista
         public async Task<List<Orcamento>> GetListOrcamento_Geral(int idMotorista)

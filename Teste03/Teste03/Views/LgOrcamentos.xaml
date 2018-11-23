@@ -37,36 +37,42 @@
                 <!-- Cliente -->
                 <StackLayout x:Name="slCliente" IsVisible="False" >
 
-                    <Label Text="Perfil Cliente" FontSize="14" FontAttributes="Bold" VerticalOptions="Start" HorizontalOptions="Center" />
-
-                    <!-- FILTRO - CLIENTE -->
-                    <StackLayout x:Name="stFiltrarColetas_Cliente" IsVisible="false" Spacing="10"  >
-
-                        <Picker x:Name="etClienteFiltroOrcamento" Title="Escolha uma das opções" FontSize="14" HeightRequest="60"  > 
-                            <!-- Grid.Column="1" Grid.Row="2" SelectedIndexChanged="lstOrcamento_Motorista" -->
-                        </Picker>
-                    </StackLayout>
-
                     <!-- Coletas que possuem orçamentos -->
                     <StackLayout  x:Name="lbColetaOrcamento" IsVisible="true" BackgroundColor="{StaticResource WhiteBtn}"
-                                 HeightRequest="50" >
-                      
-                        <Label x:Name="lbColetaOrcamento_" Text="COLETAS QUE POSSUEM ORÇAMENTOS" FontSize="13" FontAttributes="Bold" 
-                               VerticalOptions="Start"   HorizontalOptions="Center"  Margin="10" TextColor="{StaticResource BlueBtn}" />
+                                 HeightRequest="50" Margin="8" >
+
+                        <Label x:Name="lbColetaOrcamento_" Text="COLETAS QUE RECEBERAM ORÇAMENTOS" FontSize="12" 
+                               VerticalOptions="Start"   HorizontalOptions="Center"  Margin="10" TextColor="{StaticResource Blue}" />
                     </StackLayout>
 
                     <!-- Orçamentos da coleta Tal -->
                     <StackLayout x:Name="stOrca" IsVisible="false" Orientation="Horizontal" BackgroundColor="{StaticResource WhiteBtn}"
                                  HeightRequest="50" >
-                    
-                       <Label x:Name="lbOrcaColeta" Text="Orçamentos da coleta: " FontSize="14" 
+
+                        <Label x:Name="lbOrcaColeta" Text="Orçamentos da coleta: " FontSize="14" 
                               VerticalOptions="Start" HorizontalOptions="Center"  IsVisible="true" Margin="10"  
                               TextColor="{StaticResource BlueBtn}" />
-                       
-                       <Label x:Name="lblOrcaColeta" FontSize="14" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="true"  />
-                    
+
+                        <Label x:Name="lblOrcaColeta" FontSize="14" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="true"  />
+
                     </StackLayout>
-                  
+
+                    <!-- FILTRO - CLIENTE - Coleta -->
+                    <StackLayout x:Name="stFiltrarColetas_Cliente" IsVisible="false"  >
+
+                        <Picker x:Name="etClienteFiltroOrcamento" Title="Escolha uma das opções" FontSize="13" HeightRequest="60" 
+                                SelectedIndexChanged="lstOrcamento_" > 
+                        </Picker>
+                    </StackLayout>
+
+                    <!-- FILTRO - CLIENTE - Orçamentos -->
+                    <StackLayout x:Name="stFiltrarColetas_Cliente_Orca" IsVisible="false"  >
+
+                        <Picker x:Name="etClienteFiltroOrcamento_Coleta" Title="Escolha uma das opções" FontSize="13" HeightRequest="60" 
+                                SelectedIndexChanged="lstOrcamento_Colet" >
+                        </Picker>
+                    </StackLayout>
+
                     <!-- LISTA - 01 - CLIENTE -->
                     <StackLayout x:Name="stListaCliente" IsVisible="true" Spacing="-3" >
 
@@ -93,13 +99,16 @@
                                 <RowDefinition Height="35" />
                             </Grid.RowDefinitions>
 
-                            <Label x:Name="lbApelido"  Text="Apelido"     FontSize="13" FontAttributes="Bold" Grid.Column="0" Grid.Row="0"  VerticalTextAlignment="Center" />
+                            <Label x:Name="lbApelido"  Text="Apelido"     FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="0"  
+                                   VerticalTextAlignment="Center" TextColor="{StaticResource Blue}" />
                                                                             
-                            <Label x:Name="lbValor_"   Text="Data"        FontSize="13" FontAttributes="Bold" Grid.Column="1" Grid.Row="0" VerticalTextAlignment="Center" />
+                            <Label x:Name="lbValor_"   Text="Data"        FontSize="12" FontAttributes="Bold" Grid.Column="1" Grid.Row="0" 
+                                   VerticalTextAlignment="Center" TextColor="{StaticResource Blue}" />
                           
-                            <Label x:Name="lbQtde"     Text="Orçamentos"  FontSize="13" FontAttributes="Bold" Grid.Column="2" Grid.Row="0" VerticalTextAlignment="Center" />
+                            <Label x:Name="lbQtde"     Text="Orçamentos"  FontSize="12" FontAttributes="Bold" Grid.Column="2" Grid.Row="0"
+                                   VerticalTextAlignment="Center" TextColor="{StaticResource Blue}" />
                             
-                            <Label x:Name="lbListaVaziaMoto_" Text="Você não possui orçamentos!" FontSize="14" FontAttributes="Bold"
+                            <Label x:Name="lbListaVaziaMoto_" FontSize="13" HorizontalTextAlignment="Center"
                                Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="3" IsVisible="false"  />
 
                             <!-- LIST VIEW -->
@@ -112,16 +121,16 @@
 
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
-                                                      <ColumnDefinition  Width="130" />
+                                                      <ColumnDefinition  Width="125" />
                                                       <ColumnDefinition  Width="110" />
                                                       <ColumnDefinition  Width="80"  />
                                                     </Grid.ColumnDefinitions>
 
                                                     <Grid.RowDefinitions > <RowDefinition Height="35" /> </Grid.RowDefinitions>
 
-                                                    <Label Text="{Binding ApelidoColeta}"  FontSize="13" Grid.Column="0" Grid.Row="0" 
+                                                    <Label Text="{Binding ApelidoColeta}"  FontSize="12" Grid.Column="0" Grid.Row="0" 
                                                            VerticalTextAlignment="Center"/>
-                                                    <Label Text="{Binding DataCadastro}"   FontSize="13" Grid.Column="1" Grid.Row="0"
+                                                    <Label Text="{Binding DataCadastro}"   FontSize="12" Grid.Column="1" Grid.Row="0"
                                                            VerticalTextAlignment="Center" />
                                                 </Grid>
                                             </StackLayout>
@@ -138,7 +147,7 @@
 
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition  Width="62" />
+                                <ColumnDefinition  Width="55" />
                                 <ColumnDefinition  Width="95" />
                                 <ColumnDefinition  Width="80"  />
                             </Grid.ColumnDefinitions>
@@ -153,26 +162,19 @@
                                 <RowDefinition Height="35" />
                                 <RowDefinition Height="35" />
                                 <RowDefinition Height="35" />
-                                <RowDefinition Height="35" />
-                                <RowDefinition Height="35" />
-                                <RowDefinition Height="35" />
-                                <RowDefinition Height="35" />
-                                <RowDefinition Height="35" />
-                                <RowDefinition Height="35" />
-                                <RowDefinition Height="35" /> 
-                                <RowDefinition Height="35" />
-                                <RowDefinition Height="35" />
-                                <RowDefinition Height="35" />
-                                <RowDefinition Height="35" />
-                                <RowDefinition Height="35" />
                             </Grid.RowDefinitions>
 
-                            <Label x:Name="lbValor_C"  Text="Valor"             FontSize="13" FontAttributes="Bold" Grid.Column="0" Grid.Row="0" VerticalTextAlignment="Center"   />
+                            <Label x:Name="lbValor_C"  Text="Valor"             FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="0" 
+                                   VerticalTextAlignment="Center" TextColor="{StaticResource Blue}"  />
                                                                             
-                            <Label x:Name="lbData_C"   Text="Data de Cadastro"  FontSize="13" FontAttributes="Bold" Grid.Column="1" Grid.Row="0" VerticalTextAlignment="Center"   />
+                            <Label x:Name="lbData_C"   Text="Data de Cadastro"  FontSize="12" FontAttributes="Bold" Grid.Column="1" Grid.Row="0" 
+                                   VerticalTextAlignment="Center" TextColor="{StaticResource Blue}"  />
                                                                                
-                            <Label x:Name="lbStatus_C" Text="Status"            FontSize="13" FontAttributes="Bold" Grid.Column="2" Grid.Row="0" VerticalTextAlignment="Center"   />
+                            <Label x:Name="lbStatus_C" Text="Status"            FontSize="12" FontAttributes="Bold" Grid.Column="2" Grid.Row="0"
+                                   VerticalTextAlignment="Center" TextColor="{StaticResource Blue}"   />
 
+                            <Label x:Name="lbResultado_Vazio" Text="Status"            FontSize="13"  Grid.Column="0" Grid.Row="1"  IsVisible="False"
+                                   Grid.ColumnSpan="4" Grid.RowSpan="2"         VerticalTextAlignment="Center"   HorizontalTextAlignment="Center"  />
 
                             <!-- LIST VIEW -->
                             <ListView x:Name="LstOrcamento_Cliente_02" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="8"
@@ -184,23 +186,23 @@
 
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
-                                                      <ColumnDefinition  Width="62" />
+                                                      <ColumnDefinition  Width="55" />
                                                       <ColumnDefinition  Width="95" />
-                                                      <ColumnDefinition  Width="40" />
-                                                      <ColumnDefinition  Width="40" />
+                                                      <ColumnDefinition  Width="80"  />
+                                                      
                                                     </Grid.ColumnDefinitions>
 
                                                     <Grid.RowDefinitions >
                                                         <RowDefinition Height="35" />
                                                     </Grid.RowDefinitions>
 
-                                                    <Label Text="{Binding Valor}"            FontSize="13" Grid.Column="0" Grid.Row="0" 
+                                                    <Label Text="{Binding Valor}"            FontSize="12" Grid.Column="0" Grid.Row="0" 
                                                            VerticalTextAlignment="Center"/>
                                                     
-                                                    <Label Text="{Binding DataCadastro}"     FontSize="13" Grid.Column="1" Grid.Row="0"
+                                                    <Label Text="{Binding DataCadastro}"     FontSize="12" Grid.Column="1" Grid.Row="0"
                                                            VerticalTextAlignment="Center" />
                                                   
-                                                    <Label Text="{Binding IdStatus}"         FontSize="13" Grid.Column="2" Grid.Row="0" 
+                                                    <Label Text="{Binding DescStatus}"        FontSize="12" Grid.Column="2" Grid.Row="0" 
                                                            VerticalTextAlignment="Center" /> 
                                                                                                                                                       
                                                 </Grid>
@@ -310,7 +312,7 @@
                          
                           <Label x:Name="lblNomeMotorista_"  FontSize="14"  IsVisible="False" BackgroundColor="{StaticResource WhiteBtn}"
                                  Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="5" VerticalOptions="End" HeightRequest="100"
-                                 VerticalTextAlignment="Center"   />
+                                 VerticalTextAlignment="Center" HorizontalTextAlignment="Center"    />
 
                           <!-- Coletas realizadas - Motorista -->
                           <Label x:Name="lbQtdeMotorista" Text="Coletas realizadas" FontSize="13" FontAttributes="Bold" IsVisible="False"
@@ -319,12 +321,12 @@
 
                           <Label x:Name="lblQtdeMotorista_"  FontSize="14"  IsVisible="False" BackgroundColor="{StaticResource WhiteBtn}"
                                  Grid.Column="6" Grid.Row="6" Grid.ColumnSpan="3" VerticalOptions="End" HeightRequest="100"
-                                 VerticalTextAlignment="Center"   />
+                                 VerticalTextAlignment="Center" HorizontalTextAlignment="Center"  />
                                                     
                           
                           <!-- Recusar orçamento -->
                           <Label x:Name="lbRecusar" Text="RECUSAR" TextColor="{StaticResource Red}" FontSize="15"
-                                 HorizontalTextAlignment="Center" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="3" IsVisible="true" 
+                                 HorizontalTextAlignment="Center" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="3" IsVisible="false" 
                                  VerticalOptions="End"  >
                             <Label.GestureRecognizers>
                               <TapGestureRecognizer Tapped="LblRecusarOrcamento" NumberOfTapsRequired="1" />
@@ -333,7 +335,7 @@
 
                           <!-- Aceitar orçamento -->
                           <Label x:Name="lbAceitar" Text="ACEITAR" TextColor="{StaticResource GreenBtn}"  FontSize="15"
-                                 HorizontalTextAlignment="Center" Grid.Column="5" Grid.Row="7" Grid.ColumnSpan="3" IsVisible="true" 
+                                 HorizontalTextAlignment="Center" Grid.Column="5" Grid.Row="7" Grid.ColumnSpan="3" IsVisible="false" 
                                  VerticalOptions="End" >
                             <Label.GestureRecognizers>
                               <TapGestureRecognizer Tapped="LblAceitarOrcamento" NumberOfTapsRequired="1" />
@@ -949,6 +951,7 @@
 
                                         <Grid.RowDefinitions >
                                             <RowDefinition Height="25" />
+                                            <RowDefinition Height="30" />
                                             <RowDefinition Height="30" />
                                             <RowDefinition Height="30" />
                                             <RowDefinition Height="30" />

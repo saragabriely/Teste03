@@ -21,10 +21,11 @@ namespace Teste03.Views
         public int idStatusColeta;
         public int ultimoRegistro;
         public int idAcompanha;
+        public int option;
 
-        public int idMotorista = 1; // Models.Session.Instance.IdMotorista;    // Motorista: 1; //
-        public int idCliente   = 8; // Models.Session.Instance.IdCliente;      // Motorista: 8; //  7; //
-        public int idTipoUser  = 3; // Models.Session.Instance.IdTipoUsuario;  // Motorista: 3; // 2; //
+        public int idMotorista = Session.Instance.IdMotorista;    // Motorista: 1; //
+        public int idCliente   = Session.Instance.IdCliente;      // Motorista: 8; // Cliente: 7; //
+        public int idTipoUser  = Session.Instance.IdTipoUsuario;  // Motorista: 3; // Cliente: 2; //
 
         public string enderecoRetirada;
         public string enderecoEntrega;
@@ -64,9 +65,10 @@ namespace Teste03.Views
                 slMotorista.IsVisible = false;
                 slCliente.IsVisible   = true;
 
-                ListaColetas_Orcamento(idCliente);
+                stFiltrarColetas_Cliente.IsVisible = true;
+                //ListaColetas_Orcamento(idCliente);
 
-                //Filtro_Cliente();
+                Filtro_Cliente(1);
             }
             
             #endregion
@@ -80,54 +82,118 @@ namespace Teste03.Views
 
         #region Filtro_Cliente()
 
-        private void Filtro_Cliente()
+        private void Filtro_Cliente(int opcao)
         {
-            #region Lista - Encontrar
-
-            List<string> lstOrcamento_Cliente = new List<string>
+            if (opcao == 1)                         // Mostra opções - Coletas com orçamentos
             {
-                "TODOS OS ORÇAMENTOS",
-                "Orçamentos novos",
-                "Orçamentos aceitos",
-                "Orçamentos rejeitados"
-            };
+                #region Lista - Encontrar
 
-            #endregion
+                List<string> lstOrcamento_Cliente = new List<string>
+                {
+                    "Coleta(s) ainda não finalizadas/iniciadas",
+                    "Coleta(s) em andamento",
+                    "Coleta(s) cancelada(s)",
+                    "Coletas finalizadas",
+                    "Todas as coletas que receberam orçamento(s)"
+                };
 
-            // 1 - Carrega o dropdown
-            etClienteFiltroOrcamento.ItemsSource = lstOrcamento_Cliente;
-            etClienteFiltroOrcamento.SelectedIndex = 0;
+                #endregion
 
-            // 2 - Atualiza a lista de acordo com a opção escolhida
-            ListaCliente_OrcamentoAsync(0);
+                // 1 - Carrega o dropdown
+                etClienteFiltroOrcamento.ItemsSource = lstOrcamento_Cliente;
+                etClienteFiltroOrcamento.SelectedIndex = 0;
+
+                // 2 - Atualiza a lista de acordo com a opção escolhida
+                //ListaColetas_Orcamento(idCliente);
+
+                option = 1;
+            }
+            else if(opcao == 2)                     // Mostrar opções - Orçamentos
+            {
+                #region Lista - Encontrar
+
+                List<string> lstOrcamento_Cliente = new List<string>
+                {
+                    "TODOS OS ORÇAMENTOS",
+                    "Orçamentos pendentes de aprovação",
+                    "Orçamentos aceitos",
+                    "Orçamentos finalizados",
+                    "Orçamentos recusados",
+                    "Orçamentos cancelados"
+                };
+
+                #endregion
+
+                // 1 - Carrega o dropdown
+                etClienteFiltroOrcamento_Coleta.ItemsSource   = lstOrcamento_Cliente;
+                etClienteFiltroOrcamento_Coleta.SelectedIndex = 0;
+
+               // option = 2;
+
+                // 2 - Atualiza a lista de acordo com a opção escolhida
+                // ListaColetas_Orcamento(idCliente);
+            }
+        }
+        #endregion
+
+        #region Filtro - Coleta - Orçamento - Cliente
+        private void lstOrcamento_(object sender, EventArgs e)
+        {
+            var itemSelecionado = etClienteFiltroOrcamento.Items[etClienteFiltroOrcamento.SelectedIndex];
+
+            if (itemSelecionado.Equals("Coleta(s) ainda não finalizadas/iniciadas"))
+            {
+                ListaCliente_OrcamentoAsync(0);
+            }
+            else if (itemSelecionado.Equals("Coleta(s) em andamento"))
+            {
+                ListaCliente_OrcamentoAsync(1);
+            }
+            else if (itemSelecionado.Equals("Coleta(s) cancelada(s)"))
+            {
+                ListaCliente_OrcamentoAsync(2);
+            }
+            else if (itemSelecionado.Equals("Coletas finalizadas"))
+            {
+                ListaCliente_OrcamentoAsync(3);
+            }
+            else if (itemSelecionado.Equals("Todas as coletas que receberam orçamento(s)"))
+            {
+                ListaCliente_OrcamentoAsync(4);
+            }
         }
         #endregion
 
         #region Filtro - Orçamento - Cliente
-        private void pckClienteFiltroOrcamento(object sender, EventArgs e)
+        private void lstOrcamento_Colet(object sender, EventArgs e)
         {
-            var itemSelecionado = etClienteFiltroOrcamento.Items[etClienteFiltroOrcamento.SelectedIndex];
-
+            var itemSelecionado = etClienteFiltroOrcamento_Coleta.Items[etClienteFiltroOrcamento_Coleta.SelectedIndex];
+           
             if (itemSelecionado.Equals("TODOS OS ORÇAMENTOS"))
             {
-                ListaCliente_OrcamentoAsync(0);
+                ListaColetas_Orcamento_(idCol, 0);
             }
-            else if (itemSelecionado.Equals("Orçamentos novos"))
+            else if (itemSelecionado.Equals("Orçamentos pendentes de aprovação"))
             {
-                ListaCliente_OrcamentoAsync(1);
+                ListaColetas_Orcamento_(idCol, 1);
             }
             else if (itemSelecionado.Equals("Orçamentos aceitos"))
             {
-                ListaCliente_OrcamentoAsync(2);
+                ListaColetas_Orcamento_(idCol, 2);
             }
-            else if (itemSelecionado.Equals("Orçamentos rejeitados"))
+            else if (itemSelecionado.Equals("Orçamentos finalizados"))
             {
-                ListaCliente_OrcamentoAsync(3);
+                ListaColetas_Orcamento_(idCol, 3);
+            }
+            else if (itemSelecionado.Equals("Orçamentos recusados"))
+            {
+                ListaColetas_Orcamento_(idCol, 4);
             }
             else if (itemSelecionado.Equals("Orçamentos cancelados"))
             {
-                ListaCliente_OrcamentoAsync(4);
+                ListaColetas_Orcamento_(idCol, 5);
             }
+            
         }
         #endregion
 
@@ -138,26 +204,26 @@ namespace Teste03.Views
         #region Lista 01 - Coletas com orçamento
 
         #region ListaColetas_Orcamento (coletas que possuem orçamento)
-
+/*
         public async void ListaColetas_Orcamento(int idCliente)
         {
-            List<Coleta> _list;
+            #region Variáveis
+            
+            string todos      = "Nenhum resultado foi encontrado para essa pesquisa.";
+            string pendente   = "Nenhum orçamento pendente foi encontrado."; 
+            string aceito     = "Nenhum orçamento aceito foi encontrado";
+            string finalizado = "Nenhum orçamento finalizado foi encontrado.";
+            string cancelado  = "Nenhum orçamento cancelado foi encontrado.";
 
+            List<Orcamento> _list;
             _list = null;
 
-            _list = await coletaControl.GetListColeta_Orcamento(idCliente);
-
-            if (_list == null)
-            {
-                LstOrcamento_Cliente.IsVisible = false;
-            }
-            else
-            {
-                LstOrcamento_Cliente.ItemsSource = _list;
-            }
+            #endregion
             
-        }
 
+
+        }
+        */
         #endregion
         
         #region Lista de coletas - Item selecionado
@@ -171,18 +237,22 @@ namespace Teste03.Views
             var orcamento = e.SelectedItem as Coleta;
 
             lblOrcaColeta.Text = "'" + orcamento.ApelidoColeta + "'";
-
+            
             // Mostra
-            stFiltrarColetas_Cliente.IsVisible = false;
-            stOrca.IsVisible                   = true;
+            stFiltrarColetas_Cliente_Orca.IsVisible = true;
+            stOrca.IsVisible                        = true;
+
+            // Popula o dropdown com novas opções
+            Filtro_Cliente(2);
 
             //  Esconde
-            stListaCliente.IsVisible    = false;
-            lbColetaOrcamento.IsVisible = false;
+            stListaCliente.IsVisible           = false;
+            lbColetaOrcamento.IsVisible        = false;
+            stFiltrarColetas_Cliente.IsVisible = false;
 
             idCol = orcamento.IdColeta;
 
-            ListaColetas_Orcamento_(orcamento.IdColeta);
+            ListaColetas_Orcamento_(idCol, 0);
 
             stBtnVoltar_Cliente_.IsVisible = false;
         }
@@ -192,34 +262,181 @@ namespace Teste03.Views
 
         #region Lista 02 - Orçamentos
 
-        #region ListaColetas_Orcamento (coletas que possuem orçamento)
+        #region ListaColetas_Orcamento_ (coletas que possuem orçamento)
 
-        public async void ListaColetas_Orcamento_(int idColeta)
+        public async void ListaColetas_Orcamento_(int idColeta, int opcao)
         {
-            StatusController statusController = new StatusController();
+            #region Variáveis e controllers
+
+            string aceito      = "Nenhum orçamento aceito (e que a coleta ainda não foi finalizada) foi encontrado.";
+            string cancelados  = "Nenhum orçamento cancelados, para a coleta em questão, foi localizado.";
+            string finalizados = "Nenhum orçamento finalizado foi encontrado (orçamentos aceitos e que a coleta já foi finalizada).";
+            string todos       = "Nenhum orçamento foi localizado.";
+            string pendente    = "Nenhum orçamento pendente de aprovação, para a coleta em questão, foi encontrado.";
+            string rejeitados  = "Nenhum orçamento rejeitado, para a coleta em questão, foi encontrado";
             
-            var _list = await orcaControl.GetListOrcamento_Cliente_(idColeta);
-
-            var id = _list.Select(l => l.IdStatus).ToList();
-
-            //var status = await statusController.GetStatus();
-
-            if (_list == null)
-            {
-                LstOrcamento_Cliente_02.IsVisible = false;
-            }
-            else
-            {
-                // Mostra a lista 02
-                stListaMoto_02.IsVisible = true;
-
-                LstOrcamento_Cliente_02.ItemsSource = _list;
-            }
+            #endregion
             
+            var lista = await orcaControl.GetListOrcamento();
+
+            lista = lista.Where(l => l.IdColeta == idColeta).ToList();
+
+            #region Todos os orçamentos
+            if (opcao == 0)                                         // "TODOS OS ORÇAMENTOS"
+            {
+                // var lista = await orcaControl.GetListOrcamento();
+
+                var _list = lista.Where(l => l.IdColeta == idCol).ToList();
+
+                if (_list == null || _list.Count == 0)
+                {
+                    LstOrcamento_Cliente_02.IsVisible = false;
+
+                    lbResultado_Vazio.Text     = todos;
+                    lbResultado_Vazio.IsVisible = true;
+                }
+                else
+                {
+                    lbResultado_Vazio.IsVisible = false;
+
+                    // Mostra a lista 02
+                    stListaMoto_02.IsVisible = true;
+
+                    LstOrcamento_Cliente_02.ItemsSource = _list;
+                    LstOrcamento_Cliente_02.IsVisible   = true;
+                }
+            }
+            #endregion
+
+            #region Orçamentos pendentes de aprovação
+            else if (opcao == 1)                                         // "Orçamentos pendentes de aprovação" - Id: 13
+            {
+                lista = lista.Where(l => l.IdStatus == 13).ToList();
+
+                if (lista == null || lista.Count == 0)
+                {
+                    LstOrcamento_Cliente_02.IsVisible = false;
+
+                    lbResultado_Vazio.Text = pendente;
+                    lbResultado_Vazio.IsVisible = true;
+                }
+                else
+                {
+                    lbResultado_Vazio.IsVisible = false;
+
+                    // Mostra a lista 02
+                    stListaMoto_02.IsVisible = true;
+
+                    LstOrcamento_Cliente_02.ItemsSource = lista;
+                    LstOrcamento_Cliente_02.IsVisible = true;
+                }
+            }
+            #endregion
+
+            #region Orçamentos aceitos
+            else if (opcao == 2)                                         // "Orçamentos aceitos" - Id: 1
+            {
+                lista = lista.Where(l => l.IdStatus == 1).ToList();
+
+                if (lista == null || lista.Count == 0)
+                {
+                    LstOrcamento_Cliente_02.IsVisible = false;
+
+                    lbResultado_Vazio.Text = aceito;
+                    lbResultado_Vazio.IsVisible = true;
+                }
+                else
+                {
+                    lbResultado_Vazio.IsVisible = false;
+
+                    // Mostra a lista 02
+                    stListaMoto_02.IsVisible = true;
+
+                    LstOrcamento_Cliente_02.ItemsSource = lista;
+                    LstOrcamento_Cliente_02.IsVisible = true;
+                }
+            }
+            #endregion
+
+            #region Orçamentos finalizados
+            else if (opcao == 3)                                         // "Orçamentos finalizados" - Id: 10
+            {
+                lista = lista.Where(l => l.IdStatus == 10).ToList();
+
+                if (lista == null || lista.Count == 0)
+                {
+                    LstOrcamento_Cliente_02.IsVisible = false;
+
+                    lbResultado_Vazio.Text = finalizados;
+                    lbResultado_Vazio.IsVisible = true;
+                }
+                else
+                {
+                    lbResultado_Vazio.IsVisible = false;
+
+                    // Mostra a lista 02
+                    stListaMoto_02.IsVisible = true;
+
+                    LstOrcamento_Cliente_02.ItemsSource = lista;
+                    LstOrcamento_Cliente_02.IsVisible = true;
+                }
+            }
+            #endregion
+
+            #region Orçamentos recusados
+            else if (opcao == 4)                                         // "Orçamentos recusado"
+            {
+                lista = lista.Where(l => l.IdStatus == 14).ToList();
+
+                if (lista == null || lista.Count == 0)
+                {
+                    LstOrcamento_Cliente_02.IsVisible = false;
+
+                    lbResultado_Vazio.Text = rejeitados;
+                    lbResultado_Vazio.IsVisible = true;
+                }
+                else
+                {
+                    lbResultado_Vazio.IsVisible = false;
+
+                    // Mostra a lista 02
+                    stListaMoto_02.IsVisible = true;
+
+                    LstOrcamento_Cliente_02.ItemsSource = lista;
+                    LstOrcamento_Cliente_02.IsVisible = true;
+                }
+            }
+            #endregion
+
+            #region Orçamentos cancelados
+            else if (opcao == 5)                                         // "Orçamentos cancelados" - Id: 6
+            {
+                lista = lista.Where(l => l.IdStatus == 6).ToList();
+
+                if (lista == null || lista.Count == 0)
+                {
+                    LstOrcamento_Cliente_02.IsVisible = false;
+
+                    lbResultado_Vazio.Text = cancelados;
+                    lbResultado_Vazio.IsVisible = true;
+                }
+                else
+                {
+                    lbResultado_Vazio.IsVisible = false;
+
+                    // Mostra a lista 02
+                    stListaMoto_02.IsVisible = true;
+
+                    LstOrcamento_Cliente_02.ItemsSource = lista;
+                    LstOrcamento_Cliente_02.IsVisible = true;
+                }
+            }
+            #endregion
+
         }
         #endregion
-        
-        #region Lista de coletas - Item selecionado
+
+        #region Lista de coletas - Item selecionado - 02
         private async void LstOrcamentoCliente_02_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem == null)
@@ -243,9 +460,24 @@ namespace Teste03.Views
             // Captura o nome do motorista
             cliMotorista = await clienteController.GetCliente(motorista.IdCliente);
 
-            // Nome do motorista
-            lblNomeMotorista_.Text = cliMotorista.Cnome;
+            #region Dados do motorista
             
+            // seleciona todos os orçamentos
+            var number = await orcaControl.GetListOrcamento();
+
+            // filtra pelo id do motorista e pelo status do orçamento (10 - finalizado)
+            number = number.Where(l => l.IdMotorista == motorista.IdMotorista)
+                           .Where(l => l.IdStatus == 10)
+                           .ToList();
+
+            int somaColetas = number.Count();
+
+            // Popula campos
+            lblNomeMotorista_.Text = cliMotorista.Cnome;
+            lblQtdeMotorista_.Text = somaColetas.ToString();  // Total de coleta
+
+            #endregion
+
             #region Popula
 
             // Popula as informações da coleta
@@ -260,15 +492,28 @@ namespace Teste03.Views
             LstOrcamento_Motorista.SelectedItem = null;
 
             #region Esconde
+            
+            stListaMoto_02.IsVisible = false;   // Lista
 
-            // Esconde a lista
-            stListaMoto_02.IsVisible = false;
+            stBtnVoltar_Cliente_.IsVisible = false; // Botão
 
-            stBtnVoltar_Cliente_.IsVisible = false;
+            stFiltrarColetas_Cliente_Orca.IsVisible = false;  // Filtro
 
             #endregion
 
             slClienteEncontrarColeta_Lista.IsVisible = true;
+
+            // Verifica orçamento
+            if(orcam.IdStatus == 13)  // 13 - Aguardando orçamento
+            {
+                lbRecusar.IsVisible = true;
+                lbAceitar.IsVisible = true;
+            }
+            else
+            {
+                lbRecusar.IsVisible = false;
+                lbAceitar.IsVisible = false;
+            }
 
             // Mostra os campos
             MostraOrcamento_();
@@ -361,50 +606,131 @@ namespace Teste03.Views
         #region ListaCliente_OrcamentoAsync(int i)  (lista dos orçamentos por coleta)
 
         public async void ListaCliente_OrcamentoAsync(int i)
-        {
+        {  
+            #region Variáveis
+
+            string naofinalizada = "Nenhum resultado foi encontrado para essa pesquisa.";
+            string andamento     = "Nenhuma coleta em andamento foi encontrada."; 
+            string canceladas    = "Nenhuma coleta cancelada recebeu orçamento.";
+            string finalizadas   = "Nenhuma coleta finalizada foi encontrada.";
+            string todas         = "Nenhuma coleta recebeu orçamento;";
+
+            List<Coleta>     list;
             List<Orcamento> _list;
-
             _list = null;
+            list = null;
 
-            if (i == 0)                                                             // TODOS OS ORÇAMENTOS
-            {
-                List<Orcamento> listaa = new List<Orcamento>();
+            #endregion
 
-               // _list = await orcaControl.GetListOrcamentos(idCliente);             // IdMotorista e IdStatus
-
-                if (_list == null)
+             list = await coletaControl.GetListColetaComOrcamento(idCliente);
+            
+            #region Coletas ainda não finalizadas
+                if (i == 0)                                                             // Coletas ainda não finalizadas
                 {
-                    LstOrcamento_Motorista.IsVisible = false;
+                    list = list.Where(l => l.IdStatus == 13).ToList();
+
+                    if (list == null || list.Count == 0)
+                    {
+                        LstOrcamento_Cliente.IsVisible = false;
+
+                        lbListaVaziaMoto_.Text = naofinalizada;
+                        lbListaVaziaMoto_.IsVisible = true;
+                    }
+                    else
+                    {
+                        LstOrcamento_Cliente.ItemsSource = _list;
+                        LstOrcamento_Cliente.IsVisible = true;
+
+                        lbListaVaziaMoto_.IsVisible = false;
+                    }
                 }
-                else
+                #endregion
+
+            #region Coletas em andamento
+                else if (i == 1)                                                        // COLETAS EM ANDAMENTO
                 {
-                    LstOrcamento_Motorista.ItemsSource = _list;
+                    list = list.Where(l => l.IdStatus == 8).ToList();
+
+                    if (list == null || list.Count == 0)
+                    {
+                        LstOrcamento_Cliente.IsVisible = false;
+
+                        lbListaVaziaMoto_.Text = andamento;
+                        lbListaVaziaMoto_.IsVisible = true;
+                    }
+                    else
+                    {
+                        LstOrcamento_Cliente.ItemsSource = list;
+                        LstOrcamento_Cliente.IsVisible = true;
+
+                        lbListaVaziaMoto_.IsVisible = false;
+                    }
                 }
-            }
-            else if (i == 1)                                                        // ORÇAMENTOS PENDENTES DE APROVAÇÃO 
-            {                                                                       // (Aguardando aprovacao - 13)
-                _list = await orcaControl.GetListOrcamento(idMotorista, 13);
+                #endregion
 
-                LstOrcamento_Motorista.ItemsSource = _list;
-            }
-            else if (i == 2)                                                        // ORÇAMENTOS ACEITOS (Aceito - 1)
-            {
-                _list = await orcaControl.GetListOrcamento(idMotorista, 1);
+            #region Coletas canceladas
+                else if (i == 2)
+                {
+                    list = list.Where(l => l.IdStatus == 6).ToList();
 
-                LstOrcamento_Motorista.ItemsSource = _list;
-            }
-            else if (i == 3)                                                        // ORÇAMENTOS REJEITADOS (Rejeitado - 14)
-            {
-                _list = await orcaControl.GetListOrcamento(idMotorista, 14); ;
+                    if (list == null || list.Count == 0)
+                    {
+                        LstOrcamento_Cliente.IsVisible = false;
 
-                LstOrcamento_Motorista.ItemsSource = _list;
-            }
-            else if (i == 4)                                                        // ORÇAMENTOS CANCELADOS (Cancelado - 6)
-            {
-                _list = await orcaControl.GetListOrcamento(idMotorista, 6);
+                        lbListaVaziaMoto_.Text = canceladas;
+                        lbListaVaziaMoto_.IsVisible = true;
+                    }
+                    else
+                    {
+                        LstOrcamento_Cliente.IsVisible = true;
+                        LstOrcamento_Cliente.ItemsSource = list;
 
-                LstOrcamento_Motorista.ItemsSource = _list;
-            }
+                        lbListaVaziaMoto_.IsVisible = false;
+                    }
+                }
+                #endregion
+
+            #region Coletas finalizadas
+                else if (i == 3)                                                        // 10
+                {
+                    list = list.Where(l => l.IdStatus == 10).ToList();
+
+                    if (list == null || list.Count == 0)
+                    {
+                        LstOrcamento_Cliente.IsVisible = false;
+
+                        lbListaVaziaMoto_.Text = finalizadas;
+                        lbListaVaziaMoto_.IsVisible = true;
+                    }
+                    else
+                    {
+                        LstOrcamento_Cliente.ItemsSource = list;
+                        LstOrcamento_Cliente.IsVisible = true;
+
+                        lbListaVaziaMoto_.IsVisible = false;
+                    }
+                }
+                #endregion
+
+            #region Todas as coletas que receberam orçamentos
+                else if (i == 4)                                                        // Todas as coletas que receberam orçamentos
+                {
+                    if (list == null || list.Count == 0)
+                    {
+                        LstOrcamento_Cliente.IsVisible = false;
+
+                        lbListaVaziaMoto_.Text = todas;
+                        lbListaVaziaMoto_.IsVisible = true;
+                    }
+                    else
+                    {
+                        LstOrcamento_Cliente.IsVisible = true;
+                        LstOrcamento_Cliente.ItemsSource = list;
+                        lbListaVaziaMoto_.IsVisible = false;
+                    }
+                }
+                #endregion
+    
         }
         #endregion
 
@@ -422,11 +748,13 @@ namespace Teste03.Views
 
                 stListaMoto_02.IsVisible = true;
 
+                stFiltrarColetas_Cliente_Orca.IsVisible = true;
+
                 // Esconde o botão 'Voltar'
                 stBtnVoltar_Cliente.IsVisible = false;
 
                 // Atualiza a lista de orçamentos
-                ListaColetas_Orcamento_(idCol);
+                ListaColetas_Orcamento_(idCol, 0);
             }
             else                                                          // Volta para a primeira lista (coletas)
             {
@@ -441,9 +769,9 @@ namespace Teste03.Views
                 lbColetaOrcamento.IsVisible    = false;
                 stBtnVoltar_Cliente_.IsVisible = false;
 
-                ListaColetas_Orcamento(idCliente);
+               // ListaColetas_Orcamento(idCliente);
 
-                ListaColetas_Orcamento_(idCol);
+                ListaColetas_Orcamento_(idCol, 0);
             }
         }
         #endregion
@@ -536,7 +864,7 @@ namespace Teste03.Views
                     slClienteEncontrarColeta_Lista.IsVisible = false;
 
                     // Atualiza a lista de orçamentos
-                    ListaColetas_Orcamento_(idCol);
+                    ListaColetas_Orcamento_(idCol, 0);
 
                     stListaMoto_02.IsVisible = true;
                 }
@@ -568,7 +896,7 @@ namespace Teste03.Views
                     slClienteEncontrarColeta_Lista.IsVisible = false;
 
                     // Atualiza a lista de orçamentos
-                    ListaColetas_Orcamento_(idCol);
+                    ListaColetas_Orcamento_(idCol, 0);
 
                     stListaMoto_02.IsVisible = true;
                 }
@@ -634,8 +962,8 @@ namespace Teste03.Views
         }
 
         #endregion
-
-
+        
+        
         #region EscondeOrcamento_Cliente()
 
         public void EscondeOrcamento_Cliente()
@@ -1060,7 +1388,12 @@ namespace Teste03.Views
             acompanha = acompanha.Where(l => l.IdOrcamento == orcam.IdOrcamento)
                                  .ToList();
             
-            if(acompanha.Count == 1)                    // Coleta não iniciada - tem apenas o registro 'Orçamento aceito'
+            if(orcam.IdStatus == 14 || orcam.IdStatus == 13) // Orçamento recusado  / Aguardando aprovação
+            {
+                btnRelatorioColeta.IsVisible = false;
+                btnRelatorioColeta.IsVisible = false;
+            }
+            else if(acompanha.Count == 1)                    // Coleta não iniciada - tem apenas o registro 'Orçamento aceito'
             {
                 btnRealizarColeta.IsVisible = true;
             }
@@ -1358,11 +1691,17 @@ namespace Teste03.Views
 
         public async void PopulaLista_Andamento()
         {
-            var acompanha = await acompanhaController.GetAcompanhaLista_Cliente(idCliente);
+            int id = orcam.IdOrcamento;
+
+            // var acompanha = await acompanhaController.GetAcompanhaLista_Cliente(id);
+            //  acompanha = acompanha.Where(l => l.IdOrcamento == orcam.IdOrcamento).ToList();
+
+            var acompanha = await acompanhaController.GetList();
 
             acompanha = acompanha.Where(l => l.IdOrcamento == orcam.IdOrcamento).ToList();
+            
 
-            if(acompanha.Count == 0 || acompanha == null)
+            if (acompanha.Count == 0 || acompanha == null)
             {
                 lbListaVazia_.IsVisible = true;
             }
