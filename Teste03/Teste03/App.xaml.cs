@@ -22,7 +22,7 @@ namespace Teste03
 
             InitializeComponent();
 
-            MainPage = new Views.LgVeiculos();
+            MainPage = new Views.LgMinhaContaa();
             
             /*
             if(Models.Session.Instance.IdCliente == 0)

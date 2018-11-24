@@ -30,11 +30,11 @@ namespace Teste03.Views
         public Motorista_Cadastro ()
 		{
 			InitializeComponent ();
-            
-           // Session.Instance.IdCliente = 8;
+
+            // Session.Instance.IdCliente = 8;
 
             #region Usuário Logado
-
+            
             if (Session.Instance.IdCliente != 0)
             {
                 // Esconde os campos e botões
@@ -52,7 +52,9 @@ namespace Teste03.Views
 
                 lblMeuCadastro.IsVisible    = true;
 
-                grdLogado.IsVisible         = true;         // Menu inferior
+                grdLogado.IsVisible         = true;         // Menu inferior - Logado
+
+                grdNaoLogado.IsVisible      = false;         // Menu inferior - Não logado
             }
             #endregion
         }
@@ -1147,7 +1149,8 @@ namespace Teste03.Views
             #region Esconde os botões 
 
             btnMeuCadastro_Pessoais.IsVisible = false;
-            btnMeuCadastro_CNH.IsVisible = false;
+            btnMeuCadastro_CNH.IsVisible      = false;
+            stMeuCadastro_2.IsVisible         = false;
 
             #endregion
 

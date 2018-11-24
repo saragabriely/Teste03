@@ -13,10 +13,10 @@ namespace Teste03.Views
 	public partial class LgMinhaContaa : ContentPage
 	{
         #region Parametros - Captura dados das variáveis globais
-
-        public int id    =  Models.Session.Instance.IdTipoUsuario; //3;
-        public int idCli =  Models.Session.Instance.IdCliente; // 8;
-        public int idMot =  Models.Session.Instance.IdMotorista; // 1;
+        
+        public int id    = Models.Session.Instance.IdTipoUsuario;  // Motorista: 3;   // Cliente: 2
+        public int idCli = Models.Session.Instance.IdCliente;      // Motorista: 8;   // Cliente: 7
+        public int idMot = Models.Session.Instance.IdMotorista;    // Motorista: 1;   // 
 
         #endregion
 
@@ -73,7 +73,10 @@ namespace Teste03.Views
         #region MeuCadastro - Motorista e Cliente
         private async void BtnMeuCadastro_Clicked(object sender, EventArgs e)
         {
-            // Models.Session.Instance.IdTipoUsuario = 3;
+            Models.Session.Instance.IdTipoUsuario = 3;
+            Models.Session.Instance.IdCliente     = 8;
+            Models.Session.Instance.IdMotorista   = 1;
+
 
             if (Models.Session.Instance.IdTipoUsuario == 2)
             {

@@ -8,27 +8,25 @@
         <Grid RowSpacing="-1">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition  Width="85.4" /> <!-- 0 -->
-                <ColumnDefinition  Width="85.4" /> <!-- 1 -->
-                <ColumnDefinition  Width="85.4" /> <!-- 2 -->
-                <ColumnDefinition  Width="85.4" /> <!-- 3 -->
+                <ColumnDefinition  Width="85.4" /> 
+                <ColumnDefinition  Width="85.4" /> 
+                <ColumnDefinition  Width="85.4" /> 
+                <ColumnDefinition  Width="85.4" /> 
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions >
-                <RowDefinition /> <!-- 0 -->
-                <RowDefinition Height="469.5" /> <!-- 1 -->
-                <RowDefinition Height="50" /> <!-- 2 -->
+                <RowDefinition /> 
+                <RowDefinition Height="469.5" /> 
+                <RowDefinition Height="50"    /> 
             </Grid.RowDefinitions>
 
-            <!-- MeTransporta -->
+            <!-- Me Transporta -->
             <Label  Text="MeTransporta"     
-                    TextColor="{StaticResource LightBlue}"      BackgroundColor="{StaticResource Blue}"
-                    HorizontalOptions="FillAndExpand"   VerticalOptions="Center" 
-                    VerticalTextAlignment="Center"      HorizontalTextAlignment="Center"
-                    FontSize="22"
-                    HeightRequest="50"
-                    Grid.Row="0"    Grid.Column="0" Grid.ColumnSpan="4"
-                />
+                    TextColor="{StaticResource WhiteBtn}"   BackgroundColor="{StaticResource Blue}" 
+                    HorizontalOptions="FillAndExpand"       VerticalOptions="Center" 
+                    VerticalTextAlignment="Center"          HorizontalTextAlignment="Center"
+                    FontSize="18"                           HeightRequest="60"
+                    Grid.Row="0"   Grid.Column="0" Grid.ColumnSpan="5" />
 
             
             <StackLayout Grid.Row="1"    Grid.Column="0" Grid.ColumnSpan="4" Margin="20" >

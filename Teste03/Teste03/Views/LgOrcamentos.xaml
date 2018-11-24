@@ -20,11 +20,13 @@
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
 
-            <!-- MeTransporta -->
-            <Label  Text="MeTransporta"               TextColor="{StaticResource LightBlue}"  BackgroundColor="{StaticResource Blue}"
-                    HorizontalOptions="FillAndExpand" VerticalOptions="Center"                FontSize="22"
-                    VerticalTextAlignment="Center"    HorizontalTextAlignment="Center"        HeightRequest="50"
-                    Grid.Row="0"    Grid.Column="0" Grid.ColumnSpan="5"  />
+            <!-- Me Transporta -->
+            <Label  Text="MeTransporta"     
+                    TextColor="{StaticResource WhiteBtn}"   BackgroundColor="{StaticResource Blue}" 
+                    HorizontalOptions="FillAndExpand"       VerticalOptions="Center" 
+                    VerticalTextAlignment="Center"          HorizontalTextAlignment="Center"
+                    FontSize="18"                           HeightRequest="60"
+                    Grid.Row="0"   Grid.Column="0" Grid.ColumnSpan="5" />
 
             <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Margin="20"  HorizontalOptions="Center" >
 

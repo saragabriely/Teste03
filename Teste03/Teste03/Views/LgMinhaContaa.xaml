@@ -21,13 +21,13 @@
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
 
+            <!-- Me Transporta -->
             <Label  Text="MeTransporta"     
-                    TextColor="{StaticResource LightBlue}"      BackgroundColor="{StaticResource Blue}"
-                    HorizontalOptions="FillAndExpand"   VerticalOptions="Center" 
-                    VerticalTextAlignment="Center"      HorizontalTextAlignment="Center"
-                    FontSize="22"
-                    HeightRequest="50"
-                    Grid.Row="0"    Grid.Column="0" Grid.ColumnSpan="5" />
+                    TextColor="{StaticResource WhiteBtn}"   BackgroundColor="{StaticResource Blue}" 
+                    HorizontalOptions="FillAndExpand"       VerticalOptions="Center" 
+                    VerticalTextAlignment="Center"          HorizontalTextAlignment="Center"
+                    FontSize="18"                           HeightRequest="60"
+                    Grid.Row="0"   Grid.Column="0" Grid.ColumnSpan="5" />
 
             <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Margin="20" Spacing="20" HorizontalOptions="Center" >
 
@@ -39,15 +39,13 @@
                 <!-- Stack - CLIENTE -->
                 <StackLayout x:Name="slCliente" IsVisible="False" Spacing="20" WidthRequest="300" >
 
-                    <Label Text="Perfil Cliente" FontSize="14" FontAttributes="Bold" VerticalOptions="Start" HorizontalOptions="Center" />
-
                     <!-- Btn - Meu Cadastro -->
                     <Button x:Name="btnClienteMeuCadastro" Text="Meu Cadastro" Clicked="btnClienteMeuCadastro_Clicked" 
-                            BackgroundColor="{StaticResource BlueBtn}" TextColor="{StaticResource White}"   />
+                            BackgroundColor="{StaticResource BlueBtn}" TextColor="{StaticResource White}"  FontSize="13"  />
 
                     <!-- Btn - Dados de Pagamento -->
                     <Button x:Name="btnClienteDadosBancarios" Text="Dados Bancários" Clicked="BtnVeiculos_Clicked" 
-                            BackgroundColor="{StaticResource BlueBtn}" TextColor="{StaticResource White}"  />
+                            BackgroundColor="{StaticResource BlueBtn}" TextColor="{StaticResource White}"  FontSize="13" />
                     
                     <!-- Btn - Sair -->
                     <StackLayout x:Name="slClienteSair" IsVisible="True" HorizontalOptions="Center" >
@@ -68,27 +66,25 @@
                 <!-- Stack - MOTORISTA -->
                 <StackLayout x:Name="slMotorista" IsVisible="False" Spacing="13" WidthRequest="300" >
 
-                    <Label Text="Perfil Motorista" FontSize="14" FontAttributes="Bold" VerticalOptions="Start" HorizontalOptions="Center" />
-
                     <!-- Btn - Meu Cadastro -->
-                    <Button x:Name="btnMotoristaMeuCadastro" Text="Meu Cadastro" Clicked="BtnMeuCadastro_Clicked" 
+                    <Button x:Name="btnMotoristaMeuCadastro" Text="Meu Cadastro" Clicked="BtnMeuCadastro_Clicked" FontSize="13"
                             BackgroundColor="{StaticResource Blue}" TextColor="{StaticResource White}"  />
                     
                     <!-- Btn - Dados Bancários -->
                     <Button x:Name="btnMotoristaDadosBancarios" Text="Dados Bancários" Clicked="BtnContaBancaria_Clicked" 
-                            BackgroundColor="{StaticResource Blue}" TextColor="{StaticResource White}"  />
+                            BackgroundColor="{StaticResource Blue}" TextColor="{StaticResource White}" FontSize="13"  />
 
                     <!-- Meus Veículos -->
                     <Button x:Name="btnMotoristaVeiculos" Text="Meus Veículos" Clicked="BtnVeiculos_Clicked" 
-                            BackgroundColor="{StaticResource Blue}" TextColor="{StaticResource White}"  />
+                            BackgroundColor="{StaticResource Blue}" TextColor="{StaticResource White}" FontSize="13"  />
 
                     <!-- E-mail e senha -->
                     <Button x:Name="btnEmailESenha" Text="E-mail e senha" Clicked="BtnVeiculos_Clicked" 
-                            BackgroundColor="{StaticResource Blue}" TextColor="{StaticResource White}"  />
+                            BackgroundColor="{StaticResource Blue}" TextColor="{StaticResource White}"  FontSize="13" />
 
                     <!-- Desativar cadastro -->
                     <Button x:Name="btnMotoristaDesativarCadastro" Text="Desativar cadastro" Clicked="BtnVeiculos_Clicked" 
-                            BackgroundColor="{StaticResource Silver}" TextColor="{StaticResource Blue}"  />
+                            BackgroundColor="{StaticResource Silver}" TextColor="{StaticResource Blue}" FontSize="13" />
 
                     <!-- Btn - Sair -->
                     <StackLayout x:Name="slMotoristaSair" IsVisible="True" HorizontalOptions="Center" >

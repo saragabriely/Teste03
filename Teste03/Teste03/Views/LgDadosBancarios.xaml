@@ -23,11 +23,11 @@
 
             <!-- Me Transporta -->
             <Label  Text="MeTransporta"     
-                    TextColor="{StaticResource LightBlue}"      BackgroundColor="{StaticResource Blue}"
-                    HorizontalOptions="FillAndExpand"   VerticalOptions="Center" 
-                    VerticalTextAlignment="Center"      HorizontalTextAlignment="Center"
-                    FontSize="22"                       HeightRequest="50"
-                    Grid.Row="0"    Grid.Column="0" Grid.ColumnSpan="5" />
+                    TextColor="{StaticResource WhiteBtn}"   BackgroundColor="{StaticResource Blue}" 
+                    HorizontalOptions="FillAndExpand"       VerticalOptions="Center" 
+                    VerticalTextAlignment="Center"          HorizontalTextAlignment="Center"
+                    FontSize="18"                           HeightRequest="60"
+                    Grid.Row="0"   Grid.Column="0" Grid.ColumnSpan="5" />
 
           <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Margin="20"  HorizontalOptions="Center" >
 
@@ -38,7 +38,7 @@
                 <TapGestureRecognizer Tapped="BtnMinhasContas_Clicked" NumberOfTapsRequired="1" />
               </StackLayout.GestureRecognizers>
 
-              <Label  Text="DADOS BANCÁRIOS"  FontSize="16"   FontAttributes="Bold"  TextColor="{StaticResource Blue}"
+              <Label  Text="DADOS BANCÁRIOS"  FontSize="15"   FontAttributes="Bold"  TextColor="{StaticResource Blue}"
                       HorizontalTextAlignment="Center"  VerticalTextAlignment="Start"  HeightRequest="40"
                       IsVisible="True" />
 
@@ -73,14 +73,17 @@
                   <RowDefinition Height="35" />
                 </Grid.RowDefinitions>
 
-                <Label x:Name="lblAgencia" Text="Agência" FontSize="14" FontAttributes="Bold" Grid.Column="0" Grid.Row="0"  />
+                <Label x:Name="lblAgencia" Text="Agência" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="0" 
+                       VerticalTextAlignment="Center" />
 
-                <Label x:Name="lblConta"   Text="Conta"   FontSize="14" FontAttributes="Bold" Grid.Column="1" Grid.Row="0"  />
+                <Label x:Name="lblConta"   Text="Conta"   FontSize="12" FontAttributes="Bold" Grid.Column="1" Grid.Row="0"  
+                       VerticalTextAlignment="Center" />
 
-                <Label x:Name="lblBanco"    Text="Banco"   FontSize="14" FontAttributes="Bold" Grid.Column="2" Grid.Row="0"  />
+                <Label x:Name="lblBanco"    Text="Banco"  FontSize="12" FontAttributes="Bold" Grid.Column="2" Grid.Row="0" 
+                       VerticalTextAlignment="Center" />
 
-                <Label x:Name="lbListaVazia" Text="Você não possui veículos cadastrados!" FontSize="14" FontAttributes="Bold"
-                      Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="3" IsVisible="false"  />
+                <Label x:Name="lbListaVazia" Text="Você não possui conta(s) cadastradas!" FontSize="13"     HorizontalTextAlignment="Center"
+                       Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="2"  IsVisible="false" VerticalTextAlignment="Center"  />
 
                 <!-- LIST VIEW -->
                 <ListView x:Name="LstConta" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="8"

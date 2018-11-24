@@ -11,6 +11,8 @@ namespace Teste03.Controllers
 {
     public class MotoristaController
     {
+        public HttpClient client = new HttpClient();
+
         public string url = "https://webapptestem.azurewebsites.net/api/motorista/";
 
         #region Acesso a banco
