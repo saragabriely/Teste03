@@ -17,26 +17,28 @@ namespace Teste03.Views
 	{
         #region Variaveis e controllers
 
-        public int idCliente     = 8;  // Session.Instance.IdCliente;      // Motorista: 8; // Cliente: 7; // 3; //
-        public int idTipoCliente = 3;  // Session.Instance.IdTipoUsuario;  // Motorista: 3  // Cliente: 2; //
+        public int idCliente     = Session.Instance.IdCliente;      // Motorista: 8; // Cliente: 7; // 3; //
+        public int idTipoCliente = Session.Instance.IdTipoUsuario;  // Motorista: 3  // Cliente: 2; //
         public int verificaOperacao;
         public int idCol;
         public int verifica;
         public int escolha;
         public int existente;
 
-        public int idMotorista   = 1; // Session.Instance.IdMotorista;
+        public int idMotorista   =  Session.Instance.IdMotorista; // 1; //
         public int idColetaCliente;
         public int idColetaOrcamento;
+        public int idOrcamentoAceito;
 
         public string itemVeiculo;
         
         Coleta colet = new Coleta();
 
-        ColetaController    coletaControl    = new ColetaController();
-        OrcamentoController orcaControl      = new OrcamentoController();
-        StatusController    statusController = new StatusController();
-        VeiculoController   veiculoControl   = new VeiculoController();
+        ColetaController          coletaControl       = new ColetaController();
+        OrcamentoController       orcaControl         = new OrcamentoController();
+        StatusController          statusController    = new StatusController();
+        VeiculoController         veiculoControl      = new VeiculoController();
+        ColetaVisualizaController visualizaController = new ColetaVisualizaController();
 
         #endregion
 
@@ -1187,9 +1189,7 @@ namespace Teste03.Views
         #region Motorista
 
         #region Botões 
-
         
-
         #region Filtrar()
 
         private void Filtrar (int i)
@@ -1204,7 +1204,7 @@ namespace Teste03.Views
 
                 List<string> lstEncontrar = new List<string>
                 {
-                    "Coletas Disponíveis",
+                    "Coletas Disponíveis / Não visualizadas",
                     "Coletas Visualizadas",
                     "Coletas que enviei orçamento"
                 };
@@ -1283,7 +1283,7 @@ namespace Teste03.Views
 
             #region Filtro 01 - Encontrar
 
-            if (itemSelecionado.Equals("Coletas Disponíveis"))
+            if (itemSelecionado.Equals("Coletas Disponíveis / Não visualizadas"))
             {
                 ListaMotoristaAsync(1, 0);
             }
@@ -1414,6 +1414,20 @@ namespace Teste03.Views
                         MostraOrcamento_2();
 
                         stBtnAvancar_Moto.IsVisible = false;
+
+                        #region Popula campos
+
+                        var orcamento = await orcaControl.GetOrcamento(idOrcamentoAceito);
+
+                        var idVeic = orcamento.IdVeiculoUsado;
+
+                        var veiculo = await veiculoControl.GetConta(idVeic);
+                        
+                        etVeiculo_.Text         = veiculo.Placa + " - " + veiculo.Modelo;  // Veiculo
+                        lbOrcamento_.Text       = orcamento.Valor;                         // Valor do orçamento
+                        lbStatusOrcamento_.Text = orcamento.DescStatus.ToUpper();           // Status do orçamento
+
+                        #endregion
                     }
                     else
                     {
@@ -1524,7 +1538,7 @@ namespace Teste03.Views
         {
             #region Variáveis
 
-            string todas        = "Nenhuma coleta foi encontrada";
+            string todas        = "Não foram encontradas novas coletas.";
             string visualizadas = "Nenhuma coleta foi visualizada até agora.";
             string naoenvio     = "Você não enviou nenhum orçamento até agora.";
             string cancelada    = "Nenhuma coleta foi cancelada até o momento.";
@@ -1545,8 +1559,6 @@ namespace Teste03.Views
 
                 if (i == 0)
                 {
-                    List<Coleta> listaa = new List<Coleta>();
-
                     _list = await coletaControl.GetListColeta_Geral(idMotorista, i);   // IdMotorista e IdStatus
 
                     if (_list == null || _list.Count == 0)
@@ -1554,14 +1566,12 @@ namespace Teste03.Views
                         LstColetaMotorista.IsVisible = false;
 
                         lbListaVaziaMoto.IsVisible = true;
-                        lbListaVaziaMoto.Text = todas;
+                        lbListaVaziaMoto.Text      = todas;
                     }
                     else
                     {
-                        lbListaVaziaMoto.IsVisible = false;
-
-                        LstColetaMotorista.IsVisible = true;
-
+                        lbListaVaziaMoto.IsVisible     = false;
+                        LstColetaMotorista.IsVisible   = true;
                         LstColetaMotorista.ItemsSource = _list;
                     }
                 }
@@ -1571,20 +1581,41 @@ namespace Teste03.Views
                 #region Coletas visualizadas
                 else if (i == 1)                         // COLETAS VISUALIZADAS
                 {
-                    _list = await coletaControl.GetListColetaMotorista(idMotorista, 1);
+                    // _list = await coletaControl.GetListColetaMotorista(idMotorista, 1);
+
+                    // Todas as coletas
+                    var coleta = await coletaControl.GetList();
+
+                    var listaVisualizada = await visualizaController.GetListVisualiza(idMotorista); // Captura as coletas visualizadas
+
+                    // Captura os IDs das coletas visualizadas pelo motorista
+                    var teste = listaVisualizada.Select(l => l.IdColeta).ToList();
+
+                    // Coletas orçadas pelo motorista
+                    var orcadas = await orcaControl.GetListOrcamento();
+
+                    orcadas = orcadas.Where(l => l.IdMotorista == idMotorista).ToList();
+
+                    var idOrcadas = orcadas.Select(l => l.IdColeta).ToList();
+
+                    // Filtra as coletas não visualizadas e com status 2 (Disponíveis para envio de orçamento)
+                    _list = coleta.Where(l => teste.Contains(l.IdColeta))       // coletas visualizdas
+                                  .Where(l => l.IdStatus == 2)                  // que ainda recebm orçamento
+                                  .Where(l => !idOrcadas.Contains(l.IdColeta))  // que não tenha recebido orçamento ainda
+                                  .ToList();
 
                     if (_list == null || _list.Count == 0)
                     {
                         LstColetaMotorista.IsVisible = false;
 
-                        lbListaVaziaMoto.IsVisible = true;
-                        lbListaVaziaMoto.Text = visualizadas;
+                        lbListaVaziaMoto.IsVisible   = true;
+                        lbListaVaziaMoto.Text        = visualizadas;
                     }
                     else
                     {
-                        lbListaVaziaMoto.IsVisible = false;
+                        lbListaVaziaMoto.IsVisible     = false;
 
-                        LstColetaMotorista.IsVisible = true;
+                        LstColetaMotorista.IsVisible   = true;
                         LstColetaMotorista.ItemsSource = _list;
                     }
                 }
@@ -1724,6 +1755,221 @@ namespace Teste03.Views
         }
         #endregion
 
+        /*#region ListaMotoristaAsync(int i)
+        public async void ListaMotoristaAsync(int escolha, int i)
+        {
+            #region Variáveis
+
+            string todas        = "Não foram encontradas novas coletas.";
+            string visualizadas = "Nenhuma coleta foi visualizada até agora.";
+            string naoenvio     = "Você não enviou nenhum orçamento até agora.";
+            string cancelada    = "Nenhuma coleta foi cancelada até o momento.";
+            string andamento    = "Nenhuma coleta está em andamento";
+            string realizada    = "Nenhuma coleta foi finalizada até o momento";
+
+            List<Coleta> _list;
+
+            _list = null;
+
+            #endregion
+
+            if (escolha == 1)
+            {
+                #region Filtro 01 - Encontrar coletas
+
+                #region Todas as coletas disponíveis e não visualizadas
+
+                if (i == 0)
+                {
+                    _list = await coletaControl.GetListColeta_Geral(idMotorista, i);   // IdMotorista e IdStatus
+
+                    if (_list == null || _list.Count == 0)
+                    {
+                        LstColetaMotorista.IsVisible = false;
+
+                        lbListaVaziaMoto.IsVisible = true;
+                        lbListaVaziaMoto.Text = todas;
+                    }
+                    else
+                    {
+                        lbListaVaziaMoto.IsVisible     = false;
+                        LstColetaMotorista.IsVisible   = true;
+                        LstColetaMotorista.ItemsSource = _list;
+                    }
+                }
+
+                #endregion
+
+                #region Coletas visualizadas
+                else if (i == 1)                         // COLETAS VISUALIZADAS
+                {
+                    _list = await coletaControl.GetListColetaMotorista(idMotorista, 1);
+
+                    if (_list == null || _list.Count == 0)
+                    {
+                        LstColetaMotorista.IsVisible = false;
+
+                        lbListaVaziaMoto.IsVisible   = true;
+                        lbListaVaziaMoto.Text        = visualizadas;
+                    }
+                    else
+                    {
+                        lbListaVaziaMoto.IsVisible     = false;
+
+                        LstColetaMotorista.IsVisible   = true;
+                        LstColetaMotorista.ItemsSource = _list;
+                    }
+                }
+                #endregion
+
+                #region Coletas que enviei orçamento
+                else if (i == 2)                        // COLETAS QUE ENVIEI ORÇAMENTO
+                {
+                    var orcamentos = await orcaControl.GetListOrcamento();
+
+                    // Orçamentos enviados pelo motorista
+                    orcamentos = orcamentos.Where(l => l.IdMotorista == idMotorista).ToList();
+
+                    // IDs das coletas orçadas
+                    var idOrca = orcamentos.Select(l => l.IdColeta).ToList();
+
+                    _list = await coletaControl.GetList();   // todas as coletas
+                    
+                    _list = _list.Where(l => idOrca.Contains(l.IdColeta))
+                                 .Where(l => l.IdStatus == 2)
+                                 .ToList();  // coletas filtradas
+
+                    if (_list == null || _list.Count == 0)
+                    {
+                        LstColetaMotorista.IsVisible = false;
+
+                        lbListaVaziaMoto.IsVisible = true;
+                        lbListaVaziaMoto.Text = naoenvio;
+                    }
+                    else
+                    {
+                        lbListaVaziaMoto.IsVisible = false;
+
+                        LstColetaMotorista.IsVisible = true;
+                        LstColetaMotorista.ItemsSource = _list;
+                    }
+                }
+                #endregion
+
+                #endregion
+            }
+
+            else if (escolha == 2)
+            {
+                #region Filtro 02 - Histórico de coletas
+
+                #region Todas as coletas
+
+                if (i == 0)
+                {
+                    List<Coleta> listaa = new List<Coleta>();
+
+                    _list = await coletaControl.GetList_Historico(idMotorista, i);   // IdMotorista e IdStatus
+                    
+                    if (_list == null || _list.Count == 0)
+                    {
+                        LstColetaMotorista.IsVisible = false;
+
+                        lbListaVaziaMoto.IsVisible = true;
+                        lbListaVaziaMoto.Text = todas;
+                    }
+                    else
+                    {
+                        lbListaVaziaMoto.IsVisible = false;
+                        LstColetaMotorista.IsVisible = true;
+                        LstColetaMotorista.ItemsSource = _list;
+                    }
+                }
+
+                #endregion
+
+                #region Coletas em andamento
+
+                else if (i == 1)
+                {
+                    _list = await coletaControl.GetListColeta_Geral(idMotorista, i);   // IdMotorista e IdStatus
+
+                    var coletaFiltra_ = _list.Where(l => l.IdStatus == 8).ToList();
+
+                    if (coletaFiltra_ == null || coletaFiltra_.Count == 0)
+                    {
+                        LstColetaMotorista.IsVisible = false;
+
+                        lbListaVaziaMoto.IsVisible = true;
+                        lbListaVaziaMoto.Text      = andamento;
+                    }
+                    else
+                    {
+                        lbListaVaziaMoto.IsVisible = false;
+                        LstColetaMotorista.IsVisible = true;
+                        LstColetaMotorista.ItemsSource = coletaFiltra_;
+                    }
+                }
+
+                #endregion
+
+                #region Coletas realizadas
+
+                else if (i == 2)
+                {
+                    _list = await coletaControl.GetListColeta_Geral(idMotorista, i);   // IdMotorista e IdStatus
+
+                    var coletaFiltra_ = _list.Where(l => l.IdStatus == 10).ToList();
+
+                    if (coletaFiltra_ == null || coletaFiltra_.Count == 0)
+                    {
+                        LstColetaMotorista.IsVisible = false;
+
+                        lbListaVaziaMoto.IsVisible = true;
+                        lbListaVaziaMoto.Text = realizada;
+                    }
+                    else
+                    {
+                        lbListaVaziaMoto.IsVisible = false;
+                        LstColetaMotorista.IsVisible = true;
+                        LstColetaMotorista.ItemsSource = coletaFiltra_;
+                    }
+                }
+
+                #endregion
+
+                #region Coletas canceladas
+
+                else if (i == 3)
+                {
+                    _list = await coletaControl.GetListColeta_Geral(idMotorista, i);   // IdMotorista e IdStatus
+
+                    var coletaFiltra_ = _list.Where(l => l.IdStatus == 6).ToList();
+
+                    if (coletaFiltra_ == null || coletaFiltra_.Count == 0)
+                    {
+                        LstColetaMotorista.IsVisible = false;
+
+                        lbListaVaziaMoto.IsVisible = true;
+                        lbListaVaziaMoto.Text = cancelada;
+                    }
+                    else
+                    {
+                        lbListaVaziaMoto.IsVisible = false;
+                        LstColetaMotorista.IsVisible = true;
+                        LstColetaMotorista.ItemsSource = coletaFiltra_;
+                    }
+                }
+
+                #endregion
+               
+                #endregion
+            }
+        }
+        #endregion
+         
+             */
+
         #region Lista de coletas - Item selecionado
         private async void LstColetaMotorista_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
@@ -1754,7 +2000,6 @@ namespace Teste03.Views
 
             idCol = coleta.IdColeta;
             
-            
             // Popula os campos como o objeto retornado
             PopulaColeta_Orcamento(coleta);
 
@@ -1762,15 +2007,15 @@ namespace Teste03.Views
             stBtnAvancar_Moto.IsVisible = true;
 
             // verifica se o motorista enviou orçamento para a coleta em questão
-
-            #region Verifica 
+            #region Verifica se foi enviado algum orçamento para a coleta selecionada
 
             var orca   = await orcaControl.GetListOrcamento();
 
-            var filtra = orca.Where(l => l.IdMotorista == idMotorista)
-                             .Where(l => l.IdColeta    == coleta.IdColeta)
-                             .Distinct()
-                             .ToList();
+            var filtra = orca.Where(l => l.IdMotorista == idMotorista).Where(l => l.IdColeta == coleta.IdColeta).ToList();
+
+            var filtra_ = filtra.Last();
+
+            idOrcamentoAceito = filtra_.IdOrcamento;  // id do orçamento enviado
 
             if (filtra.Count > 0) // Orçamento existente
             {
@@ -1982,14 +2227,15 @@ namespace Teste03.Views
 
         public void MostraOrcamento_2()
         {
+            lbOrcamento_Titulo.IsVisible       = true;
             lbOrcamento.IsVisible              = true;
             lbOrcamento_.IsVisible             = true;
             lbObs_Orcamento_.IsVisible         = true;
             etObservacoes_Orcamento_.IsVisible = true;
             lbVeiculo.IsVisible                = true;
             etVeiculo_.IsVisible               = true;
-            lbDataFinal.IsVisible              = true;
-            lbDataFinal_.IsVisible             = true;
+            lbStatusOrcamento.IsVisible        = true;
+            lbStatusOrcamento_.IsVisible       = true;
         }
 
         #endregion
@@ -1998,14 +2244,15 @@ namespace Teste03.Views
 
         public void EscondeOrcamento_2()
         {
+            lbOrcamento_Titulo.IsVisible       = false;
             lbOrcamento.IsVisible              = false;
             lbOrcamento_.IsVisible             = false;
             lbObs_Orcamento_.IsVisible         = false;
             etObservacoes_Orcamento_.IsVisible = false;
             lbVeiculo.IsVisible                = false;
             etVeiculo_.IsVisible               = false;
-            lbDataFinal.IsVisible              = false;
-            lbDataFinal_.IsVisible             = false;
+            lbStatusOrcamento.IsVisible        = false;
+            lbStatusOrcamento_.IsVisible       = false;
         }
 
         #endregion

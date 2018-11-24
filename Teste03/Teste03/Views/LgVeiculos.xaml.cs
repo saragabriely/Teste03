@@ -18,39 +18,38 @@ namespace Teste03.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class LgVeiculos : ContentPage
 	{
-        //public int id = Session.Instance.IdTipoUsuario;
-        public static int idCli = Session.Instance.IdCliente;
-        public static int id    = Session.Instance.IdMotorista;
-        public int        idVeic; //   = 0;
-        
+        #region variáveis e controllers
+
+        public static int    idTipoUser = Session.Instance.IdTipoUsuario;
+        public static int    idCli      = Session.Instance.IdCliente; // 8; //
+        public static int    id         = Session.Instance.IdMotorista; // 1; //
+        public static int    idVeic;   
+        public static int    verificaOperacao = 0;
+        public static int    idVeiculo;
+        public static int    idMotorista      = id;
+
+        public static string Placa;
+        public static string Modelo;
+        public static string Marca;
+        public static string Renavam;
+        public static string Chassi;
+        public static int    AnoFabricacao;
+        public static int    IdTipoVeiculo;
+        public static string CarroceriaAltura;
+        public static string CarroceriaLargura;
+        public static string CarroceriaComprimento;
+        public static string Refrigeracao;
+        public static string CapacidadeCarga;
+        public static int    IdStatus;
+        public static string TipoVeiculoDesc;
+        public static string TipoCarroceriaDesc;
+        public static int    IdTipoCarroceria;
+
         VeiculoController veiculoController = new VeiculoController();
-
-        public int verificaOperacao = 0;
-
-        #region Parâmetros
-        public int    idVeiculo;
-
-        public int    idMotorista = id;
-        
-        public string Placa;
-        public string Modelo;
-        public string Marca;
-        public string Renavam;
-        public string Chassi;
-        public int    AnoFabricacao;
-        public int    IdTipoVeiculo;
-        public string CarroceriaAltura;
-        public string CarroceriaLargura;
-        public string CarroceriaComprimento;
-        public string Refrigeracao;
-        public string CapacidadeCarga;
-        public int    IdStatus;
-        public string TipoVeiculoDesc;
-        public string TipoCarroceriaDesc;
-        public int    IdTipoCarroceria;
+        StatusController  statusController  = new StatusController();
 
         #endregion
-                
+
         public LgVeiculos()
         {
             InitializeComponent();
@@ -60,8 +59,6 @@ namespace Teste03.Views
         
         public LgVeiculos(Veiculo veiculo)
         {
-            //BindingContext = veiculo ?? throw new ArgumentNullException(nameof(veiculo));
-
             if(veiculo != null)
             {
                 Popula(veiculo);
@@ -109,8 +106,106 @@ namespace Teste03.Views
         } 
 
         #endregion
+        
+        #region Lista
 
-        #region Btn - Buscar - Editar - Excluir - Veiculos
+        #region ListaAsync()
+        public async void ListaAsync()
+        {
+            #region comentários
+            // List<Veiculo> teste = veiculoController.GetListVeiculo();
+            /*
+             List<string> itens1 = new List<string>()
+             {
+                 "Palmeiras", "Atlético", "Santos", "Corinthians", "Palmeiras"
+             };
+
+             List<string> itens = new List<string>()
+             {
+                 "Palmeiras", "Atlético", "Santos", "Corinthians", "Palmeiras"
+             }; */
+            #endregion
+
+            List<Veiculo> _list = await veiculoController.GetListVeiculo(id);
+
+            if (_list == null)
+            {
+                LstVeiculos.IsVisible = false;
+
+                lbListaVazia.IsVisible = true;
+            }
+            else
+            {
+                LstVeiculos.ItemsSource = _list;
+            } 
+        }
+        #endregion
+
+        #region Lista de veículos - Item selecionado
+        private void LstVeiculos_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem == null)
+            {
+                return;
+            }
+            // obtem o item do listview
+            var carro = e.SelectedItem as Veiculo;
+
+            // deseleciona o item do listview
+            LstVeiculos.SelectedItem = null;
+
+            // Popula os campos como o objeto retornado
+            Popula(carro);
+
+            idVeiculo = carro.IdVeiculo;
+        }
+        #endregion
+
+        #endregion
+
+        #region Botões
+
+        #region CRUD
+
+        #region Btn - Excluir Veículo
+        private async void BtnExcluirVeiculos_Clicked(object sender, EventArgs e)
+        {
+            if(await DisplayAlert("Excluir", "Deseja mesmo excluir este veículo?", "OK", "Cancelar"))
+            {
+                await veiculoController.DeleteVeiculo(idVeiculo);
+
+                await DisplayAlert("Excluído", "Veículo excluído com sucesso!", "OK");
+
+                await Navigation.PushModalAsync(new Views.LgVeiculos());
+            }
+        }
+        #endregion
+
+        #region Btn - Editar Veiculos
+        private void BtnEditarVeiculos_Clicked(object sender, EventArgs e)
+        {
+            // Libera os campos para serem alterados
+            DadosEnabled();
+
+            #region Botões - Mostrar e esconder
+
+            slEditarVeiculos.IsVisible  = false;        // EDITAR
+            slExcluirVeiculos.IsVisible = false;        // EXCLUIR
+
+            btnAvancar.IsVisible   = true;              // AVANÇAR
+
+            stBtnVoltar.IsVisible  = false;              // VOLTAR
+            stBtnAvancar.IsVisible = false;              // AVANÇAR
+
+            verificaOperacao = 2;
+
+            #endregion
+        }
+        #endregion
+
+        #endregion
+
+        #region Btn (Busca) - Editar - Excluir
 
         #region Btn - Avançar - Buscar
         private void BtnAvancar2_Clicked(object sender, EventArgs e)
@@ -146,170 +241,7 @@ namespace Teste03.Views
         #endregion
 
         #endregion
-
-        #region Dados Enabled
-
-        #region DadosEnabled()
-
-        public void DadosEnabled()
-        {
-            #region Enabled = true
-
-                etPlaca.IsEnabled          = true;
-                etModelo.IsEnabled         = true;
-                etMarca.IsEnabled          = true;
-                etRenavam.IsEnabled        = true;
-                etChassi.IsEnabled         = true;
-                etAnoFabr.IsEnabled        = true;
-                etAltura.IsEnabled         = true;
-                etLargura.IsEnabled        = true;
-                etComprimento.IsEnabled    = true;
-                etRefrigerado.IsEnabled    = true;
-                etCapacidade.IsEnabled     = true;
-                etTipoVeiculo.IsEnabled    = true;
-                etTipoCarroceria.IsEnabled = true;
-
-                #endregion
-        }
-
-        #endregion
-
-        #region DadosNotEnabled()
-
-        public void DadosNotEnabled()
-        {
-            #region Enabled = true
-
-                etPlaca.IsEnabled          = false;
-                etModelo.IsEnabled         = false;
-                etMarca.IsEnabled          = false;
-                etRenavam.IsEnabled        = false;
-                etChassi.IsEnabled         = false;
-                etAnoFabr.IsEnabled        = false;
-                etAltura.IsEnabled         = false;
-                etLargura.IsEnabled        = false;
-                etComprimento.IsEnabled    = false;
-                etRefrigerado.IsEnabled    = false;
-                etCapacidade.IsEnabled     = false;
-                etTipoVeiculo.IsEnabled    = false;
-                etTipoCarroceria.IsEnabled = false;
-
-                #endregion
-        }
-
-        #endregion
-
-        #endregion
-                
-        #region ListaAsync()
-        public async void ListaAsync()
-        {
-            #region comentários
-            // List<Veiculo> teste = veiculoController.GetListVeiculo();
-            /*
-             List<string> itens1 = new List<string>()
-             {
-                 "Palmeiras", "Atlético", "Santos", "Corinthians", "Palmeiras"
-             };
-
-             List<string> itens = new List<string>()
-             {
-                 "Palmeiras", "Atlético", "Santos", "Corinthians", "Palmeiras"
-             }; */
-            #endregion
-
-            List<Veiculo> _list = await veiculoController.GetListVeiculo(id);
-
-            if (_list == null)
-            {
-                LstVeiculos.IsVisible = false;
-
-                lbListaVazia.IsVisible = true;
-            }
-            else
-            {
-                LstVeiculos.ItemsSource = _list;
-            } 
-        }
-        #endregion
-
-        #region Navegação entre as telas
-
-        #region Btn - Home
-        private async void BtnHome_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushModalAsync(new Views.LgHome());
-        }
-        #endregion
-
-        #region Btn - Coletas
-        private async void BtnColetas_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushModalAsync(new Views.LgColetas());
-        }
-        #endregion
-
-        #region Btn - Pesquisar
-        private async void BtnPesquisar_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushModalAsync(new Views.LgPesquisar());
-        }
-        #endregion
-
-        #region Btn - Orcamentos
-        private async void BtnOrcamentos_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushModalAsync(new Views.LgOrcamentos());
-        }
-        #endregion
-
-        #region Btn - Minha Conta
-        private async void BtnMinhaConta_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushModalAsync(new Views.LgMinhaContaa());
-        }
-        #endregion
-
-        #endregion
-
-        #region Botões - CRUD
-
-        #region Btn - Excluir Veículo
-        private async void BtnExcluirVeiculos_Clicked(object sender, EventArgs e)
-        {
-            if(await DisplayAlert("Excluir", "Deseja mesmo excluir este veículo?", "OK", "Cancelar"))
-            {
-                await veiculoController.DeleteVeiculo(idVeiculo);
-
-                await DisplayAlert("Excluído", "Veículo excluído com sucesso!", "OK");
-
-                await Navigation.PushModalAsync(new Views.LgVeiculos());
-            }
-        }
-        #endregion
-
-        #region Btn - Editar Veiculos
-        private void BtnEditarVeiculos_Clicked(object sender, EventArgs e)
-        {
-            // Libera os campos para serem alterados
-            DadosEnabled();
-
-            #region Botões - Mostrar e esconder
-
-            slEditarVeiculos.IsVisible  = false;        // EDITAR
-            slExcluirVeiculos.IsVisible = false;        // EXCLUIR
-
-            btnAvancar.IsVisible = true;                // AVANÇAR
-
-            stBtnVoltar.IsVisible  = false;              // VOLTAR
-            stBtnAvancar.IsVisible = false;              // AVANÇAR
-
-            verificaOperacao = 2;
-
-            #endregion
-        }
-        #endregion
-
+        
         #region Btn - Meus Veiculos
         private void BtnMeusVeiculos_Clicked(object sender, EventArgs e)
         {
@@ -332,33 +264,38 @@ namespace Teste03.Views
         }
         #endregion
         
-        #endregion
-
         #region Btn - Avançar
         private async void BtnAvancar_Clicked(object sender, EventArgs e)
         {
-            if (verificaOperacao == 1)
+            if (verificaOperacao == 1)     // insert
             {
                 await VerificaCamposAsync(1);
             }
-            else
+            else                           // update
             {
                 await VerificaCamposAsync(2);
             }
         }
         #endregion
 
-        #region Botão - Voltar - Cadastro
+        #region Btn - Voltar - Cadastro
         private void BtnVoltar_Clicked(object sender, EventArgs e)
         {
+            // Mostra
             ChassiVisible();
             btnAvancar.IsVisible    = true;
+
+            // Esconde
+            btnSalvar.IsVisible     = false;
             btnFinalizar.IsVisible  = false;
             btnVoltar.IsVisible     = false;
+
             DimensoesNotVisible();
         }
         #endregion
-        
+
+        #endregion
+
         #region Verifica campos (int)
         private async Task VerificaCamposAsync(int operacao)
         {
@@ -406,10 +343,6 @@ namespace Teste03.Views
                     {
                         await DisplayAlert(dadosIns, dadosInsuf + lblPlaca.Text, "OK");
                     }
-                    else if (ValidaCampos.CaracterEspecial(Placa))
-                    {
-                        await DisplayAlert(caracterEsp, "O campo '" + lblPlaca.Text + "' aceita apenas letras e números", "OK");
-                    }
 
                     else if (AnoFabricacao.ToString() == null)                          // ANO FABRICAÇÃO
                     {
@@ -432,11 +365,7 @@ namespace Teste03.Views
                     {
                         await DisplayAlert(dadosIns, dadosInsuf + lblModelo.Text, "OK");
                     }
-                    else if (ValidaCampos.CaracterEspecial(Modelo))
-                    {
-                        await DisplayAlert(caracterEsp, "O campo '" + lblModelo.Text + "' aceita apenas letras e números", "OK");
-                    }
-
+                 
                     else if (string.IsNullOrEmpty(Marca))                               // MARCA
                     {
                         await DisplayAlert(campoObrig, nulo + lblMarca.Text, "OK");
@@ -444,10 +373,6 @@ namespace Teste03.Views
                     else if(Marca.Length < 3)
                     {
                         await DisplayAlert(dadosIns, dadosInsuf + lblMarca.Text, "OK");      
-                    }
-                    else if (ValidaCampos.CaracterEspecial(Marca))
-                    {
-                        await DisplayAlert(caracterEsp, "O campo '" + lblMarca.Text + "' aceita apenas letras e números", "OK");
                     }
 
                     else if (string.IsNullOrEmpty(TipoVeiculoDesc))                     // TIPO VEICULO
@@ -521,10 +446,11 @@ namespace Teste03.Views
                     {
                         await DisplayAlert(dadosIns, dadosInsuf + lblTipoCarroceria.Text, "OK");
                     }
+                    /*
                     else if (ValidaCampos.CaracterEspecial(TipoCarroceriaDesc))
                     {
                         await DisplayAlert(caracterEsp, "O campo '" + lblTipoCarroceria.Text + "' aceita apenas letras e números", "OK");
-                    }
+                    } */
 
                     else if (string.IsNullOrEmpty(CarroceriaAltura))                // CARROCERIA ALTURA
                     {
@@ -561,10 +487,6 @@ namespace Teste03.Views
                     {
                         await DisplayAlert(dadosIns, dadosInsuf + lblRefrigerado.Text, "OK");
                     }
-                    else if (ValidaCampos.CaracterEspecial(Refrigeracao))
-                    {
-                        await DisplayAlert(caracterEsp, "O campo '" + lblRefrigerado.Text + "' aceita apenas letras e números", "OK");
-                    }
 
                     #endregion
 
@@ -572,6 +494,9 @@ namespace Teste03.Views
                     {
                         DimensoesNotVisible();
 
+                        // status
+                        var status = await statusController.GetStatus(IdStatus);
+                        
                         #region Veiculo()
 
                         veiculo = new Veiculo()
@@ -592,7 +517,8 @@ namespace Teste03.Views
                              IdStatus              = IdStatus,
                              TipoVeiculoDesc       = TipoVeiculoDesc,
                              TipoCarroceriaDesc    = TipoCarroceriaDesc,
-                             IdTipoCarroceria      = IdTipoCarroceria
+                             IdTipoCarroceria      = IdTipoCarroceria,
+                             DescStatus            = status.DescricaoStatus
                         };
                         #endregion
 
@@ -636,48 +562,58 @@ namespace Teste03.Views
         }
         #endregion
 
-        #region Comentários
+        #region Dados Enabled
 
-        /*
-                          // IdVeiculo             = 0,
-                          IdMotorista           = idMotorista,
-                          Placa                 = Placa,
-                          Modelo                = Modelo,
-                          Marca                 = Marca,
-                          Renavam               = Renavam,
-                          Chassi                = Chassi,
-                          AnoFabricacao         = AnoFabricacao,
-                          IdTipoVeiculo         = IdTipoVeiculo,
-                          CarroceriaAltura      = CarroceriaAltura,
-                          CarroceriaLargura     = CarroceriaLargura,
-                          CarroceriaComprimento = CarroceriaComprimento,
-                          Refrigeracao          = Refrigeracao,
-                          CapacidadeCarga       = CapacidadeCarga,
-                          IdStatus              = IdStatus,
-                          TipoVeiculoDesc       = TipoVeiculoDesc,
-                          TipoCarroceriaDesc    = TipoCarroceriaDesc,
-                          IdTipoCarroceria      = IdTipoCarroceria 
-                          
-             {
-        "IdMotorista": 2,
-        "Placa": "FAA5212",
-        "Modelo": "Fiorino",
-        "Marca": "Fiat",
-        "Renavam": "00223456789",
-        "Chassi": "BOA116000AA400001",
-        "AnoFabricacao": 2016,
-        "IdTipoVeiculo": 3,
-        "CarroceriaAltura": "0000",
-        "CarroceriaLargura": "0000",
-        "CarroceriaComprimento": "00000",
-        "Refrigeracao": "N",
-        "CapacidadeCarga": "1000",
-        "IdStatus": 4,
-        "TipoVeiculoDesc": "van",
-        "TipoCarroceriaDesc": "Fechada",
-        "IdTipoCarroceria": null
-    }             
-             */
+        #region DadosEnabled()
+
+        public void DadosEnabled()
+        {
+            #region Enabled = true
+
+                etPlaca.IsEnabled          = true;
+                etModelo.IsEnabled         = true;
+                etMarca.IsEnabled          = true;
+                etRenavam.IsEnabled        = true;
+                etChassi.IsEnabled         = true;
+                etAnoFabr.IsEnabled        = true;
+                etAltura.IsEnabled         = true;
+                etLargura.IsEnabled        = true;
+                etComprimento.IsEnabled    = true;
+                etRefrigerado.IsEnabled    = true;
+                etCapacidade.IsEnabled     = true;
+                etTipoVeiculo.IsEnabled    = true;
+                etTipoCarroceria.IsEnabled = true;
+
+                #endregion
+        }
+
+        #endregion
+
+        #region DadosNotEnabled()
+
+        public void DadosNotEnabled()
+        {
+            #region Enabled = true
+
+                etPlaca.IsEnabled          = false;
+                etModelo.IsEnabled         = false;
+                etMarca.IsEnabled          = false;
+                etRenavam.IsEnabled        = false;
+                etChassi.IsEnabled         = false;
+                etAnoFabr.IsEnabled        = false;
+                etAltura.IsEnabled         = false;
+                etLargura.IsEnabled        = false;
+                etComprimento.IsEnabled    = false;
+                etRefrigerado.IsEnabled    = false;
+                etCapacidade.IsEnabled     = false;
+                etTipoVeiculo.IsEnabled    = false;
+                etTipoCarroceria.IsEnabled = false;
+
+                #endregion
+        }
+
+        #endregion
+
         #endregion
 
         #region Mostrar e ocultar campos
@@ -777,25 +713,45 @@ namespace Teste03.Views
         #endregion
 
         #endregion
+                
 
-        #region Lista de veículos - Item selecionado
-        private async void LstVeiculos_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        #region Navegação entre as telas
+
+        #region Btn - Home
+        private async void BtnHome_Clicked(object sender, EventArgs e)
         {
-            if(e.SelectedItem == null)
-            {
-                return;
-            }
-            // obtem o item do listview
-            var carro = e.SelectedItem as Veiculo;
-
-            // deseleciona o item do listview
-            LstVeiculos.SelectedItem = null;
-
-            // Popula os campos como o objeto retornado
-            Popula(carro);
-
-            idVeiculo = carro.IdVeiculo;
+            await Navigation.PushModalAsync(new Views.LgHome());
         }
+        #endregion
+
+        #region Btn - Coletas
+        private async void BtnColetas_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new Views.LgColetas());
+        }
+        #endregion
+
+        #region Btn - Pesquisar
+        private async void BtnPesquisar_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new Views.LgPesquisar());
+        }
+        #endregion
+
+        #region Btn - Orcamentos
+        private async void BtnOrcamentos_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new Views.LgOrcamentos());
+        }
+        #endregion
+
+        #region Btn - Minha Conta
+        private async void BtnMinhaConta_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new Views.LgMinhaContaa());
+        }
+        #endregion
+
         #endregion
 
     }

@@ -66,7 +66,6 @@ namespace Teste03.Views
                 slCliente.IsVisible   = true;
 
                 stFiltrarColetas_Cliente.IsVisible = true;
-                //ListaColetas_Orcamento(idCliente);
 
                 Filtro_Cliente(1);
             }
@@ -102,10 +101,7 @@ namespace Teste03.Views
                 // 1 - Carrega o dropdown
                 etClienteFiltroOrcamento.ItemsSource = lstOrcamento_Cliente;
                 etClienteFiltroOrcamento.SelectedIndex = 0;
-
-                // 2 - Atualiza a lista de acordo com a opção escolhida
-                //ListaColetas_Orcamento(idCliente);
-
+                
                 option = 1;
             }
             else if(opcao == 2)                     // Mostrar opções - Orçamentos
@@ -202,29 +198,6 @@ namespace Teste03.Views
         #region Listas - Cliente
 
         #region Lista 01 - Coletas com orçamento
-
-        #region ListaColetas_Orcamento (coletas que possuem orçamento)
-/*
-        public async void ListaColetas_Orcamento(int idCliente)
-        {
-            #region Variáveis
-            
-            string todos      = "Nenhum resultado foi encontrado para essa pesquisa.";
-            string pendente   = "Nenhum orçamento pendente foi encontrado."; 
-            string aceito     = "Nenhum orçamento aceito foi encontrado";
-            string finalizado = "Nenhum orçamento finalizado foi encontrado.";
-            string cancelado  = "Nenhum orçamento cancelado foi encontrado.";
-
-            List<Orcamento> _list;
-            _list = null;
-
-            #endregion
-            
-
-
-        }
-        */
-        #endregion
         
         #region Lista de coletas - Item selecionado
         private async void LstOrcamentoCliente_01_ItemSelected(object sender, SelectedItemChangedEventArgs e)

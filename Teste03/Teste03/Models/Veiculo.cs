@@ -25,6 +25,7 @@ namespace Teste03.Models
         public string TipoVeiculoDesc         { get; set; }
         public string TipoCarroceriaDesc      { get; set; }
         public int?   IdTipoCarroceria        { get; set; }
+        public string DescStatus              { get; set; }
 
         public Veiculo() { }
 
@@ -39,19 +40,67 @@ namespace Teste03.Models
             this.IdMotorista = idMotorista;
         }
 
-        public Veiculo (string placa, string modelo)
-        {
-            this.Placa  = placa;
-            this.Modelo = modelo;
-        }
-
         public Veiculo( int IdVeiculo,  int IdMotorista,  string Placa,       string Modelo, string Marca, string Renavam,      
                         string Chassi,  int AnoFabricacao, int IdTipoVeiculo, string CarroceriaAltura, 
-                        string CarroceriaLargura,  string CarroceriaComprimento, string Refrigeracao,    
-                        string CapacidadeCarga,    int IdStatus, string TipoVeiculoDesc,   
-                        string TipoCarroceriaDesc, int IdTipoCarroceria  )
+                        string CarroceriaLargura, string CarroceriaComprimento, string Refrigeracao,    
+                        string CapacidadeCarga,   int IdStatus, string TipoVeiculoDesc,   
+                        string TipoCarroceriaDesc, int IdTipoCarroceria, string DescStatus)
         {
-            this.IdMotorista        = IdMotorista;
+            this.IdVeiculo             = IdVeiculo;
+            this.IdMotorista           = IdMotorista;
+            this.Placa                 = Placa;
+            this.Modelo                = Modelo;
+            this.Marca                 = Marca;
+            this.Renavam               = Renavam;
+            this.Chassi                = Chassi;
+            this.AnoFabricacao         = AnoFabricacao;
+            this.IdTipoVeiculo         = IdTipoVeiculo;
+            this.CarroceriaAltura      = CarroceriaAltura;
+            this.CarroceriaLargura     = CarroceriaLargura;
+            this.CarroceriaComprimento = CarroceriaComprimento;
+            this.Refrigeracao          = Refrigeracao;
+            this.CapacidadeCarga       = CapacidadeCarga;
+            this.IdStatus              = IdStatus;
+            this.TipoVeiculoDesc       = TipoVeiculoDesc;
+            this.TipoCarroceriaDesc    = TipoCarroceriaDesc;
+            this.IdTipoCarroceria      = IdTipoCarroceria;
+            this.DescStatus            = DescStatus;
+        }
+
+        public Veiculo ( int IdMotorista, string Placa, string Modelo, string Marca, string Renavam,
+                        string Chassi, int AnoFabricacao, int IdTipoVeiculo, string CarroceriaAltura,
+                        string CarroceriaLargura, string CarroceriaComprimento, string Refrigeracao,
+                        string CapacidadeCarga, int IdStatus, string TipoVeiculoDesc,
+                        string TipoCarroceriaDesc, int IdTipoCarroceria, string DescStatus)
+        {
+            this.IdMotorista           = IdMotorista;
+            this.Placa                 = Placa;
+            this.Modelo                = Modelo;
+            this.Marca                 = Marca;
+            this.Renavam               = Renavam;
+            this.Chassi                = Chassi;
+            this.AnoFabricacao         = AnoFabricacao;
+            this.IdTipoVeiculo         = IdTipoVeiculo;
+            this.CarroceriaAltura      = CarroceriaAltura;
+            this.CarroceriaLargura     = CarroceriaLargura;
+            this.CarroceriaComprimento = CarroceriaComprimento;
+            this.Refrigeracao          = Refrigeracao;
+            this.CapacidadeCarga       = CapacidadeCarga;
+            this.IdStatus              = IdStatus;
+            this.TipoVeiculoDesc       = TipoVeiculoDesc;
+            this.TipoCarroceriaDesc    = TipoCarroceriaDesc;
+            this.IdTipoCarroceria      = IdTipoCarroceria;
+            this.DescStatus            = DescStatus;
+        }
+
+        public Veiculo( string Placa,       string Modelo, string Marca, string Renavam,      
+                        string Chassi,  int AnoFabricacao, int IdTipoVeiculo, string CarroceriaAltura, 
+                        string CarroceriaLargura, string CarroceriaComprimento, string Refrigeracao,    
+                        string CapacidadeCarga,   int IdStatus, string TipoVeiculoDesc,   
+                        string TipoCarroceriaDesc, int IdTipoCarroceria, string DescStatus)
+        {
+           // this.IdVeiculo          = IdVeiculo;
+           // this.IdMotorista        = IdMotorista;
             this.Placa              = Placa;
             this.Modelo             = Modelo;
             this.Marca              = Marca;
@@ -68,31 +117,7 @@ namespace Teste03.Models
             this.TipoVeiculoDesc    = TipoVeiculoDesc;
             this.TipoCarroceriaDesc = TipoCarroceriaDesc;
             this.IdTipoCarroceria   = IdTipoCarroceria;
-        }
-
-        public Veiculo(int IdMotorista, string Placa, string Modelo, string Marca, string Renavam,
-                        string Chassi, int AnoFabricacao, int IdTipoVeiculo, string CarroceriaAltura,
-                        string CarroceriaLargura, string CarroceriaComprimento, string Refrigeracao,
-                        string CapacidadeCarga, int IdStatus, string TipoVeiculoDesc,
-                        string TipoCarroceriaDesc, int IdTipoCarroceria)
-        {
-            this.IdMotorista = IdMotorista;
-            this.Placa = Placa;
-            this.Modelo = Modelo;
-            this.Marca = Marca;
-            this.Renavam = Renavam;
-            this.Chassi = Chassi;
-            this.AnoFabricacao = AnoFabricacao;
-            this.IdTipoVeiculo = IdTipoVeiculo;
-            this.CarroceriaAltura = CarroceriaAltura;
-            this.CarroceriaLargura = CarroceriaLargura;
-            this.CarroceriaComprimento = CarroceriaComprimento;
-            this.Refrigeracao = Refrigeracao;
-            this.CapacidadeCarga = CapacidadeCarga;
-            this.IdStatus = IdStatus;
-            this.TipoVeiculoDesc = TipoVeiculoDesc;
-            this.TipoCarroceriaDesc = TipoCarroceriaDesc;
-            this.IdTipoCarroceria = IdTipoCarroceria;
+            this.DescStatus         = DescStatus;
         }
     }
 }

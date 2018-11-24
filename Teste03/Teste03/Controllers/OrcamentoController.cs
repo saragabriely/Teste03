@@ -235,9 +235,7 @@ namespace Teste03.Controllers
             {
                 var orcamento = await GetListOrcamento_Geral(idMotorista) ; 
                             
-                var enti      = orcamento.Where(i => i.IdStatus == idStatus)
-                                         .Where(i => i.IdMotorista == idMotorista)
-                                         .ToList();
+                var enti      = orcamento.Where(i => i.IdStatus == idStatus).ToList();
                 
                 return enti;
             }

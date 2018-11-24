@@ -92,6 +92,16 @@ namespace Teste03.Controllers
 
                 #endregion
 
+                #region Verifica as coletas que já foram orçadas
+
+                var orcadas = await orcamentoController.GetListOrcamento(); // todos os orçamentos
+
+                orcadas = orcadas.Where(l => l.IdMotorista == idMotorista).ToList(); // todas as coletas orçadas pelo motorista
+
+                var idOrcadas = orcadas.Select(l => l.IdColeta).ToList(); // IDs das coletas orçadas
+
+                #endregion
+
                 if (idStatus == 0)                                      // Coletas Não Visualizadas
                 {
                     #region Verifica as coletas visualizadas pelo motorista
@@ -102,31 +112,28 @@ namespace Teste03.Controllers
                                            .ToList();
                     #endregion
                     
-                    _lista = new List<Coleta>(_listaFiltrada);
-
-                    return _lista;
+                    return _listaFiltrada;
                 }
                 else if(idStatus == 1)                                  // Coletas Visualizadas
                 {
-                    #region Verifica as coletas visualizadas pelo motorista
+                    #region Verifica as coletas visualizadas pelo motorista e que ainda não enviou orçamento
                     
                     // Filtra as coletas não visualizadas e com status 2 (Disponíveis para envio de orçamento)
-                    _listaFiltrada = coleta.Where(l => teste.Contains(l.IdColeta))
-                                           .Where(l => l.IdStatus == 2)
+                    _listaFiltrada = coleta.Where(l => teste.Contains(l.IdColeta))       // coletas visualizdas
+                                           .Where(l => l.IdStatus == 2)                  // que ainda recebm orçamento
+                                           .Where(l => !idOrcadas.Contains(l.IdColeta))  // que não tenha recebido orçamento ainda
                                            .ToList();
                     #endregion
                     
-                    _lista = new List<Coleta>(_listaFiltrada);
-
-                    return _lista;
+                    return _listaFiltrada;
                 }
                 else if(idStatus == 2)
                 {
                     #region Busca os orçamentos
 
-                    idStatus = 13; // IdStatus: 13 - Aguardando aprovação
-
-                    // Captura os orçamentos enviado pelo Motorista
+                    idStatus = 13;       // IdStatus: 13 - Aguardando aprovação
+                    
+                    // Captura os orçamentos enviados pelo Motorista
                     var listaOrca = await orcamentoController.GetListOrcamento(idStatus, idMotorista);
                     
                     orca = listaOrca.Select(i => i.IdColeta).ToList();

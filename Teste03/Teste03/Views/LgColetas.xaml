@@ -18,7 +18,7 @@
 
             <Grid.RowDefinitions >
                 <RowDefinition />
-                <RowDefinition Height="476" />
+                <RowDefinition Height="466" />
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
 
@@ -26,8 +26,7 @@
                     TextColor="{StaticResource LightBlue}"      BackgroundColor="{StaticResource Blue}"
                     HorizontalOptions="FillAndExpand"   VerticalOptions="Center" 
                     VerticalTextAlignment="Center"      HorizontalTextAlignment="Center"
-                    FontSize="22"   HeightRequest="50"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"
-                />
+                    FontSize="22"   HeightRequest="60"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"  />
 
             <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Margin="20"  HorizontalOptions="Center" >
 
@@ -41,9 +40,6 @@
 
                 <!-- * CLIENTE * -->
                 <StackLayout x:Name="slCliente" IsVisible="False" >
-
-                  <!--
-                    <Label Text="Perfil Cliente" FontSize="14" FontAttributes="Bold" VerticalOptions="Start" HorizontalOptions="Center" /> -->
 
                     <!-- BOTÕES - CLIENTE -->
                     <StackLayout x:Name="stBtnCliente" Margin="15" Spacing="10" VerticalOptions="Center">
@@ -222,7 +218,7 @@
 
                             <Editor x:Name="etDescricaoMaterial" FontSize="13" IsVisible="True"   MaxLength="300"
                                Grid.Column="0" Grid.Row="3" Grid.RowSpan="3" Grid.ColumnSpan="7" 
-                               VerticalOptions="Center" HeightRequest="100" BackgroundColor="{StaticResource SilverBg}" />
+                               VerticalOptions="Center" HeightRequest="100" BackgroundColor="{StaticResource WhiteBtn}" />
 
                             <!-- Peso do material -->
                             <Label x:Name="lblPeso" Text="Peso" FontSize="13" FontAttributes="Bold" IsVisible="True" 
@@ -443,7 +439,7 @@
                             <Label x:Name="lblObservacoes" Text="Observações" FontSize="13" FontAttributes="Bold" IsVisible="False"
                                    Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" VerticalOptions="CenterAndExpand" />
 
-                            <Editor x:Name="etObservacoes"  FontSize="13"  IsVisible="False" BackgroundColor="{StaticResource SilverBg}"
+                            <Editor x:Name="etObservacoes"  FontSize="13"  IsVisible="False" BackgroundColor="{StaticResource WhiteBtn}"
                                    Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="7" Grid.RowSpan="2" 
                                    VerticalOptions="StartAndExpand" HeightRequest="100" MaxLength="150"  />
 
@@ -569,6 +565,7 @@
                 <!-- * MOTORISTA * -->
                 <StackLayout x:Name="slMotorista" IsVisible="False" >
 
+                    <!-- Perfil Motorista -->
                     <Label x:Name="lbMoto" Text="Perfil Motorista" FontSize="13" FontAttributes="Bold" VerticalOptions="Start" 
                            HorizontalOptions="Center" IsVisible="False" />
 
@@ -633,7 +630,7 @@
                                      Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="7"  VerticalOptions="Center" />
 
                             <Label x:Name="etEndRet_Moto"  IsVisible="True" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="9"
-                                   VerticalOptions="Start" BackgroundColor="{StaticResource SilverBg}" 
+                                   VerticalOptions="Start" BackgroundColor="{StaticResource WhiteBtn}" 
                                    HeightRequest="28" VerticalTextAlignment="Center" />
 
                             <!-- Endereco -->
@@ -641,7 +638,7 @@
                                      Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="8"  VerticalOptions="Center" />
 
                             <Label x:Name="etEndEnt_Moto"  IsVisible="True" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="9"
-                                   VerticalOptions="Start" BackgroundColor="{StaticResource SilverBg}"
+                                   VerticalOptions="Start" BackgroundColor="{StaticResource WhiteBtn}"
                                    HeightRequest="28" VerticalTextAlignment="Center"  />
 
                             <!-- Tipo de material -->
@@ -649,7 +646,7 @@
                                  Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" IsVisible="True"  VerticalOptions="Center" />
 
                             <Label x:Name="lbTipoMaterial_Moto" FontSize="13" IsVisible="True" Grid.Column="2" Grid.Row="4" 
-                                     Grid.ColumnSpan="7" VerticalOptions="StartAndExpand" BackgroundColor="{StaticResource SilverBg}"
+                                     Grid.ColumnSpan="7" VerticalOptions="StartAndExpand" BackgroundColor="{StaticResource WhiteBtn}"
                                      HeightRequest="28" VerticalTextAlignment="Center" />
 
                             <!-- Fragilidade do material -->
@@ -657,7 +654,7 @@
                                  Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" IsVisible="True"  VerticalOptions="Center" />
 
                             <Label x:Name="lbFragilidadeMaterial_Moto" FontSize="13" Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="7"
-                                   IsVisible="True" VerticalOptions="Center" BackgroundColor="{StaticResource SilverBg}"
+                                   IsVisible="True" VerticalOptions="Center" BackgroundColor="{StaticResource WhiteBtn}"
                                    HeightRequest="28" VerticalTextAlignment="Center"  />
 
                             <!-- Descricao do material -->
@@ -666,14 +663,14 @@
 
                             <Label x:Name="lbDescricaoMaterial_Moto" FontSize="13" IsVisible="True" 
                                    Grid.Column="0" Grid.Row="7" Grid.RowSpan="3" Grid.ColumnSpan="9" 
-                                   VerticalOptions="Center" HeightRequest="100" BackgroundColor="{StaticResource SilverBg}"  />
+                                   VerticalOptions="Center" HeightRequest="100" BackgroundColor="{StaticResource WhiteBtn}"  />
 
                             
                             <!-- Peso do material -->
                             <Label x:Name="lbPeso" Text="Peso" FontSize="13" FontAttributes="Bold" IsVisible="False" 
                                    Grid.Column="0" Grid.Row="0" VerticalOptions="Center" />
 
-                            <Label x:Name="etPeso_Moto" FontSize="13" IsVisible="false" BackgroundColor="{StaticResource SilverBg}" 
+                            <Label x:Name="etPeso_Moto" FontSize="13" IsVisible="false" BackgroundColor="{StaticResource WhiteBtn}" 
                                    Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" HorizontalTextAlignment="Center" VerticalOptions="Center"
                                    HeightRequest="28" VerticalTextAlignment="Center"/>
 
@@ -684,7 +681,7 @@
                             <Label x:Name="lbVolume" Text="Volumes" FontSize="13" FontAttributes="Bold" IsVisible="False" 
                                    Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="2" VerticalOptions="Center" />
 
-                            <Label x:Name="etVolume_Moto"  FontSize="13"  IsVisible="False" BackgroundColor="{StaticResource SilverBg}"
+                            <Label x:Name="etVolume_Moto"  FontSize="13"  IsVisible="False" BackgroundColor="{StaticResource WhiteBtn}"
                                     Grid.Column="6" Grid.Row="0" Grid.ColumnSpan="2"  VerticalOptions="StartAndExpand"
                                    HeightRequest="28" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
                              
@@ -695,7 +692,7 @@
                                    Grid.Column="0" Grid.Row="1" VerticalOptions="Center" FontAttributes="Bold" 
                                    HeightRequest="28" VerticalTextAlignment="Center" />
 
-                            <Label x:Name="etLargura_Moto" FontSize="13" IsVisible="false" BackgroundColor="{StaticResource SilverBg}"
+                            <Label x:Name="etLargura_Moto" FontSize="13" IsVisible="false" BackgroundColor="{StaticResource WhiteBtn}"
                                    Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" 
                                    HorizontalTextAlignment="Center" VerticalOptions="StartAndExpand"
                                    HeightRequest="28" VerticalTextAlignment="Center" />
@@ -708,7 +705,7 @@
                                    Grid.Column="4" Grid.Row="1"  Grid.ColumnSpan="2" VerticalOptions="Center"
                                    HorizontalTextAlignment="Center" />
 
-                            <Label x:Name="etAltura_Moto" FontSize="13" IsVisible="false" BackgroundColor="{StaticResource SilverBg}"
+                            <Label x:Name="etAltura_Moto" FontSize="13" IsVisible="false" BackgroundColor="{StaticResource WhiteBtn}"
                                    Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="2" VerticalOptions="StartAndExpand"
                                    HeightRequest="28" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"  />
 
@@ -724,7 +721,7 @@
 
                               <Label x:Name="etDataMax_Moto" FontSize="13" IsVisible="False"
                                      Grid.Column="5" Grid.Row="2" Grid.ColumnSpan="4"  HorizontalTextAlignment="Center"
-                                     VerticalOptions="CenterAndExpand" BackgroundColor="{StaticResource SilverBg}"
+                                     VerticalOptions="CenterAndExpand" BackgroundColor="{StaticResource WhiteBtn}"
                                      HeightRequest="28" VerticalTextAlignment="Center"  />
 
                               <!-- Horário -->
@@ -733,7 +730,7 @@
 
                               <Label x:Name="etHorario_Moto" FontSize="13" IsVisible="False" HorizontalTextAlignment="Center"
                                      Grid.Column="5" Grid.Row="3" Grid.ColumnSpan="4" VerticalOptions="CenterAndExpand" 
-                                     BackgroundColor="{StaticResource SilverBg}" HeightRequest="28" VerticalTextAlignment="Center" />
+                                     BackgroundColor="{StaticResource WhiteBtn}" HeightRequest="28" VerticalTextAlignment="Center" />
                             
                               <!-- Valor pretendido -->
                               <Label x:Name="lbValorPretendido" Text="Valor médio" FontSize="13" FontAttributes="Bold" 
@@ -741,13 +738,13 @@
 
                               <Label x:Name="etValorPretendido_Moto" FontSize="13" IsVisible="False" HorizontalTextAlignment="Center"
                                      Grid.Column="5" Grid.Row="4" Grid.ColumnSpan="4" VerticalOptions="CenterAndExpand" 
-                                     BackgroundColor="{StaticResource SilverBg}" HeightRequest="28" VerticalTextAlignment="Center"  />
+                                     BackgroundColor="{StaticResource WhiteBtn}" HeightRequest="28" VerticalTextAlignment="Center"  />
 
                               <!-- Observações -->
                               <Label x:Name="lbObservacoes" Text="Observações" FontSize="13" FontAttributes="Bold" IsVisible="False"
                                      Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="4" VerticalOptions="CenterAndExpand" />
 
-                              <Label x:Name="etObservacoes_Moto"  FontSize="13"  IsVisible="False" BackgroundColor="{StaticResource SilverBg}"
+                              <Label x:Name="etObservacoes_Moto"  FontSize="13"  IsVisible="False" BackgroundColor="{StaticResource WhiteBtn}"
                                      Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="9" Grid.RowSpan="2" 
                                      VerticalOptions="StartAndExpand" HeightRequest="100"   />
                             
@@ -757,7 +754,7 @@
                               
                               <Label x:Name="etTipoVeiculo_Moto" FontSize="13" IsVisible="False" HorizontalTextAlignment="Center"
                                    Grid.Column="3" Grid.Row="9" Grid.ColumnSpan="6" VerticalOptions="Center" 
-                                   BackgroundColor="{StaticResource SilverBg}"  HeightRequest="28" 
+                                   BackgroundColor="{StaticResource WhiteBtn}"  HeightRequest="28" 
                                    VerticalTextAlignment="Center"  />
                               
                               
@@ -777,13 +774,13 @@
                               
                               <Entry x:Name="etValor_Moto" FontSize="15" IsVisible="False" HorizontalTextAlignment="Center"
                                    Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="3" VerticalOptions="Center" 
-                                   BackgroundColor="{StaticResource SilverBg}"  HeightRequest="40" Keyboard="Numeric" />
+                                   BackgroundColor="{StaticResource WhiteBtn}"  HeightRequest="40" Keyboard="Numeric" />
                               
                               <!-- Observações -->
                               <Label x:Name="lbObs_Orcamento" Text="Observações" FontSize="13" FontAttributes="Bold" IsVisible="False"
                                    Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" VerticalOptions="CenterAndExpand" />
                               
-                              <Editor x:Name="etObservacoes_Orcamento"  FontSize="13"  IsVisible="False" BackgroundColor="{StaticResource SilverBg}"
+                              <Editor x:Name="etObservacoes_Orcamento"  FontSize="13"  IsVisible="False" BackgroundColor="{StaticResource WhiteBtn}"
                                    Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="9" Grid.RowSpan="2" 
                                    VerticalOptions="StartAndExpand" HeightRequest="100" MaxLength="150"  />
 
@@ -795,58 +792,65 @@
                               
                               <!-- FILTRO - MOTORISTA -->
                               <StackLayout  x:Name="stFiltrarVeiculos_Moto" IsVisible="false" Grid.Column="0" Grid.Row="7" 
-                                            Grid.ColumnSpan="9" Grid.RowSpan="2"
-                                            VerticalOptions="Start"  >
+                                            Grid.ColumnSpan="9" Grid.RowSpan="3" HeightRequest="40"
+                                            VerticalOptions="Center"  >
 
                                   <Picker  x:Name="etMotoristaFiltroVeiculo" Title="Escolha uma das opções" FontSize="13" HeightRequest="30" 
                                            SelectedIndexChanged="pckFiltroOrcamento"   >    
                                   </Picker>
                               
                               </StackLayout>
-                              
-                          
-                          
+
+
+                                <!-- Valor do orçamento -->
+                                <Label x:Name="lbOrcamento_Titulo" Text="DADOS DO ORÇAMENTO ENVIADO " FontSize="12" FontAttributes="Bold" IsVisible="False" 
+                                       Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="9"  VerticalOptions="Center" TextColor="{StaticResource Blue}"
+                                       HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HeightRequest="40" />
+
+
                               <!-- Valor do orçamento -->
                               <Label x:Name="lbOrcamento" Text="R$ Orçamento" FontSize="13" FontAttributes="Bold" IsVisible="False" 
-                                       Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3"  VerticalOptions="Center" />
+                                       Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"  VerticalOptions="Center" />
                               
-                              <Label x:Name="lbOrcamento_"  IsVisible="False" Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="6" VerticalOptions="Center" 
-                                   BackgroundColor="{StaticResource SilverBg}" HeightRequest="28" VerticalTextAlignment="Center" />
+                              <Label x:Name="lbOrcamento_"  IsVisible="False" Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="6" VerticalOptions="Center" 
+                                     BackgroundColor="{StaticResource WhiteBtn}" HeightRequest="34" VerticalTextAlignment="Center"
+                                     HorizontalTextAlignment="Center"  />
 
                           
                               <!-- Observações -->
                               <Label x:Name="lbObs_Orcamento_" Text="Observações" FontSize="13" FontAttributes="Bold" IsVisible="False"
-                                   Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" VerticalOptions="CenterAndExpand" />
+                                   Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" VerticalOptions="CenterAndExpand" />
                               
-                              <Label x:Name="etObservacoes_Orcamento_"  FontSize="13"  IsVisible="False" BackgroundColor="{StaticResource SilverBg}"
-                                   Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="9" Grid.RowSpan="2" 
+                              <Label x:Name="etObservacoes_Orcamento_"  FontSize="13"  IsVisible="False" BackgroundColor="{StaticResource WhiteBtn}"
+                                   Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="9" Grid.RowSpan="2" 
                                    VerticalOptions="StartAndExpand" HeightRequest="100"   />
 
 
-                            <!-- Veiuculo -->
-                            <Label x:Name="lbVeiculo" Text="Veículo utilizado" FontSize="13" FontAttributes="Bold"  IsVisible="False" 
-                                     Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="3"  VerticalOptions="Center" />
+                              <!-- Veiuculo -->
+                              <Label x:Name="lbVeiculo" Text="Veículo cadastrado" FontSize="13" FontAttributes="Bold"  IsVisible="False" 
+                                       Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="4"  VerticalOptions="Center" />
 
-                            <Label x:Name="etVeiculo_"  IsVisible="False" Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="6"
-                                   VerticalOptions="Start" BackgroundColor="{StaticResource SilverBg}"
-                                   HeightRequest="28" VerticalTextAlignment="Center"  />
+                              <Label x:Name="etVeiculo_"  IsVisible="False" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="9"
+                                     VerticalOptions="Start" BackgroundColor="{StaticResource WhiteBtn}"
+                                     HeightRequest="34" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"  />
 
-                            <!-- Data de finalização -->
-                            <Label x:Name="lbDataFinal" Text="Data final" FontSize="13" FontAttributes="Bold" 
-                                 Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="3" IsVisible="False"  VerticalOptions="Center" />
+                              <!-- Status - Orçamento -->
+                              <Label x:Name="lbStatusOrcamento" Text="Status do orçamento" FontSize="13" FontAttributes="Bold" 
+                                   Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="4" IsVisible="False"  VerticalOptions="Center" />
 
-                            <Label x:Name="lbDataFinal_" FontSize="13" Grid.Column="3" Grid.Row="6" Grid.ColumnSpan="6"
-                                   IsVisible="False" VerticalOptions="Center" BackgroundColor="{StaticResource SilverBg}"
-                                   HeightRequest="28" VerticalTextAlignment="Center"  />
-                            
+                              <Label x:Name="lbStatusOrcamento_" FontSize="13" Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="9"
+                                     Grid.RowSpan="2" FontAttributes="Bold" TextColor="{StaticResource GreenBtn}"
+                                     IsVisible="False" VerticalOptions="Center" BackgroundColor="{StaticResource WhiteBtn}"
+                                     HeightRequest="36" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"  /> 
+                              
                           
-                            <!-- ENVIAR -->
-                            <Button x:Name="btnEnviar" Text="Enviar Orçamento" BackgroundColor="{StaticResource BlueBtn}"
-                                    Grid.Column="1" Grid.Row="10" Grid.ColumnSpan="7" IsVisible="False" 
-                                    TextColor="White" Clicked="BtnEnviar_Clicked" />
+                              <!-- ENVIAR -->
+                              <Button x:Name="btnEnviar" Text="Enviar Orçamento" BackgroundColor="{StaticResource BlueBtn}"
+                                      Grid.Column="1" Grid.Row="10" Grid.ColumnSpan="7" IsVisible="False" 
+                                      TextColor="White" Clicked="BtnEnviar_Clicked" />
 
-                            <!-- VOLTAR - BUSCA -->
-                            <StackLayout x:Name="stBtnVoltar_Moto" Grid.Row="11"  Grid.Column="0"   IsVisible="false" 
+                              <!-- VOLTAR - BUSCA -->
+                              <StackLayout x:Name="stBtnVoltar_Moto" Grid.Row="11"  Grid.Column="0"   IsVisible="false" 
                                          VerticalOptions="End" >
 
                                 <StackLayout.GestureRecognizers>
@@ -857,8 +861,8 @@
                                        HeightRequest="38" WidthRequest="38" />
                             </StackLayout>
 
-                            <!-- AVANÇAR - BUSCA -->
-                            <StackLayout x:Name="stBtnAvancar_Moto" Grid.Row="11" Grid.Column="7" Grid.ColumnSpan="2" IsVisible="false"
+                               <!-- AVANÇAR - BUSCA -->
+                               <StackLayout x:Name="stBtnAvancar_Moto" Grid.Row="11" Grid.Column="7" Grid.ColumnSpan="2" IsVisible="false"
                                    HorizontalOptions="End" VerticalOptions="End" >
 
                                 <StackLayout.GestureRecognizers>
@@ -881,7 +885,7 @@
                         <StackLayout x:Name="stFiltrarColetas_Moto" IsVisible="false" Spacing="10"  >
 
                            <Picker x:Name="etMotoristaFiltroColeta" Title="Escolha uma das opções" FontSize="13"
-                                 HeightRequest="60" SelectedIndexChanged="pckFiltroColeta_Motorista"  > <!-- Grid.Column="1" Grid.Row="2"  -->
+                                 HeightRequest="60" SelectedIndexChanged="pckFiltroColeta_Motorista"  > 
 
                            </Picker>
                         </StackLayout>
@@ -908,13 +912,18 @@
                           <RowDefinition Height="35" />
                         </Grid.RowDefinitions>
 
-                        <Label x:Name="lblMotoCidade"     Text="Resumo"     FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="0"  />
+                        <Label x:Name="lblMotoCidade"     Text="Resumo"     FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="0"
+                               TextColor="{StaticResource Blue}" />
                                                           
-                        <Label x:Name="lblStatus"         Text="Status "    FontSize="12" FontAttributes="Bold" Grid.Column="1" Grid.Row="0"  />
+                        <Label x:Name="lblStatus"         Text="Status "    FontSize="12" FontAttributes="Bold" Grid.Column="1" Grid.Row="0" 
+                               TextColor="{StaticResource Blue}" />
                                                           
-                        <Label x:Name="lblDataEntrega"    Text="Data Máx."  FontSize="12" FontAttributes="Bold" Grid.Column="2" Grid.Row="0"  /> 
+                        <Label x:Name="lblDataEntrega"    Text="Data Máx."  FontSize="12" FontAttributes="Bold" Grid.Column="2" Grid.Row="0" 
+                               TextColor="{StaticResource Blue}" /> 
 
-                        <Label x:Name="lbListaVaziaMoto"  FontSize="13" IsVisible="false"  Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4"   />                          
+                        <!-- Lista vazia -->
+                        <Label x:Name="lbListaVaziaMoto"  FontSize="13" IsVisible="false"  Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" 
+                               HorizontalTextAlignment="Center"  VerticalTextAlignment="Center" Grid.RowSpan="2"  />                          
 
                         <!-- LIST VIEW -->
                         <ListView x:Name="LstColetaMotorista" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="8"
