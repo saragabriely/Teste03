@@ -93,6 +93,10 @@ namespace Teste03.Services
 
         #endregion
 
+        #region GetList
+
+        #endregion
+
         #region LOGIN
 
         #region Permite acesso
@@ -129,7 +133,7 @@ namespace Teste03.Services
             }
         }
         #endregion
-
+        
         #endregion
 
         /*

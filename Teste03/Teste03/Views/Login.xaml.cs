@@ -19,12 +19,14 @@ namespace Teste03.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Login : ContentPage
 	{
+        LoginController loginController = new LoginController();
+
 		public Login ()
 		{
 			InitializeComponent ();
 
-            lblAlerta.Text      = "";
-            lblEntrando.Text    = "";
+            lblAlerta.Text        = "";
+            lblEntrando.Text      = "";
             lblEntrando.IsVisible = false;
             lblAlerta.IsVisible   = true;
         }
@@ -82,19 +84,27 @@ namespace Teste03.Views
                 }
                 else
                 {
-                    //login = await data.GetLogin(email, senha);
-                    // cpf = login.Ccpf;
-                    // if (login != null)
-                    
-                    if ((await data.GetLogin(email, senha)) == null)
+                    #region Verifica login
+
+                    // Lista completa
+                    var lista = await loginController.GetList();
+
+                    var lista_ = lista.Where(l => l.IdStatus == 4).ToList();       // Id: 4 - Ativo
+                     
+                    var filtro = lista_.FirstOrDefault(l => l.Email == email);     // Pesquisa e-mail
+
+                    if (filtro == null)  // email inválido
                     {
-                        lblAlerta.Text = invalidos;
-                        lblEntrando.IsVisible = false;
+                        await DisplayAlert("E-mail inválido", "Verifique o e-mail digitado.", "OK");
                     }
-                    else
+                    else if(filtro.Senha != senha)
                     {
-                        // lblAlerta.Text = invalidos;
-                        login = await data.GetLogin(email, senha);
+                        await DisplayAlert("Senha inválido", "Verifique a senha digitada.", "OK");
+                    }
+                    else if(filtro.Senha == senha)
+                    {
+                        // Envi ao objeto Login 
+                        login = await loginController.GetLogin_(filtro);
 
                         cpf = login.Ccpf;
 
@@ -135,61 +145,139 @@ namespace Teste03.Views
                         #endregion
                         
                         await Navigation.PushModalAsync(new Views.LgHome());
+                        
                     }
+                    
+                    #endregion
+                }
 
-                    #region COMENTÁRIOS
-                    /*
-                     * 
-                     * //login = await data.GetLogin(email, senha);
+                #region Old
+                /*
+                // Aguarde ...
+                lblEntrando.IsVisible = true;
+                lblEntrando.Text = acessando;
 
-                    // cpf = login.Ccpf;
-
-                    // if (login != null)
-                 
-                    if ((await data.GetLogin(email, senha)) == null)
+                if (email != null && senha != null)
+                {
+                    if (!ValidaCampos.IsEmail(email))                  // VALIDANDO E-MAIL
                     {
-                        lblAlerta.Text = invalidos;
+                        lblEntrando.IsVisible = false;
+                        lblAlerta.IsVisible = true;
+                        lblAlerta.Text = "";
+                        lblAlerta.Text = emailInvalido;
                     }
                     else
                     {
-                        lblAlerta.Text = invalidos;
-                        login = await data.GetLogin(email, senha);
+                        //login = await data.GetLogin(email, senha);
+                        // cpf = login.Ccpf;
+                        // if (login != null)
 
-                        cpf = login.Ccpf;
+                        if ((await data.GetLogin(email, senha)) == null)
+                        {
+                            lblAlerta.Text = invalidos;
+                            lblEntrando.IsVisible = false;
+                        }
+                        else
+                        {
+                            // lblAlerta.Text = invalidos;
+                            login = await data.GetLogin(email, senha);
 
-                        cliente = await controlCliente.GetCpf(cpf);
+                            cpf = login.Ccpf;
 
-                        #region Captura dos dados do usuário
+                            cliente = await controlCliente.GetCpf(cpf);
 
-                        Session.Instance.IdCliente     = cliente.IdCliente;
-                        Session.Instance.IdTipoUsuario = cliente.IdTipoUsuario;
-                        Session.Instance.Email         = cliente.Cemail;
-                        Session.Instance.Senha         = cliente.Csenha;
-                        Session.Instance.Cnome         = cliente.Cnome;
-                        Session.Instance.Crg           = cliente.Crg;
-                        Session.Instance.Ccpf          = cliente.Ccpf;
-                        Session.Instance.Csexo         = cliente.Csexo;
-                        Session.Instance.CdataNascto   = cliente.CdataNascto;
-                        Session.Instance.Ccelular      = cliente.Ccelular;
-                        Session.Instance.Ccelular2     = cliente.Ccelular2;
-                        Session.Instance.Cendereco     = cliente.Cendereco;
-                        Session.Instance.Cnumero       = cliente.Cnumero;
-                        Session.Instance.Ccomplemento  = cliente.Ccomplemento;
-                        Session.Instance.Cbairro       = cliente.Cbairro;
-                        Session.Instance.Ccidade       = cliente.Ccidade;
-                        Session.Instance.Ccep          = cliente.Ccep;
-                        Session.Instance.Cuf           = cliente.Cuf;
-                        Session.Instance.IdStatus      = cliente.IdStatus;
+                            if (cliente.IdTipoUsuario == 3)
+                            {
+                                motorista = await motoristaController.GetMotoristaCliente(cliente.IdCliente);
+                            }
 
+                            #region Captura dos dados do usuário
+
+                            Session.Instance.IdCliente = cliente.IdCliente;
+                            Session.Instance.IdTipoUsuario = cliente.IdTipoUsuario;
+                            Session.Instance.Email = cliente.Cemail;
+                            Session.Instance.Senha = cliente.Csenha;
+                            Session.Instance.Cnome = cliente.Cnome;
+                            Session.Instance.Crg = cliente.Crg;
+                            Session.Instance.Ccpf = cliente.Ccpf;
+                            Session.Instance.Csexo = cliente.Csexo;
+                            Session.Instance.CdataNascto = cliente.CdataNascto;
+                            Session.Instance.Ccelular = cliente.Ccelular;
+                            Session.Instance.Ccelular2 = cliente.Ccelular2;
+                            Session.Instance.Cendereco = cliente.Cendereco;
+                            Session.Instance.Cnumero = cliente.Cnumero;
+                            Session.Instance.Ccomplemento = cliente.Ccomplemento;
+                            Session.Instance.Cbairro = cliente.Cbairro;
+                            Session.Instance.Ccidade = cliente.Ccidade;
+                            Session.Instance.Ccep = cliente.Ccep;
+                            Session.Instance.Cuf = cliente.Cuf;
+                            Session.Instance.IdStatus = cliente.IdStatus;
+
+                            Session.Instance.IdMotorista = motorista.IdMotorista;
+                            Session.Instance.MnumeroCnh = motorista.MnumeroCnh;
+                            Session.Instance.McategoriaCnh = motorista.McategoriaCnh;
+                            Session.Instance.MvalidadeCnh = motorista.MvalidadeCnh;
+
+                            #endregion
+
+                            await Navigation.PushModalAsync(new Views.LgHome());
+                        }
+
+                        #region COMENTÁRIOS
+                        /*
+                         * 
+                         * //login = await data.GetLogin(email, senha);
+
+                        // cpf = login.Ccpf;
+
+                        // if (login != null)
+
+                        if ((await data.GetLogin(email, senha)) == null)
+                        {
+                            lblAlerta.Text = invalidos;
+                        }
+                        else
+                        {
+                            lblAlerta.Text = invalidos;
+                            login = await data.GetLogin(email, senha);
+
+                            cpf = login.Ccpf;
+
+                            cliente = await controlCliente.GetCpf(cpf);
+
+                            #region Captura dos dados do usuário
+
+                            Session.Instance.IdCliente     = cliente.IdCliente;
+                            Session.Instance.IdTipoUsuario = cliente.IdTipoUsuario;
+                            Session.Instance.Email         = cliente.Cemail;
+                            Session.Instance.Senha         = cliente.Csenha;
+                            Session.Instance.Cnome         = cliente.Cnome;
+                            Session.Instance.Crg           = cliente.Crg;
+                            Session.Instance.Ccpf          = cliente.Ccpf;
+                            Session.Instance.Csexo         = cliente.Csexo;
+                            Session.Instance.CdataNascto   = cliente.CdataNascto;
+                            Session.Instance.Ccelular      = cliente.Ccelular;
+                            Session.Instance.Ccelular2     = cliente.Ccelular2;
+                            Session.Instance.Cendereco     = cliente.Cendereco;
+                            Session.Instance.Cnumero       = cliente.Cnumero;
+                            Session.Instance.Ccomplemento  = cliente.Ccomplemento;
+                            Session.Instance.Cbairro       = cliente.Cbairro;
+                            Session.Instance.Ccidade       = cliente.Ccidade;
+                            Session.Instance.Ccep          = cliente.Ccep;
+                            Session.Instance.Cuf           = cliente.Cuf;
+                            Session.Instance.IdStatus      = cliente.IdStatus;
+
+                            #endregion
+
+                            await Navigation.PushModalAsync(new Views.LgHome());
+                        }                     
+                     * /
                         #endregion
 
-                        await Navigation.PushModalAsync(new Views.LgHome());
-                    }                     
-                 */
+                    } */
                     #endregion
 
                 }
-            }
             if (email != null && senha == null)
             {
                 lblAlerta.Text = notSenha;

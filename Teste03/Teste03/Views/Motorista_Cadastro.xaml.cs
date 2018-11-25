@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Teste03.ClassesComuns;
 using Teste03.Controllers;
@@ -16,14 +17,16 @@ namespace Teste03.Views
         public int verificaOperacao;
         public int idCli;
         public int idMoto;
+        public int verificaOperacao_;
 
         Cliente   cliente;
         Motorista motorista;
 
-        ClienteController   control          = new ClienteController();
-        CartaoController    controlCartao    = new CartaoController();
-        ContaBancariaController contaControl = new ContaBancariaController();
-        MotoristaController motoristaControl = new MotoristaController();
+        ClienteController       control          = new ClienteController();
+        CartaoController        controlCartao    = new CartaoController();
+        ContaBancariaController contaControl     = new ContaBancariaController();
+        LoginController         loginController  = new LoginController();
+        MotoristaController     motoristaControl = new MotoristaController();
         
         #endregion
         
@@ -55,8 +58,15 @@ namespace Teste03.Views
                 grdLogado.IsVisible         = true;         // Menu inferior - Logado
 
                 grdNaoLogado.IsVisible      = false;         // Menu inferior - Não logado
+
+               // verificaOperacao = 2;
             }
             #endregion
+
+            else
+            {
+                verificaOperacao = 1; // cadastro
+            }
         }
 
         #region NÃO LOGADO
@@ -525,8 +535,10 @@ namespace Teste03.Views
 
                             EmailSenhaVisible();
                         }
-                    }                    
-                    else if(i == 3)   // UPDATE - MOTORISTA ---------------------------------------
+                    }
+                    #endregion
+
+                    else if (i == 3)   // UPDATE - MOTORISTA ---------------------------------------
                     {
                          #region Motorista()
                                 Motorista motorista = new Motorista()
@@ -560,7 +572,7 @@ namespace Teste03.Views
                          await Navigation.PushModalAsync(new Views.LgMinhaContaa());
                     }
                 }
-                #endregion
+                
 
                 else if (btnEmailSenha.IsEnabled && etMotoristaEmail.IsVisible)
                 {
@@ -570,28 +582,11 @@ namespace Teste03.Views
                     {
                         await DisplayAlert(vazio, nulo + lblMotoristaEmail.Text, "OK");
                     }
-
-                    else if (verificaOperacao == 1)
-                    {
-                        if (string.IsNullOrEmpty(confemail))
-                        {
-                            await DisplayAlert(vazio, nulo + lblMotoristaConfEmail.Text, "OK");
-                        }
-                    }
-
+                    
                     else if (string.IsNullOrEmpty(senha))                   // SENHA
                     {
                         await DisplayAlert(vazio, nulo + lblMotoristaSenha.Text, "OK");
                     }
-
-                    else if (verificaOperacao == 1)
-                    {
-                        if (string.IsNullOrEmpty(confsenha))
-                        {
-                            await DisplayAlert(vazio, nulo + lblMotoristaConfSenha.Text, "OK");
-                        }
-                    }
-
                     else if (senha.Length < 6)
                     {
                         await DisplayAlert("Dados insuficientes", senhaCurta, "OK");
@@ -601,187 +596,446 @@ namespace Teste03.Views
                     {
                         await DisplayAlert(dadosInsuf, "E-mail inválido!", "OK");
                     }
-
-                    else if (verificaOperacao == 1) // 1 - Insert
-                    {
-                        if (!email.Equals(confemail))                      // COMPARA E-MAIL
-                        {
-                            await DisplayAlert("E-mails", emails, "OK");
-                        }
-                        else if (!senha.Equals(confsenha))                      // COMPARA SENHA
-                        {
-                            await DisplayAlert("Senhas", senhas, "OK");
-                        }
-                    }
-
                     #endregion
-
-                    else
+                   
+                    if (verificaOperacao == 1 || i == 2) // Cadastro || Update 
                     {
-                        //-------------------------------------------------------------------------
-                        // Salvando ...
 
-                        // Dados pessoais ---------------------------------------------------------
-
-                        #region Cliente()
-
-                        Cliente cli = new Cliente()
+                        #region Insert !
+                        if (verificaOperacao == 1) // Insert
                         {
-                            Cnome       = nome,
-                            Crg         = rg,
-                            Ccpf        = cpf,
-                            Csexo       = sexo,
-                            CdataNascto = dataNascto,
-                            Ccelular    = celular,
-                            Ccelular2   = celular2,
-                            Cendereco   = endereco,
-                            Cnumero     = numero,
-                            Ccomplemento = complemento,
-                            Cbairro     = bairro,
-                            Ccidade     = cidade,
-                            Ccep        = cep,
-                            Cuf         = "vc",
-                            Cemail      = email,
-                            Csenha      = senha,
-                            IdTipoUsuario = IdTipoUsuario,
-                            IdStatus    = IdStatus
-                        };
-
-                        #endregion
-
-                        #region INSERT 
-                        if (i == 1)             // CADASTRO ------------------------------------------
-                        {
-                            await control.PostAsync(cli);
-
-                            // Captura o IdCliente gerado no banco  ----------------------------------
-                            Cliente clien = await control.GetCpf(cpf);
-
-                            int idCliente = clien.IdCliente;
-
-                            // Dados da CNH -----------------------------------------------------------
-
-                            #region Motorista()
-                            Motorista motorista = new Motorista()
+                            if (string.IsNullOrEmpty(confemail))
                             {
-                                IdCliente       = idCliente,
-                                MnumeroCnh      = numCnh,
-                                McategoriaCnh   = categoriaCnh,
-                                MvalidadeCnh    = validadeCnh,
-                                IdStatus        = IdStatus,
-                                Ccpf            = cpf
-                            };
-                            #endregion
-
-                            await motoristaControl.PostMotoristaAsync(motorista);
-
-                            // Conta bancária -----------------------------------------------------
-
-                            #region ContaBancaria()
-                            ContaBancaria contaBan = new ContaBancaria()
+                                await DisplayAlert(vazio, nulo + lblMotoristaConfEmail.Text, "OK");
+                            }
+                            else if (string.IsNullOrEmpty(confsenha))
                             {
-                                IdCliente          = idCliente,
-                                IdBanco            = idBanco,
-                                MAgencia           = agencia,
-                                MDigAgencia        = digAgencia,
-                                MConta             = conta,
-                                MDigConta          = digConta,
-                                IdTipoConta        = idTipoConta,
-                                MDataCadastro      = DateTime.Now,
-                                IdStatus           = IdStatus,
-                                Ccpf               = cpf,
-                                MUltimaAtualizacao = null,
-                                BancoDesc          = bancoDesc,
-                                TipoContaBanDesc   = tipoContaBan
-                            };
-                            #endregion
+                                await DisplayAlert(vazio, nulo + lblMotoristaConfSenha.Text, "OK");
+                            }
+                            else if (!email.Equals(confemail))                      // COMPARA E-MAIL
+                            {
+                                await DisplayAlert("E-mails", emails, "OK");
+                            }
+                            else if (!senha.Equals(confsenha))                      // COMPARA SENHA
+                            {
+                                await DisplayAlert("Senhas", senhas, "OK");
+                            }
+                            else
+                            {
+                                //-------------------------------------------------------------------------
+                                // Salvando ...
 
-                            await contaControl.PostContaAsync(contaBan);
+                                // Dados pessoais ---------------------------------------------------------
 
-                            //lblFinalizado.IsVisible = true;
-                            //lblFinalizado.Text      = finalizado;
+                                #region Cliente()
 
-                            btnFinalizar.IsVisible = false;
-                            btnVoltar.IsVisible = false;
+                                Cliente cli = new Cliente()
+                                {
+                                    Cnome = nome,
+                                    Crg = rg,
+                                    Ccpf = cpf,
+                                    Csexo = sexo,
+                                    CdataNascto = dataNascto,
+                                    Ccelular = celular,
+                                    Ccelular2 = celular2,
+                                    Cendereco = endereco,
+                                    Cnumero = numero,
+                                    Ccomplemento = complemento,
+                                    Cbairro = bairro,
+                                    Ccidade = cidade,
+                                    Ccep = cep,
+                                    Cuf = "vc",
+                                    Cemail = email,
+                                    Csenha = senha,
+                                    IdTipoUsuario = IdTipoUsuario,
+                                    IdStatus = IdStatus
+                                };
 
-                            // Direciona para a tela de login
-                            await Navigation.PushModalAsync(new Views.Login());
+                                #endregion
+
+                                //-------------------------------------------------------------------------
+
+                                #region INSERT 
+                                if (i == 1)             // CADASTRO --------------------------------------
+                                {
+                                    await control.PostAsync(cli);
+
+                                    // Captura o IdCliente gerado no banco  ------------------------------
+                                    Cliente clien = await control.GetCpf(cpf);
+
+                                    int idCliente = clien.IdCliente;
+
+                                    // Dados da CNH ------------------------------------------------------
+
+                                    #region Motorista()
+                                    Motorista motorista = new Motorista()
+                                    {
+                                        IdCliente     = idCliente,
+                                        MnumeroCnh    = numCnh,
+                                        McategoriaCnh = categoriaCnh,
+                                        MvalidadeCnh  = validadeCnh,
+                                        IdStatus      = IdStatus,
+                                        Ccpf          = cpf
+                                    };
+                                    #endregion
+
+                                    await motoristaControl.PostMotoristaAsync(motorista);
+
+                                    // Conta bancária -----------------------------------------------------
+
+                                    #region ContaBancaria()
+                                    ContaBancaria contaBan = new ContaBancaria()
+                                    {
+                                        IdCliente = idCliente,
+                                        IdBanco = idBanco,
+                                        MAgencia = agencia,
+                                        MDigAgencia = digAgencia,
+                                        MConta = conta,
+                                        MDigConta = digConta,
+                                        IdTipoConta = idTipoConta,
+                                        MDataCadastro = DateTime.Now,
+                                        IdStatus = IdStatus,
+                                        Ccpf = cpf,
+                                        MUltimaAtualizacao = null,
+                                        BancoDesc = bancoDesc,
+                                        TipoContaBanDesc = tipoContaBan
+                                    };
+                                    #endregion
+
+                                    await contaControl.PostContaAsync(contaBan);
+                                    
+                                    
+                                    btnFinalizar.IsVisible = false;
+                                    btnVoltar.IsVisible    = false;
+
+                                    // Direciona para a tela de login
+                                    await Navigation.PushModalAsync(new Views.Login());
+                                }
+                                #endregion
+
+                                //------------------------------------------------------------------------------
+                            }
                         }
                         #endregion
 
+                        else if(i == 2) // Atualizar
+                        {
+                            // Verifica se email / senha foram alterados
+                             var clienteEmail = await control.GetCliente(Session.Instance.IdCliente);             
+                            
+                            #region Email alterado
+                            if (Session.Instance.cliente.Cemail != email || Session.Instance.cliente.Csenha != senha)
+                            {
+                                if (string.IsNullOrEmpty(confemail))
+                                {
+                                    await DisplayAlert(vazio, nulo + lblMotoristaConfEmail.Text, "OK");
+                                }
+                                else if (string.IsNullOrEmpty(confsenha))
+                                {
+                                    await DisplayAlert(vazio, nulo + lblMotoristaConfSenha.Text, "OK");
+                                }
+                                else if (!email.Equals(confemail))                      // COMPARA E-MAIL
+                                {
+                                    await DisplayAlert("E-mails", emails, "OK");
+                                }
+                                else if (!senha.Equals(confsenha))                      // COMPARA SENHA
+                                {
+                                    await DisplayAlert("Senhas", senhas, "OK");
+                                }
+                                else
+                                {
+                                    //-------------------------------------------------------------------------
+                                    // Salvando ...
+
+                                    // Dados pessoais ---------------------------------------------------------
+
+                                    #region Cliente()
+
+                                    Cliente cli = new Cliente()
+                                    {
+                                        Cnome       = nome,
+                                        Crg         = rg,
+                                        Ccpf        = cpf,
+                                        Csexo       = sexo,
+                                        CdataNascto = dataNascto,
+                                        Ccelular    = celular,
+                                        Ccelular2   = celular2,
+                                        Cendereco   = endereco,
+                                        Cnumero     = numero,
+                                        Ccomplemento = complemento,
+                                        Cbairro     = bairro,
+                                        Ccidade     = cidade,
+                                        Ccep        = cep,
+                                        Cuf         = uf,
+                                        Cemail      = email,
+                                        Csenha      = senha,
+                                        IdTipoUsuario = IdTipoUsuario,
+                                        IdStatus    = IdStatus
+                                    };
+
+                                    #endregion
+
+                                    //------------------------------------------------------------------------------
+
+                                    #region UPDATE
+
+                                    cli.IdCliente = idCli;
+
+                                    // Verifica se o e-mail foi alterado
+                                    var clienteEmail_ = await control.GetCliente(idCli);
+
+                                    await control.UpdateCliente(clienteEmail_, idCli);
+
+                                    // Atualiza - Login
+
+                                    var loga = await loginController.GetCpf(clienteEmail_.Ccpf);
+
+                                    loga.Email = email;
+                                    loga.Senha = senha;
+
+                                    await loginController.UpdateLogin(loga);
+
+                                    #region Atualiza as variáveis globais
+
+                                    Session.Instance.IdCliente = cli.IdCliente;
+                                    Session.Instance.IdTipoUsuario = cli.IdTipoUsuario;
+                                    Session.Instance.Email = cli.Cemail;
+                                    Session.Instance.Senha = cli.Csenha;
+                                    Session.Instance.Cnome = cli.Cnome;
+                                    Session.Instance.Crg = cli.Crg;
+                                    Session.Instance.Ccpf = cli.Ccpf;
+                                    Session.Instance.Csexo = cli.Csexo;
+                                    Session.Instance.CdataNascto = cli.CdataNascto;
+                                    Session.Instance.Ccelular = cli.Ccelular;
+                                    Session.Instance.Ccelular2 = cli.Ccelular2;
+                                    Session.Instance.Cendereco = cli.Cendereco;
+                                    Session.Instance.Cnumero = cli.Cnumero;
+                                    Session.Instance.Ccomplemento = cli.Ccomplemento;
+                                    Session.Instance.Cbairro = cli.Cbairro;
+                                    Session.Instance.Ccidade = cli.Ccidade;
+                                    Session.Instance.Ccep = cli.Ccep;
+                                    Session.Instance.Cuf = cli.Cuf;
+                                    Session.Instance.IdStatus = cli.IdStatus;
+
+                                    #endregion
+
+                                    btnSalvar.IsVisible = false;
+
+                                    await DisplayAlert("Sucesso!", "Cadastro atualizado com sucesso!", "OK");  // Confirma a atualização
+
+                                    EmailSenhaNotVisible();
+
+                                    // Direciona para a tela de login
+                                    await Navigation.PushModalAsync(new Views.LgMinhaContaa());
+
+                                    #endregion
+                                }
+                            }
+                            #endregion
+
+                            else
+                            {
+                                //-------------------------------------------------------------------------
+                                // Salvando ...
+
+                                // Dados pessoais ---------------------------------------------------------
+
+                                #region Cliente()
+
+                                Cliente cli = new Cliente()
+                                {
+                                    Cnome = nome,
+                                    Crg = rg,
+                                    Ccpf = cpf,
+                                    Csexo = sexo,
+                                    CdataNascto = dataNascto,
+                                    Ccelular = celular,
+                                    Ccelular2 = celular2,
+                                    Cendereco = endereco,
+                                    Cnumero = numero,
+                                    Ccomplemento = complemento,
+                                    Cbairro = bairro,
+                                    Ccidade = cidade,
+                                    Ccep = cep,
+                                    Cuf = uf,
+                                    Cemail = email,
+                                    Csenha = senha,
+                                    IdTipoUsuario = IdTipoUsuario,
+                                    IdStatus = IdStatus
+                                };
+
+                                #endregion
+
+                                //------------------------------------------------------------------------------
+
+                                #region UPDATE
+
+                                cli.IdCliente = idCli;
+
+                                // Verifica se o e-mail foi alterado
+                                var clienteEmail_ = await control.GetCliente(idCli);
+
+                                await control.UpdateCliente(cli, idCli);
+
+                                // Atualiza - Login
+
+                                var loga = await loginController.GetCpf(clienteEmail_.Ccpf);
+
+                                loga.Email = email;
+                                loga.Senha = senha;
+
+                                await loginController.UpdateLogin(loga);
+
+                                #region Atualiza as variáveis globais
+
+                                Session.Instance.IdCliente     = cli.IdCliente;
+                                Session.Instance.IdTipoUsuario = cli.IdTipoUsuario;
+                                Session.Instance.Email         = cli.Cemail;
+                                Session.Instance.Senha         = cli.Csenha;
+                                Session.Instance.Cnome         = cli.Cnome;
+                                Session.Instance.Crg           = cli.Crg;
+                                Session.Instance.Ccpf          = cli.Ccpf;
+                                Session.Instance.Csexo         = cli.Csexo;
+                                Session.Instance.CdataNascto   = cli.CdataNascto;
+                                Session.Instance.Ccelular      = cli.Ccelular;
+                                Session.Instance.Ccelular2     = cli.Ccelular2;
+                                Session.Instance.Cendereco     = cli.Cendereco;
+                                Session.Instance.Cnumero       = cli.Cnumero;
+                                Session.Instance.Ccomplemento  = cli.Ccomplemento;
+                                Session.Instance.Cbairro       = cli.Cbairro;
+                                Session.Instance.Ccidade       = cli.Ccidade;
+                                Session.Instance.Ccep          = cli.Ccep;
+                                Session.Instance.Cuf           = cli.Cuf;
+                                Session.Instance.IdStatus      = cli.IdStatus;
+
+                                #endregion
+
+                                btnSalvar.IsVisible = false;
+
+                                await DisplayAlert("Sucesso!", "Cadastro atualizado com sucesso!", "OK");  // Confirma a atualização
+
+                                EmailSenhaNotVisible();
+
+                                // Direciona para a tela de login
+                                await Navigation.PushModalAsync(new Views.LgMinhaContaa());
+                                
+                                #endregion
+                            }
+                        }
                         
-
-                        #region UPDATE
-                        else if (i == 2)    // UPDATE - CLIENTE ----------------------------------------
-                        {
-                            cli.IdCliente = idCli;
-
-                            await control.UpdateCliente(cli, idCli);
-
-                            #region Atualiza as variáveis globais
-
-                            Session.Instance.IdCliente     = cli.IdCliente;
-                            Session.Instance.IdTipoUsuario = cli.IdTipoUsuario;
-                            Session.Instance.Email         = cli.Cemail;
-                            Session.Instance.Senha         = cli.Csenha;
-                            Session.Instance.Cnome         = cli.Cnome;
-                            Session.Instance.Crg           = cli.Crg;
-                            Session.Instance.Ccpf          = cli.Ccpf;
-                            Session.Instance.Csexo         = cli.Csexo;
-                            Session.Instance.CdataNascto   = cli.CdataNascto;
-                            Session.Instance.Ccelular      = cli.Ccelular;
-                            Session.Instance.Ccelular2     = cli.Ccelular2;
-                            Session.Instance.Cendereco     = cli.Cendereco;
-                            Session.Instance.Cnumero       = cli.Cnumero;
-                            Session.Instance.Ccomplemento  = cli.Ccomplemento;
-                            Session.Instance.Cbairro       = cli.Cbairro;
-                            Session.Instance.Ccidade       = cli.Ccidade;
-                            Session.Instance.Ccep          = cli.Ccep;
-                            Session.Instance.Cuf           = cli.Cuf;
-                            Session.Instance.IdStatus      = cli.IdStatus;
-
-                            #endregion
-
-                            btnSalvar.IsVisible = false;
-
-                            await DisplayAlert("Sucesso!", "Cadastro atualizado com sucesso!", "OK");  // Confirma a atualização
-
-                            // Direciona para a tela de login
-                            await Navigation.PushModalAsync(new Views.LgMinhaContaa());
-                        }
-
-                        else if(i == 3)   // UPDATE - MOTORISTA ---------------------------------------
-                        {
-                            #region Motorista()
-                            Motorista motorista = new Motorista()
+                        else
+                        {                            
+                            //-------------------------------------------------------------------------
+                            // Salvando ...
+                            
+                            // Dados pessoais ---------------------------------------------------------
+                            
+                            #region Cliente()
+                            
+                            Cliente cli = new Cliente()
                             {
-                                IdCliente     = idCli,
-                                MnumeroCnh    = numCnh,
-                                McategoriaCnh = categoriaCnh,
-                                MvalidadeCnh  = validadeCnh,
-                                IdStatus      = IdStatus,
-                                Ccpf          = cpf
+                                Cnome = nome,
+                                Crg = rg,
+                                Ccpf = cpf,
+                                Csexo = sexo,
+                                CdataNascto = dataNascto,
+                                Ccelular = celular,
+                                Ccelular2 = celular2,
+                                Cendereco = endereco,
+                                Cnumero = numero,
+                                Ccomplemento = complemento,
+                                Cbairro = bairro,
+                                Ccidade = cidade,
+                                Ccep = cep,
+                                Cuf = "vc",
+                                Cemail = email,
+                                Csenha = senha,
+                                IdTipoUsuario = IdTipoUsuario,
+                                IdStatus = IdStatus
                             };
+                            
                             #endregion
-
-                            motorista.IdMotorista = Session.Instance.IdMotorista;
-
-                            await motoristaControl.UpdateMotorista(motorista);
-
+                            
+                            //------------------------------------------------------------------------------
+                            
+                            #region UPDATE
+                            
+                            cli.IdCliente = idCli;
+                            
+                            // Verifica se o e-mail foi alterado
+                            var clienteEmail_ = await control.GetCliente(idCli);
+                            
+                            await control.UpdateCliente(cli, idCli);
+                         
+                            // await loginController.UpdateLogin(login);
+                            
+                            #region Atualiza as variáveis globais
+                            
+                            Session.Instance.IdCliente = cli.IdCliente;
+                            Session.Instance.IdTipoUsuario = cli.IdTipoUsuario;
+                            Session.Instance.Email = cli.Cemail;
+                            Session.Instance.Senha = cli.Csenha;
+                            Session.Instance.Cnome = cli.Cnome;
+                            Session.Instance.Crg = cli.Crg;
+                            Session.Instance.Ccpf = cli.Ccpf;
+                            Session.Instance.Csexo = cli.Csexo;
+                            Session.Instance.CdataNascto = cli.CdataNascto;
+                            Session.Instance.Ccelular = cli.Ccelular;
+                            Session.Instance.Ccelular2 = cli.Ccelular2;
+                            Session.Instance.Cendereco = cli.Cendereco;
+                            Session.Instance.Cnumero = cli.Cnumero;
+                            Session.Instance.Ccomplemento = cli.Ccomplemento;
+                            Session.Instance.Cbairro = cli.Cbairro;
+                            Session.Instance.Ccidade = cli.Ccidade;
+                            Session.Instance.Ccep = cli.Ccep;
+                            Session.Instance.Cuf = cli.Cuf;
+                            Session.Instance.IdStatus = cli.IdStatus;
+                            
+                            #endregion
+                            
                             btnSalvar.IsVisible = false;
-
+                            
                             await DisplayAlert("Sucesso!", "Cadastro atualizado com sucesso!", "OK");  // Confirma a atualização
-
+                            
+                            EmailSenhaNotVisible();
+                            
                             // Direciona para a tela de login
                             await Navigation.PushModalAsync(new Views.LgMinhaContaa());
+                            
+                            
+                            #endregion
+                            
                         }
-
+                        //-------------------------------------------------------------------------
+                    }
+                    else if (i == 3)   // UPDATE - MOTORISTA ---------------------------------------
+                    {
+                        #region Motorista()
+                        Motorista motorista = new Motorista()
+                        {
+                            IdCliente     = idCli,
+                            MnumeroCnh    = numCnh,
+                            McategoriaCnh = categoriaCnh,
+                            MvalidadeCnh  = validadeCnh,
+                            IdStatus      = IdStatus,
+                            Ccpf          = cpf
+                        };
                         #endregion
+
+                        motorista.IdMotorista = Session.Instance.IdMotorista;
+
+                        await motoristaControl.UpdateMotorista(motorista);
+
+                        btnSalvar.IsVisible = false;
+
+                        await DisplayAlert("Sucesso!", "Cadastro atualizado com sucesso!", "OK");  // Confirma a atualização
+
+                        // Direciona para a tela de login
+                        await Navigation.PushModalAsync(new Views.LgMinhaContaa());
 
                         EmailSenhaNotVisible();
-
-                        //-------------------------------------------------------------------------
                     }
+
                 }
             }
             catch (Exception ex)
@@ -833,11 +1087,10 @@ namespace Teste03.Views
             // Captura o ID do cliente logado
             idCli = Session.Instance.IdCliente;
 
+            cliente = Session.Instance.cliente;
+                        
             #region Populando 
-
-            // Session.Instance.IdCliente = cliente.IdCliente;
-            // Session.Instance.IdTipoUsuario = cliente.IdTipoUsuario;
-
+            
              etMotoristaNome.Text       = Session.Instance.Cnome;
              etMotoristaRg.Text         = Session.Instance.Crg;
              etMotoristaCpf.Text        = Session.Instance.Ccpf;
@@ -858,6 +1111,7 @@ namespace Teste03.Views
              etMotoristaSenha.Text      = Session.Instance.Senha;
              
              int idStatus               = Session.Instance.IdStatus;
+
 
             #endregion
             
@@ -1028,6 +1282,25 @@ namespace Teste03.Views
                 EnderecoVisible();
                 stBtnAvancar.IsVisible = true;
             }
+            else if (lblCadastroCnh.IsVisible)
+            {
+                // Esconde
+                lblCadastroCnh.IsVisible   = false;
+                CnhNotVisible();                     // Campos
+                slEditarVeiculos.IsVisible = false;  // Btn Editar
+                stBtnVoltar.IsVisible      = false;  // Btn Voltar
+
+                btnMeuCadastro_Pessoais.IsVisible = true;
+                btnMeuCadastro_CNH.IsVisible      = true;
+
+                stMeuCadastro_2.IsVisible         = true;
+
+                // Título - CNH
+                lblCadastroCnh.IsVisible = false;
+                
+                // Mostra
+                stMeuCadastro_2.IsVisible = true;
+            }
         }
         #endregion
 
@@ -1157,8 +1430,8 @@ namespace Teste03.Views
             #region Mostra os botões do menu superior
 
             btnDadosPessoais2.IsVisible = true;
-            btnEndereco2.IsVisible = true;
-            btnEmailSenha2.IsVisible = true;
+            btnEndereco2.IsVisible      = true;
+            btnEmailSenha2.IsVisible    = true;
 
             #endregion
 
@@ -1171,6 +1444,8 @@ namespace Teste03.Views
         {
             btnMeuCadastro_Pessoais.IsVisible = false;
             btnMeuCadastro_CNH.IsVisible      = false;
+
+            stMeuCadastro_2.IsVisible         = false;
 
             // Título - CNH
             lblCadastroCnh.IsVisible = true;

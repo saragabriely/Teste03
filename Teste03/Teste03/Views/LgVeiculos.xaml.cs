@@ -112,23 +112,9 @@ namespace Teste03.Views
         #region ListaAsync()
         public async void ListaAsync()
         {
-            #region comentários
-            // List<Veiculo> teste = veiculoController.GetListVeiculo();
-            /*
-             List<string> itens1 = new List<string>()
-             {
-                 "Palmeiras", "Atlético", "Santos", "Corinthians", "Palmeiras"
-             };
-
-             List<string> itens = new List<string>()
-             {
-                 "Palmeiras", "Atlético", "Santos", "Corinthians", "Palmeiras"
-             }; */
-            #endregion
-
             List<Veiculo> _list = await veiculoController.GetListVeiculo(id);
 
-            if (_list == null)
+            if (_list == null || _list.Count == 0)
             {
                 LstVeiculos.IsVisible = false;
 
@@ -136,6 +122,9 @@ namespace Teste03.Views
             }
             else
             {
+                lbListaVazia.IsVisible = false;
+
+                LstVeiculos.IsVisible = true;
                 LstVeiculos.ItemsSource = _list;
             } 
         }

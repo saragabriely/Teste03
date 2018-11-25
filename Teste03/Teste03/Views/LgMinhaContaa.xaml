@@ -78,9 +78,9 @@
                     <Button x:Name="btnMotoristaVeiculos" Text="Meus Veículos" Clicked="BtnVeiculos_Clicked" 
                             BackgroundColor="{StaticResource Blue}" TextColor="{StaticResource White}" FontSize="13"  />
 
-                    <!-- E-mail e senha -->
+                    <!-- E-mail e senha - ->
                     <Button x:Name="btnEmailESenha" Text="E-mail e senha" Clicked="BtnVeiculos_Clicked" 
-                            BackgroundColor="{StaticResource Blue}" TextColor="{StaticResource White}"  FontSize="13" />
+                            BackgroundColor="{StaticResource Blue}" TextColor="{StaticResource White}"  FontSize="13" /> -->
 
                     <!-- Desativar cadastro -->
                     <Button x:Name="btnMotoristaDesativarCadastro" Text="Desativar cadastro" Clicked="BtnVeiculos_Clicked" 

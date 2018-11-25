@@ -29,262 +29,245 @@
                     FontSize="18"                           HeightRequest="60"
                     Grid.Row="0"   Grid.Column="0" Grid.ColumnSpan="5" />
 
-          <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Margin="20"  HorizontalOptions="Center" >
+            <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Margin="20"  HorizontalOptions="Center" >
 
-            <!-- Título - CONTA BANCÁRIA -->
-            <StackLayout x:Name="slTitulo" Padding="5" >
+                <!-- Título - CONTA BANCÁRIA -->
+                <StackLayout x:Name="slTitulo" Padding="5" >
 
-              <StackLayout.GestureRecognizers>
-                <TapGestureRecognizer Tapped="BtnMinhasContas_Clicked" NumberOfTapsRequired="1" />
-              </StackLayout.GestureRecognizers>
+                  <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="BtnMinhasContas_Clicked" NumberOfTapsRequired="1" />
+                  </StackLayout.GestureRecognizers>
 
-              <Label  Text="DADOS BANCÁRIOS"  FontSize="15"   FontAttributes="Bold"  TextColor="{StaticResource Blue}"
-                      HorizontalTextAlignment="Center"  VerticalTextAlignment="Start"  HeightRequest="40"
-                      IsVisible="True" />
+                  <Label  Text="DADOS BANCÁRIOS"  FontSize="15"   FontAttributes="Bold"  TextColor="{StaticResource Blue}"
+                          HorizontalTextAlignment="Center"  VerticalTextAlignment="Start"  HeightRequest="40"
+                          IsVisible="True" />
 
-            </StackLayout>
+                </StackLayout>
 
-            <!-- Btn Adicionar Conta Bancária -->
-            <Button x:Name="btnAdicionarConta" Text=" + Adicionar conta bancária" FontSize="13" IsVisible="True"
-                    HeightRequest="37" BackgroundColor="{StaticResource WhiteBtn}" TextColor="{StaticResource Blue}"
-                    Clicked="BtnAdicionarConta_Clicked"/>
+                <!-- Btn Adicionar Conta Bancária -->
+                <Button x:Name="btnAdicionarConta" Text=" + Adicionar conta bancária" FontSize="12" IsVisible="True"
+                        HeightRequest="37" BackgroundColor="{StaticResource WhiteBtn}" TextColor="{StaticResource Blue}"
+                        Clicked="BtnAdicionarConta_Clicked"/>
 
-            <!-- Clicked="BtnAdicionar_Clicked" -->
+              
+                <StackLayout x:Name="slMinhasContas" Orientation="Horizontal" IsVisible="True" Padding="5"  >
 
-            <StackLayout x:Name="slMinhasContas" Orientation="Horizontal" IsVisible="True" Padding="5"  >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition  Width="72" />
+                          <ColumnDefinition  Width="72" />
+                          <ColumnDefinition  Width="72" />
+                          <ColumnDefinition  Width="72" />
+                        </Grid.ColumnDefinitions>
 
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition  Width="72" />
-                  <ColumnDefinition  Width="72" />
-                  <ColumnDefinition  Width="72" />
-                  <ColumnDefinition  Width="72" />
-                </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions >
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                          <RowDefinition Height="35" />
+                        </Grid.RowDefinitions>
 
-                <Grid.RowDefinitions >
-                  <RowDefinition Height="35" />
-                  <RowDefinition Height="35" />
-                  <RowDefinition Height="35" />
-                  <RowDefinition Height="35" />
-                  <RowDefinition Height="35" />
-                  <RowDefinition Height="35" />
-                  <RowDefinition Height="35" />
-                  <RowDefinition Height="35" />
-                  <RowDefinition Height="35" />
-                </Grid.RowDefinitions>
+                        <Label x:Name="lblAgencia" Text="Agência" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="0" 
+                               VerticalTextAlignment="Center" TextColor="{StaticResource Blue}" />
 
-                <Label x:Name="lblAgencia" Text="Agência" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="0" 
-                       VerticalTextAlignment="Center" />
+                        <Label x:Name="lblConta"   Text="Conta"   FontSize="12" FontAttributes="Bold" Grid.Column="1" Grid.Row="0"  
+                               VerticalTextAlignment="Center" TextColor="{StaticResource Blue}" />
 
-                <Label x:Name="lblConta"   Text="Conta"   FontSize="12" FontAttributes="Bold" Grid.Column="1" Grid.Row="0"  
-                       VerticalTextAlignment="Center" />
+                        <Label x:Name="lblBanco"    Text="Banco"  FontSize="12" FontAttributes="Bold" Grid.Column="2" Grid.Row="0" 
+                               VerticalTextAlignment="Center" TextColor="{StaticResource Blue}" />
 
-                <Label x:Name="lblBanco"    Text="Banco"  FontSize="12" FontAttributes="Bold" Grid.Column="2" Grid.Row="0" 
-                       VerticalTextAlignment="Center" />
+                        <Label x:Name="lbListaVazia" Text="Você não possui conta(s) cadastradas!" FontSize="13"     HorizontalTextAlignment="Center"
+                               Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="2"  IsVisible="false" VerticalTextAlignment="Center"  />
 
-                <Label x:Name="lbListaVazia" Text="Você não possui conta(s) cadastradas!" FontSize="13"     HorizontalTextAlignment="Center"
-                       Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="2"  IsVisible="false" VerticalTextAlignment="Center"  />
+                        <!-- LIST VIEW -->
+                        <ListView x:Name="LstConta" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="8"
+                                  ItemSelected="LstConta_ItemSelected" IsVisible="true" >
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Orientation="Horizontal" WidthRequest="300" VerticalOptions="CenterAndExpand" Padding="5"  >
 
-                <!-- LIST VIEW -->
-                <ListView x:Name="LstConta" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="8"
-                          ItemSelected="LstConta_ItemSelected" IsVisible="true" >
-                  <ListView.ItemTemplate>
-                    <DataTemplate>
-                      <ViewCell>
-                        <StackLayout Orientation="Horizontal" WidthRequest="300" VerticalOptions="CenterAndExpand"
-                                     Padding="5"  >
+                                            <!-- Grid - Contas bancárias -->
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition  Width="45"  />
+                                                    <ColumnDefinition  Width="15"  />
+                                                    <ColumnDefinition  Width="50"  />
+                                                    <ColumnDefinition  Width="15"  />
+                                                    <ColumnDefinition  Width="120" />
+                                                </Grid.ColumnDefinitions>
 
-                          <!-- Grid - Contas bancárias -->
-                          <Grid>
-                            <Grid.ColumnDefinitions>
-                               <ColumnDefinition  Width="45"  />
-                               <ColumnDefinition  Width="15"  />
-                               <ColumnDefinition  Width="50"  />
-                               <ColumnDefinition  Width="15"  />
-                               <ColumnDefinition  Width="120" />
-                            </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions> <RowDefinition Height="35" />
+                                                </Grid.RowDefinitions>
 
-                            <Grid.RowDefinitions><RowDefinition Height="35" /></Grid.RowDefinitions>
+                                                <Label Text="{Binding MAgencia} "   FontSize="12" Grid.Column="0" Grid.Row="0" VerticalOptions="Center" />
+                                                <Label Text="{Binding MDigAgencia}" FontSize="12" Grid.Column="1" Grid.Row="0" VerticalOptions="Center" />
+                                                <Label Text="{Binding MConta}"      FontSize="12" Grid.Column="2" Grid.Row="0" VerticalOptions="Center" />
+                                                <Label Text="{Binding MDigConta}"   FontSize="12" Grid.Column="3" Grid.Row="0" VerticalOptions="Center" />
+                                                <Label Text="{Binding BancoDesc}"   FontSize="12" Grid.Column="4" Grid.Row="0" VerticalOptions="Center" />
+                                            
+                                            </Grid>
 
-                            <Label Text="{Binding MAgencia} "   FontSize="13" Grid.Column="0" Grid.Row="0" VerticalOptions="Center" />
-                            <Label Text="{Binding MDigAgencia}" FontSize="13" Grid.Column="1" Grid.Row="0" VerticalOptions="Center" />
-                            <Label Text="{Binding MConta}"      FontSize="13" Grid.Column="2" Grid.Row="0" VerticalOptions="Center" />
-                            <Label Text="{Binding MDigConta}"   FontSize="13" Grid.Column="3" Grid.Row="0" VerticalOptions="Center" />
-                            <Label Text="{Binding BancoDesc}"   FontSize="13" Grid.Column="4" Grid.Row="0" VerticalOptions="Center" />
-                          </Grid>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
 
-                          <!-- BTN - EDITAR - ->
-                          <StackLayout x:Name="slEditarVeiculos" IsVisible="True"  VerticalOptions="Center" HorizontalOptions="End">
+                    </Grid>
+
+                </StackLayout>
+
+                <!-- Adicionar Cnta Bancários -->
+                <StackLayout x:Name="slAdicionar" IsVisible="False" VerticalOptions="Center" >
+
+                    <!-- Cadastro de conta bancária -->
+                    <Button x:Name="lblCadastroConta" Text="Cadastro de conta bancária" FontSize="13" IsVisible="True"
+                        HeightRequest="45" WidthRequest="300" BackgroundColor="{StaticResource WhiteBtn}" 
+                        TextColor="{StaticResource Blue}" />
+                    
+                    <!-- Minha conta -->
+                    <Button x:Name="lblMinhaConta" Text="Minha conta bancária" FontSize="13" IsVisible="False"
+                        HeightRequest="45" WidthRequest="300" BackgroundColor="{StaticResource WhiteBtn}" 
+                        TextColor="{StaticResource Blue}" />
+                    
+                    <Grid x:Name="gdAdicionar">
+
+                        <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="54" />
+                        <ColumnDefinition  Width="52" />
+                        <ColumnDefinition  Width="45" />
+                        <ColumnDefinition  Width="45" />
+                        <ColumnDefinition  Width="45" />
+                        <ColumnDefinition  Width="45" />
+                    </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions  >
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="44" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Adicionar Conta Bancária -->
+                        <!-- Banco -->
+                        <Label x:Name="lblMotoristaBanco" Text="Banco" FontSize="12" FontAttributes="Bold"  IsVisible="True"
+                               Grid.Column="0" Grid.Row="0"  VerticalOptions="End"  />
+
+                        <Entry  x:Name="etMotoristaBanco" Placeholder="Banco" FontSize="12" IsVisible="True"
+                                Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="6"  VerticalOptions="Start"  />
+
+                        <!-- Agencia -->
+                        <Label x:Name="lblMotoristaAgencia" Text="Agencia" FontSize="12" FontAttributes="Bold"  IsVisible="True"
+                               Grid.Column="0" Grid.Row="2"  VerticalOptions="CenterAndExpand" />
+
+                        <Entry x:Name="etMotoristaAgencia" Placeholder="00000"  FontSize="12" IsVisible="True"
+                               Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2"  Keyboard="Numeric" />
+
+                        <!-- Digito -->
+                        <Label x:Name="lblMotoristaDigitoAgencia" Text="Digito" FontSize="12" FontAttributes="Bold" IsVisible="True"
+                               Grid.Column="3" Grid.Row="2"    HorizontalOptions="Center"  />
+
+                        <Entry x:Name="etMotoristaDigitoAgencia"  Placeholder="00"  FontSize="12" IsVisible="True"
+                               Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="3"
+                               HorizontalOptions="StartAndExpand" Keyboard="Numeric" />
+
+                        <!-- Conta -->
+                        <Label x:Name="lblMotoristaConta" Text="Conta" FontSize="12" FontAttributes="Bold"  IsVisible="True"
+                               Grid.Column="0" Grid.Row="3"  VerticalOptions="CenterAndExpand" />
+
+                        <Entry x:Name="etMotoristaConta" Placeholder="0000"  FontSize="12" IsVisible="True"
+                               Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Keyboard="Numeric"  />
+
+                        <!-- Digito -->
+                        <Label x:Name="lblMotoristaDigitoConta" Text="Digito" FontSize="12" FontAttributes="Bold" IsVisible="True"
+                               Grid.Column="3" Grid.Row="3"
+                               VerticalOptions="CenterAndExpand" HorizontalOptions="Center" />
+
+                        <Entry x:Name="etMotoristaDigitoConta"  Placeholder="00" FontSize="12"  IsVisible="True"
+                               Grid.Column="4" Grid.Row="3" HorizontalOptions="StartAndExpand" Keyboard="Numeric"  />
+
+                        <!-- Tipo de Conta -->
+                        <Label x:Name="lblMotoristaTipoConta" Text="Tipo de Conta" FontSize="12" FontAttributes="Bold" IsVisible="True"
+                               Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" VerticalOptions="End" />
+
+                        <Entry x:Name="etMotoristaTipoConta" Placeholder="Corrente" FontSize="12" IsVisible="True"
+                               Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="6" VerticalOptions="Start" />
+
+                
+                        <!-- VOLTAR - CADASTRO -->
+                        <Button  x:Name="btnVoltar" Text="Voltar"  Clicked="BtnVoltar_Clicked" IsVisible="False"
+                                 BackgroundColor="{StaticResource Silver}" TextColor="{StaticResource White}"
+                                 Grid.Column="0"    Grid.Row="7"   Grid.ColumnSpan="2"         HeightRequest="37"
+                                 VerticalOptions="StartAndExpand"  />  
+                
+                        <!-- VOLTAR - BUSCA -->
+                        <StackLayout x:Name="stBtnVoltar" Grid.Row="7"  Grid.Column="0"   IsVisible="false" >
+
+                                  <StackLayout.GestureRecognizers><TapGestureRecognizer Tapped="BtnVoltar2_Clicked" NumberOfTapsRequired="1" />
+                                  </StackLayout.GestureRecognizers>
+
+                                  <Image Source="btnVoltar3.png" VerticalOptions="End" HorizontalOptions="CenterAndExpand"
+                                         HeightRequest="35"  WidthRequest="35" />
+
+                              </StackLayout>
+                
+                        <!-- Excluir -->
+                        <StackLayout x:Name="slExcluirConta" IsVisible="False" Grid.Column="2" Grid.Row="7" VerticalOptions="End" >
+
+                               <StackLayout.GestureRecognizers>
+                                   <TapGestureRecognizer Tapped="BtnExcluirConta_Clicked" NumberOfTapsRequired="1" />
+                               </StackLayout.GestureRecognizers>
+
+                               <Image  Source="excluir.png"    VerticalOptions="End"     HorizontalOptions="CenterAndExpand"
+                                       HeightRequest="17"   WidthRequest="17"  />
+
+                               <Label Text="Excluir" FontSize="10" VerticalOptions="End" HorizontalTextAlignment="Center" />
+                         </StackLayout>
+                
+                        <!-- Editar -->
+                        <StackLayout x:Name="slEditarConta" IsVisible="False" Grid.Column="4" Grid.Row="7" VerticalOptions="End" >
+
                             <StackLayout.GestureRecognizers>
-                              <TapGestureRecognizer Tapped="BtnEditarConta_Clicked" NumberOfTapsRequired="1" />
+                                <TapGestureRecognizer Tapped="BtnEditarConta_Clicked" NumberOfTapsRequired="1" />
                             </StackLayout.GestureRecognizers>
 
-                            <Image  Source="editar.png"  VerticalOptions="CenterAndExpand" HorizontalOptions="End"
-                                    HeightRequest="18"   WidthRequest="18"  />
-                          </StackLayout>
+                            <Image Source="editar.png" VerticalOptions="End" HorizontalOptions="Center"
+                                   HeightRequest="17"  WidthRequest="17"  />
 
-                          <!- - Excluir - ->
-                          <StackLayout x:Name="slExcluirVeiculos" IsVisible="True" VerticalOptions="Center" HorizontalOptions="End" >
-                            <StackLayout.GestureRecognizers>
-                              <TapGestureRecognizer Tapped="BtnExcluirConta_Clicked" NumberOfTapsRequired="1" />
-                            </StackLayout.GestureRecognizers>
-                            <Image  Source="excluir.png"    VerticalOptions="CenterAndExpand"     HorizontalOptions="End"
-                                    HeightRequest="18"   WidthRequest="18"  />
-                          </StackLayout>
--->
-                        
-                        </StackLayout>
-                      </ViewCell>
-                    </DataTemplate>
-                  </ListView.ItemTemplate>
-                </ListView>
+                            <Label Text="Editar" FontSize="10" VerticalOptions="StartAndExpand" HorizontalTextAlignment="Start" />
 
-              </Grid>
+                        </StackLayout>                
+
+                        <!-- SALVAR - CADASTRO -->
+                        <Button  x:Name="btnSalvar" Text="Salvar"  Clicked="BtnAvancar_Clicked" IsVisible="False"
+                                 BackgroundColor="{StaticResource GreenBtn}"  TextColor="{StaticResource White}"
+                                 Grid.Column="3"    Grid.Row="7"   Grid.ColumnSpan="4"  HeightRequest="37"
+                                 VerticalOptions="StartAndExpand"  />
+                
+                        <!-- SALVAR - BUSCA -->
+                        <Button  x:Name="btnSalvar2" Text="Salvar"  Clicked="BtnAvancar2_Clicked" IsVisible="False"
+                                 BackgroundColor="{StaticResource GreenBtn}"  TextColor="{StaticResource White}"
+                                 Grid.Column="3"    Grid.Row="7"   Grid.ColumnSpan="4"  HeightRequest="37"
+                                 VerticalOptions="StartAndExpand"  />
+
+                    </Grid>
+              
+                </StackLayout>
 
             </StackLayout>
-
-            <!-- Adicionar Cnta Bancários -->
-            <StackLayout x:Name="slAdicionar" IsVisible="False" VerticalOptions="Center" >
-
-            <!--  <Label x:Name="lblCadastroConta" Text="Cadastro de conta bancária" FontSize="14" 
-                     HorizontalOptions="Center"   IsVisible="false"  HeightRequest="37"
-                     WidthRequest="300" VerticalOptions="Center"
-                     BackgroundColor="{StaticResource WhiteBtn}" TextColor="{StaticResource Blue}"  /> -->
-
-              <Button x:Name="lblCadastroConta" Text="Cadastro de conta bancária" FontSize="13" IsVisible="True"
-                    HeightRequest="45" WidthRequest="300" BackgroundColor="{StaticResource WhiteBtn}" 
-                      TextColor="{StaticResource Blue}" />
               
-              <Grid x:Name="gdAdicionar">
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition  Width="54" />
-                    <ColumnDefinition  Width="52" />
-                    <ColumnDefinition  Width="45" />
-                    <ColumnDefinition  Width="45" />
-                    <ColumnDefinition  Width="45" />
-                    <ColumnDefinition  Width="45" />
-                </Grid.ColumnDefinitions>
-
-                <Grid.RowDefinitions  >
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="35" />
-                    <RowDefinition Height="35" />
-                    <RowDefinition Height="35" />
-                    <RowDefinition Height="35" />
-                    <RowDefinition Height="35" />
-                    <RowDefinition Height="35" />
-                    <RowDefinition Height="44" />
-                </Grid.RowDefinitions>
-
-                <!-- Adicionar Veículo -->
-                <!-- Banco -->
-                <Label x:Name="lblMotoristaBanco" Text="Banco" FontSize="14" FontAttributes="Bold"  IsVisible="True"
-                       Grid.Column="0" Grid.Row="0"  VerticalOptions="End"  />
-
-                <Entry  x:Name="etMotoristaBanco" Placeholder="Banco" FontSize="14" IsVisible="True"
-                        Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="6"  VerticalOptions="Start"  />
-
-                <!-- Agencia -->
-                <Label x:Name="lblMotoristaAgencia" Text="Agencia" FontSize="14" FontAttributes="Bold"  IsVisible="True"
-                       Grid.Column="0" Grid.Row="2"  VerticalOptions="CenterAndExpand" />
-
-                <Entry x:Name="etMotoristaAgencia" Placeholder="00000"  FontSize="14" IsVisible="True"
-                       Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2"  Keyboard="Numeric" />
-
-                <!-- Digito -->
-                <Label x:Name="lblMotoristaDigitoAgencia" Text="Digito" FontSize="14" FontAttributes="Bold" IsVisible="True"
-                       Grid.Column="3" Grid.Row="2"    HorizontalOptions="Center"  />
-
-                <Entry x:Name="etMotoristaDigitoAgencia"  Placeholder="00"  FontSize="14" IsVisible="True"
-                       Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="3"
-                       HorizontalOptions="StartAndExpand" Keyboard="Numeric" />
-
-                <!-- Conta -->
-                <Label x:Name="lblMotoristaConta" Text="Conta" FontSize="14" FontAttributes="Bold"  IsVisible="True"
-                       Grid.Column="0" Grid.Row="3"  VerticalOptions="CenterAndExpand" />
-
-                <Entry x:Name="etMotoristaConta" Placeholder="0000"  FontSize="14" IsVisible="True"
-                       Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Keyboard="Numeric"  />
-
-                <!-- Digito -->
-                <Label x:Name="lblMotoristaDigitoConta" Text="Digito" FontSize="14" FontAttributes="Bold" IsVisible="True"
-                       Grid.Column="3" Grid.Row="3"
-                       VerticalOptions="CenterAndExpand" HorizontalOptions="Center" />
-
-                <Entry x:Name="etMotoristaDigitoConta"  Placeholder="00" FontSize="14"  IsVisible="True"
-                       Grid.Column="4" Grid.Row="3" HorizontalOptions="StartAndExpand" Keyboard="Numeric"  />
-
-                <!-- Tipo de Conta -->
-                <Label x:Name="lblMotoristaTipoConta" Text="Tipo de Conta" FontSize="14" FontAttributes="Bold" IsVisible="True"
-                       Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" VerticalOptions="End" />
-
-                <Entry x:Name="etMotoristaTipoConta" Placeholder="Corrente" FontSize="14" IsVisible="True"
-                       Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="6" VerticalOptions="Start" />
-
-                
-                <!-- VOLTAR - CADASTRO -->
-                <Button  x:Name="btnVoltar" Text="Voltar"  Clicked="BtnVoltar_Clicked" IsVisible="False"
-                         BackgroundColor="{StaticResource Silver}" TextColor="{StaticResource White}"
-                         Grid.Column="0"    Grid.Row="7"   Grid.ColumnSpan="2"         HeightRequest="37"
-                         VerticalOptions="StartAndExpand"  />  
-                
-                <!-- VOLTAR - BUSCA -->
-                <StackLayout x:Name="stBtnVoltar" Grid.Row="7"  Grid.Column="0"   IsVisible="false" >
-
-                          <StackLayout.GestureRecognizers><TapGestureRecognizer Tapped="BtnVoltar2_Clicked" NumberOfTapsRequired="1" />
-                          </StackLayout.GestureRecognizers>
-
-                          <Image Source="btnVoltar3.png" VerticalOptions="End" HorizontalOptions="CenterAndExpand"
-                                 HeightRequest="45"  WidthRequest="45" />
-
-                      </StackLayout>
-                
-                <!-- Excluir -->
-                <StackLayout x:Name="slExcluirConta" IsVisible="False" Grid.Column="2" Grid.Row="7" VerticalOptions="End" >
-
-                       <StackLayout.GestureRecognizers>
-                           <TapGestureRecognizer Tapped="BtnExcluirConta_Clicked" NumberOfTapsRequired="1" />
-                       </StackLayout.GestureRecognizers>
-
-                       <Image  Source="excluir.png"    VerticalOptions="End"     HorizontalOptions="CenterAndExpand"
-                               HeightRequest="17"   WidthRequest="17"  />
-
-                       <Label Text="Excluir" FontSize="12" VerticalOptions="End" HorizontalTextAlignment="Center" />
-                 </StackLayout>
-                
-                <!-- Editar -->
-                <StackLayout x:Name="slEditarConta" IsVisible="False" Grid.Column="4" Grid.Row="7" VerticalOptions="End" >
-
-                    <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="BtnEditarConta_Clicked" NumberOfTapsRequired="1" />
-                    </StackLayout.GestureRecognizers>
-
-                    <Image Source="editar.png" VerticalOptions="End" HorizontalOptions="Center"
-                           HeightRequest="17"  WidthRequest="17"  />
-
-                    <Label Text="Editar" FontSize="12" VerticalOptions="StartAndExpand" HorizontalTextAlignment="Start" />
-
-                </StackLayout>                
-
-                <!-- SALVAR - CADASTRO -->
-                <Button  x:Name="btnSalvar" Text="Salvar"  Clicked="BtnAvancar_Clicked" IsVisible="False"
-                         BackgroundColor="{StaticResource GreenBtn}"  TextColor="{StaticResource White}"
-                         Grid.Column="3"    Grid.Row="7"   Grid.ColumnSpan="4"  HeightRequest="37"
-                         VerticalOptions="StartAndExpand"  />
-                
-                <!-- SALVAR - BUSCA -->
-                <Button  x:Name="btnSalvar2" Text="Salvar"  Clicked="BtnAvancar2_Clicked" IsVisible="False"
-                         BackgroundColor="{StaticResource GreenBtn}"  TextColor="{StaticResource White}"
-                         Grid.Column="3"    Grid.Row="7"   Grid.ColumnSpan="4"  HeightRequest="37"
-                         VerticalOptions="StartAndExpand"  />
-              
-              </Grid>
-              
-            </StackLayout>
-
-          </StackLayout>
-              
+            
+            
             <!-- HOME -->
             <StackLayout Grid.Row="2"  Grid.Column="0" Spacing="-3" >
 

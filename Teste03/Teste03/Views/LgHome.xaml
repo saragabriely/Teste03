@@ -192,8 +192,9 @@
                         </StackLayout>
 
                         <!-- Inicio -->
-                        <Label x:Name="lbNotifica__Moto"  FontSize="13" VerticalOptions="Center" HorizontalOptions="Start" IsVisible="False"
-                                    HeightRequest="40" VerticalTextAlignment="Center"  Grid.Column="1" Grid.Row="1" WidthRequest="300" />
+                        <Label x:Name="lbNotifica__Moto"  FontSize="13" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="False"
+                               HeightRequest="40" VerticalTextAlignment="Center"  HorizontalTextAlignment="Center"
+                               Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" WidthRequest="300" />
 
 
                         <!-- Notifica orçamento -->

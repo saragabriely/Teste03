@@ -17,9 +17,9 @@ namespace Teste03.Views
         #region Parâmetros / Controllers
 
         //public static int id = Session.Instance.IdCliente;
-        public static int id  = Session.Instance.IdCliente;
-        public int        idContaBancaria;
-        public string     cpf = Session.Instance.Ccpf;
+        public static int id = Session.Instance.IdCliente; // 8; // 
+        public static int idContaBancaria;
+        public static string cpf = Session.Instance.Ccpf; //  "1232012302"; //
 
         ContaBancariaController contaControl = new ContaBancariaController();
 
@@ -32,90 +32,9 @@ namespace Teste03.Views
             // Chama a lista das contas já cadastradas
             ListaAsync();
 		}
-
-        public async void BtnMinhasContas_Clicked(object sender, SelectedItemChangedEventArgs e)
-        {
-            await Navigation.PushModalAsync(new Views.LgDadosBancarios());
-        }
-
-        public async void BtnVoltar2_Clicked(object sender, SelectedItemChangedEventArgs e)
-        {
-            await Navigation.PushModalAsync(new Views.LgDadosBancarios());
-        }
-    
-        #region Popula os campos com dados do campo
-
-        public void Popula(ContaBancaria conta)
-        {
-            if (conta != null)
-            {
-                slMinhasContas.IsVisible = false;
-                slAdicionar.IsVisible    = true;
-
-                #region Popula os campos
-
-                etMotoristaBanco.Text         = conta.BancoDesc;
-                etMotoristaAgencia.Text       = conta.MAgencia.ToString();
-                etMotoristaDigitoAgencia.Text = conta.MDigAgencia.ToString();
-                etMotoristaConta.Text         = conta.MConta.ToString();
-                etMotoristaDigitoConta.Text   = conta.MDigConta.ToString();
-                etMotoristaTipoConta.Text     = conta.TipoContaBanDesc;
-
-                #endregion
-
-                // Bloqueia os campos
-                ContaEnabledFalse();
-
-                stBtnVoltar.IsVisible = true;
-
-                slEditarConta.IsVisible  = true;
-                slExcluirConta.IsVisible = true;
-
-                idContaBancaria = conta.IdContaBancaria;
-            }
-        }
-
-        #endregion
-
-        #region Btn - Buscar - Editar - Excluir - VERIFICAR!!!
-        /*
-        #region Btn - Avançar - Buscar
-        private void BtnAvancar2_Clicked(object sender, EventArgs e)
-        {
-            ChassiNotVisible();
-            DimensoesVisible();
-            stBtnAvancar.IsVisible = false;
-
-            slEditarVeiculos.IsVisible = true;
-            slExcluirVeiculos.IsVisible = true;
-        }
-        #endregion
-
-        #region Btn - Voltar - Busca
-        private void BtnVoltar2_Clicked(object sender, EventArgs e)
-        {
-            if (stBtnAvancar.IsVisible)
-            {
-                slMeusVeiculos.IsVisible = true;
-                slAdicionar.IsVisible = false;
-                slEditarVeiculos.IsVisible = false;
-                slExcluirVeiculos.IsVisible = false;
-            }
-            else
-            {
-                DimensoesNotVisible();
-                ChassiVisible();
-                stBtnAvancar.IsVisible = true;
-                slEditarVeiculos.IsVisible = true;
-                slExcluirVeiculos.IsVisible = true;
-            }
-        }
-        #endregion
-         */
-        #endregion
-
+        
         #region Botões
-
+                    
         #region Btn - CRUD
 
         #region Btn - Editar
@@ -137,9 +56,14 @@ namespace Teste03.Views
 
         private async void BtnExcluirConta_Clicked(object sender, SelectedItemChangedEventArgs e)
         {
-            await contaControl.DeleteConta(idContaBancaria);
+            if(await DisplayAlert("Excluir?", "Deseja mesmo excluir essa conta?", "Ok", "Cancelar"))
+            {
+                await contaControl.DeleteConta(idContaBancaria);                            // Deleta o objeto
 
-            await DisplayAlert("Excluído!", "Cadastro excluído com sucesso!", "OK");
+                await DisplayAlert("Excluído!", "Cadastro excluído com sucesso!", "OK");    // Confirmação de exclusão
+
+                await Navigation.PushModalAsync(new Views.LgDadosBancarios());              // Recarrega a página
+            }            
         }
 
         #endregion
@@ -164,6 +88,20 @@ namespace Teste03.Views
 
         #endregion
 
+        #region Btn - Minhas Contas
+        public async void BtnMinhasContas_Clicked(object sender, SelectedItemChangedEventArgs e)
+        {
+            await Navigation.PushModalAsync(new Views.LgDadosBancarios());
+        }
+        #endregion
+
+        #region Btn - Voltar 2
+        public async void BtnVoltar2_Clicked(object sender, SelectedItemChangedEventArgs e)
+        {
+            await Navigation.PushModalAsync(new Views.LgDadosBancarios());
+        }
+        #endregion
+
         #region Btn - Adicionar
         public void BtnAdicionarConta_Clicked(object sender, SelectedItemChangedEventArgs e)
         {
@@ -178,7 +116,7 @@ namespace Teste03.Views
         }
         #endregion
         
-        #region Btn - Voltar
+        #region Btn - Voltar ???
         public void BtnVoltar_Clicked(object sender, SelectedItemChangedEventArgs e)
         {
             if (btnSalvar.IsVisible)
@@ -230,15 +168,18 @@ namespace Teste03.Views
         {
             List<ContaBancaria> _list = await contaControl.GetListConta(id);
 
-            if (_list == null)
+            if (_list == null || _list.Count == 0)
             {
-                LstConta.IsVisible = false;
+                LstConta.IsVisible     = false;
 
                 lbListaVazia.IsVisible = true;
             }
             else
             {
-                LstConta.ItemsSource = _list;
+                lbListaVazia.IsVisible = false;
+
+                LstConta.IsVisible     = true;
+                LstConta.ItemsSource   = _list;
             }
         }
         #endregion
@@ -256,13 +197,50 @@ namespace Teste03.Views
             // deseleciona o item do listview
             LstConta.SelectedItem = null;
 
+            // Mostra label superior
+            lblMinhaConta.IsVisible = true;
+
             // Popula os campos como o objeto retornado
             Popula(conta);
             
-            // 
-            btnAdicionarConta.IsVisible = false;
+            btnAdicionarConta.IsVisible = false; // btn
+            lblCadastroConta.IsVisible  = false; // label
         }
         #endregion
+
+        #endregion
+
+        #region Popula os campos com dados do campo
+
+        public void Popula(ContaBancaria conta)
+        {
+            if (conta != null)
+            {
+                slMinhasContas.IsVisible = false;
+                slAdicionar.IsVisible    = true;
+
+                #region Popula os campos
+
+                etMotoristaBanco.Text         = conta.BancoDesc;
+                etMotoristaAgencia.Text       = conta.MAgencia.ToString();
+                etMotoristaDigitoAgencia.Text = conta.MDigAgencia.ToString();
+                etMotoristaConta.Text         = conta.MConta.ToString();
+                etMotoristaDigitoConta.Text   = conta.MDigConta.ToString();
+                etMotoristaTipoConta.Text     = conta.TipoContaBanDesc;
+
+                #endregion
+
+                // Bloqueia os campos
+                ContaEnabledFalse();
+
+                stBtnVoltar.IsVisible = true;
+
+                slEditarConta.IsVisible  = true;
+                slExcluirConta.IsVisible = true;
+
+                idContaBancaria = conta.IdContaBancaria;
+            }
+        }
 
         #endregion
 
@@ -397,6 +375,7 @@ namespace Teste03.Views
             }
         }
         #endregion
+        
 
         #region Navegação entre as telas
 
@@ -435,7 +414,6 @@ namespace Teste03.Views
         }
         #endregion
 
-        #endregion
-        
+        #endregion        
     }
 }

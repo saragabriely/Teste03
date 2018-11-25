@@ -73,11 +73,6 @@ namespace Teste03.Views
         #region MeuCadastro - Motorista e Cliente
         private async void BtnMeuCadastro_Clicked(object sender, EventArgs e)
         {
-            Models.Session.Instance.IdTipoUsuario = 3;
-            Models.Session.Instance.IdCliente     = 8;
-            Models.Session.Instance.IdMotorista   = 1;
-
-
             if (Models.Session.Instance.IdTipoUsuario == 2)
             {
                 await Navigation.PushModalAsync(new Views.ClientePF_Cadastro());

@@ -33,24 +33,25 @@
                 <Grid>
 
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition  Width="360" />
+                        <ColumnDefinition  Width="330" />
                     </Grid.ColumnDefinitions>
 
                     <Grid.RowDefinitions >
-                        <RowDefinition Height="70" />
+                        <RowDefinition Height="65" />
                         <RowDefinition Height="470" />
                     </Grid.RowDefinitions>
 
                     <!-- Label - CADASTRAR-SE -->
-                    <Label  x:Name="lblCadastrar" Text="CADASTRE-SE"    Grid.Column="0"   Grid.Row="0"
-                            FontSize="15"         FontAttributes="Bold" TextColor="{StaticResource Blue}" 
+                    <Label  x:Name="lblCadastrar"  Text="CADASTRE-SE"    Grid.Column="0"    Grid.Row="0"
+                            FontSize="15"          FontAttributes="Bold" TextColor="{StaticResource Blue}" 
                             HorizontalTextAlignment="Center"  VerticalTextAlignment="Center"  HeightRequest="60"  />
 
                     <!-- Label - MEU CADASTRO -->
-                    <StackLayout x:Name="lblMeuCadastro" HeightRequest="70" IsVisible="False" Grid.Column="0" Grid.Row="0"  >
+                    <StackLayout x:Name="lblMeuCadastro" IsVisible="False" Grid.Column="0" Grid.Row="0" VerticalOptions="Center"  >
                     
                         <Label Text="MINHA CONTA"  FontSize="16"   FontAttributes="Bold"  TextColor="{StaticResource Blue}" 
-                               HorizontalTextAlignment="Center"  VerticalTextAlignment="Center"   />
+                               HorizontalTextAlignment="Center"  VerticalTextAlignment="Center" 
+                               VerticalOptions="Center"   HorizontalOptions="Center" />
                     </StackLayout>
 
                     <StackLayout  VerticalOptions="StartAndExpand" Margin="3" Grid.Column="0" Grid.Row="1" >
@@ -77,29 +78,32 @@
                         </StackLayout>
 
                        <!-- Botões - MEU CADASTRO -->
-                       <StackLayout x:Name="stMeuCadastro" Orientation="Horizontal" Spacing="-3" IsVisible="false">
+                       <StackLayout x:Name="stMeuCadastro" Orientation="Horizontal" Spacing="2" IsVisible="false"    >
                                             
                             <!-- Dados Pessoais -->
-                            <Button  x:Name="btnDadosPessoais2" Text="Dados Pessoais" WidthRequest="110" FontSize="10"
-                                 TextColor="{StaticResource Blue}" FontAttributes="Bold" Clicked="BtnDadosPessoais2_Clicked" />
+                            <Button  x:Name="btnDadosPessoais2" Text="Dados Pessoais" WidthRequest="108" FontSize="10" 
+                                     TextColor="{StaticResource Blue}" FontAttributes="Bold" Clicked="BtnDadosPessoais2_Clicked" 
+                                     BackgroundColor="{StaticResource WhiteBtn}" />
                         
                             <!-- Endereço  -->
-                            <Button x:Name="btnEndereco2" Text="Endereço" WidthRequest="110" FontSize="10" 
-                                TextColor="{StaticResource Blue}" FontAttributes="Bold" Clicked="BtnEndereco2_Clicked" />
+                            <Button x:Name="btnEndereco2" Text="Endereço" WidthRequest="108" FontSize="10" 
+                                    TextColor="{StaticResource Blue}" FontAttributes="Bold" Clicked="BtnEndereco2_Clicked"
+                                    BackgroundColor="{StaticResource WhiteBtn}" />
                         
                             <!-- Email e Senha -->
-                            <Button  x:Name="btnEmailSenha2"  Text="E-mail e Senha" WidthRequest="110" FontSize="10"
-                                 TextColor="{StaticResource Blue}" FontAttributes="Bold" Clicked="BtnEmailSenha2_Clicked" />
+                            <Button  x:Name="btnEmailSenha2"  Text="E-mail e Senha" WidthRequest="108" FontSize="10"
+                                     TextColor="{StaticResource Blue}" FontAttributes="Bold" Clicked="BtnEmailSenha2_Clicked" 
+                                     BackgroundColor="{StaticResource WhiteBtn}" />
 
                         </StackLayout>
 
                        <!-- Botões - MEU CADASTRO_2 -->
-                       <StackLayout x:Name="stMeuCadastro_2" VerticalOptions="Center" Spacing="40" Padding="20" IsVisible="false">
-                      
-                            <!-- Btn - Meu Cadastro - Dados Pessoais -->
+                       <StackLayout x:Name="stMeuCadastro_2" VerticalOptions="Center" Spacing="40" Padding="15" IsVisible="false">
+
+                           <!-- Btn - Meu Cadastro - Dados Pessoais -->
                             <Button x:Name="btnMeuCadastro_Pessoais" Text="Dados Pessoais" Clicked="BtnMeuCadastro_DadosP_Clicked" FontSize="13"
                                     BackgroundColor="{StaticResource Blue}" TextColor="{StaticResource White}" IsVisible="True"  />
-                        
+
                             <!-- Btn - Meu Cadastro - CNH -->
                             <Button x:Name="btnMeuCadastro_CNH" Text="CNH" Clicked="BtnMeuCadastro_Cnh_Clicked" FontSize="13"
                                     BackgroundColor="{StaticResource Blue}" TextColor="{StaticResource White}" IsVisible="True" />
@@ -147,8 +151,7 @@
                                        Grid.Column="0" Grid.Row="0"   VerticalOptions="CenterAndExpand"  />
 
                                 <Entry x:Name="etMotoristaNome" Placeholder="Digite o seu nome" FontSize="12"     IsVisible="True"
-                                       Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="6" VerticalOptions="EndAndExpand"
-                                       MaxLength="45" />
+                                       Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="6" VerticalOptions="EndAndExpand" MaxLength="45" />
 
                                 <!-- RG -->
                                 <Label  x:Name="lblMotoristaRg" Text="RG" FontSize="12"  FontAttributes="Bold"    IsVisible="True"
@@ -170,7 +173,7 @@
                                 <!-- Sexo -->
                         
                                 <Label  x:Name="lblMotoristaSexo" Text="Sexo" FontSize="12" FontAttributes="Bold" IsVisible="True"
-                                        Grid.Column="0" Grid.Row="2" />
+                                        Grid.Column="0" Grid.Row="2" VerticalOptions="Center" />
                         
                                 <Picker x:Name="etMotoristaSexo" Title="Sexo" Grid.Column="1" Grid.Row="2" 
                                         FontSize="12"            VerticalOptions="Center" >
@@ -183,7 +186,7 @@
 
                                 <!-- Data de Nascimento -->
                                 <Label  x:Name="lblMotoristaDataNascto" Text="Nascimento" FontSize="12"  FontAttributes="Bold" 
-                                        IsVisible="True" HorizontalOptions="Center"
+                                        IsVisible="True" HorizontalOptions="Center" VerticalOptions="Center"
                                         Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" />
 
                                 <Entry  x:Name="etMotoristaDataNascto" Placeholder="00/00/0000" FontSize="12" IsVisible="True"
@@ -398,19 +401,19 @@
                                      IsVisible="True"  VerticalOptions="Center" />
 
                             <!-- BOTÃO - VOLTAR -->
-                            <Button x:Name="btnVoltar" Text="Voltar" Clicked="BtnVoltar_Clicked"  
+                            <Button x:Name="btnVoltar" Text="Voltar" Clicked="BtnVoltar_Clicked"   FontSize="12"
                                     BackgroundColor="{StaticResource Silver}" TextColor="{StaticResource White}"
-                                    Grid.Column="0" Grid.Row="7"  Grid.ColumnSpan="2"  HeightRequest="40"
+                                    Grid.Column="0" Grid.Row="6"  Grid.ColumnSpan="2"  HeightRequest="40"
                                     IsVisible="False" VerticalOptions="StartAndExpand"  />
 
                             <!-- BOTÃO - AVANÇAR 2 -->
                             <Button x:Name="btnAvancar2" Text="Avançar" Clicked="BtnAvancar_Clicked"  FontSize="12"
                                     BackgroundColor="{StaticResource BlueBtn}" TextColor="{StaticResource White}"
-                                    Grid.Column="3" Grid.Row="7"  Grid.ColumnSpan="4"   HeightRequest="40"
+                                    Grid.Column="3" Grid.Row="6"  Grid.ColumnSpan="4"   HeightRequest="40"
                                     IsVisible="False" VerticalOptions="Center" />
 
                             <!-- BOTÃO - FINALIZAR -->
-                            <Button  x:Name="btnFinalizar" Text="Finalizar" Clicked="BtnFinalizar_Clicked"  
+                            <Button  x:Name="btnFinalizar" Text="Finalizar" Clicked="BtnFinalizar_Clicked"  FontSize="12"
                                  BackgroundColor="{StaticResource GreenBtn}" TextColor="{StaticResource White}"
                                  Grid.Column="3" Grid.Row="6"  Grid.ColumnSpan="4"    HeightRequest="40"
                                  IsVisible="False" VerticalOptions="StartAndExpand"  />
@@ -424,7 +427,7 @@
 
 
                             <!-- VOLTAR - BUSCA -->
-                            <StackLayout x:Name="stBtnVoltar" Grid.Row="8"  Grid.Column="0"  IsVisible="false" VerticalOptions="Start" >
+                            <StackLayout x:Name="stBtnVoltar" Grid.Row="6"  Grid.Column="0"  IsVisible="false" VerticalOptions="End" >
 
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="BtnVoltar2_Clicked" NumberOfTapsRequired="1" />
@@ -436,7 +439,7 @@
                             </StackLayout>
 
                             <!-- Editar -->
-                            <StackLayout x:Name="slEditarVeiculos" IsVisible="False" Grid.Column="3" Grid.Row="8" VerticalOptions="End" >
+                            <StackLayout x:Name="slEditarVeiculos" IsVisible="False" Grid.Column="3" Grid.Row="6" VerticalOptions="End" >
 
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="BtnEditarCadastro_Clicked" NumberOfTapsRequired="1" />
@@ -464,7 +467,7 @@
                             </StackLayout>
 
                             <!-- AVANÇAR - BUSCA  -->
-                            <StackLayout x:Name="stBtnAvancar" Grid.Row="8"  Grid.Column="5" Grid.ColumnSpan="2" IsVisible="false" VerticalOptions="Start"
+                            <StackLayout x:Name="stBtnAvancar" Grid.Row="6"  Grid.Column="5" Grid.ColumnSpan="2" IsVisible="false" VerticalOptions="End"
                                        HorizontalOptions="End">
 
                                 <StackLayout.GestureRecognizers>
