@@ -335,6 +335,13 @@ namespace Teste03.Views
         }
         #endregion
 
+        #region Btn - Chat
+        private async void BtnChat_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new Views.LgChat());
+        }
+        #endregion
+
         #region Btn - Orcamentos
         private async void BtnOrcamentos_Clicked(object sender, EventArgs e)
         {

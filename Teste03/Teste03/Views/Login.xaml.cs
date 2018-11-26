@@ -69,9 +69,7 @@ namespace Teste03.Views
             string acessando     = "Aguarde ...";
             #endregion
                         
-            // Aguarde ...
-            lblEntrando.IsVisible = true;
-            lblEntrando.Text      = acessando;
+            
 
             if (email != null && senha != null)
             {
@@ -103,6 +101,10 @@ namespace Teste03.Views
                     }
                     else if(filtro.Senha == senha)
                     {
+                        // Aguarde ...
+                        lblEntrando.IsVisible = true;
+                        lblEntrando.Text      = acessando;
+
                         // Envi ao objeto Login 
                         login = await loginController.GetLogin_(filtro);
 
@@ -150,145 +152,19 @@ namespace Teste03.Views
                     
                     #endregion
                 }
-
-                #region Old
-                /*
-                // Aguarde ...
-                lblEntrando.IsVisible = true;
-                lblEntrando.Text = acessando;
-
-                if (email != null && senha != null)
-                {
-                    if (!ValidaCampos.IsEmail(email))                  // VALIDANDO E-MAIL
-                    {
-                        lblEntrando.IsVisible = false;
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = emailInvalido;
-                    }
-                    else
-                    {
-                        //login = await data.GetLogin(email, senha);
-                        // cpf = login.Ccpf;
-                        // if (login != null)
-
-                        if ((await data.GetLogin(email, senha)) == null)
-                        {
-                            lblAlerta.Text = invalidos;
-                            lblEntrando.IsVisible = false;
-                        }
-                        else
-                        {
-                            // lblAlerta.Text = invalidos;
-                            login = await data.GetLogin(email, senha);
-
-                            cpf = login.Ccpf;
-
-                            cliente = await controlCliente.GetCpf(cpf);
-
-                            if (cliente.IdTipoUsuario == 3)
-                            {
-                                motorista = await motoristaController.GetMotoristaCliente(cliente.IdCliente);
-                            }
-
-                            #region Captura dos dados do usuário
-
-                            Session.Instance.IdCliente = cliente.IdCliente;
-                            Session.Instance.IdTipoUsuario = cliente.IdTipoUsuario;
-                            Session.Instance.Email = cliente.Cemail;
-                            Session.Instance.Senha = cliente.Csenha;
-                            Session.Instance.Cnome = cliente.Cnome;
-                            Session.Instance.Crg = cliente.Crg;
-                            Session.Instance.Ccpf = cliente.Ccpf;
-                            Session.Instance.Csexo = cliente.Csexo;
-                            Session.Instance.CdataNascto = cliente.CdataNascto;
-                            Session.Instance.Ccelular = cliente.Ccelular;
-                            Session.Instance.Ccelular2 = cliente.Ccelular2;
-                            Session.Instance.Cendereco = cliente.Cendereco;
-                            Session.Instance.Cnumero = cliente.Cnumero;
-                            Session.Instance.Ccomplemento = cliente.Ccomplemento;
-                            Session.Instance.Cbairro = cliente.Cbairro;
-                            Session.Instance.Ccidade = cliente.Ccidade;
-                            Session.Instance.Ccep = cliente.Ccep;
-                            Session.Instance.Cuf = cliente.Cuf;
-                            Session.Instance.IdStatus = cliente.IdStatus;
-
-                            Session.Instance.IdMotorista = motorista.IdMotorista;
-                            Session.Instance.MnumeroCnh = motorista.MnumeroCnh;
-                            Session.Instance.McategoriaCnh = motorista.McategoriaCnh;
-                            Session.Instance.MvalidadeCnh = motorista.MvalidadeCnh;
-
-                            #endregion
-
-                            await Navigation.PushModalAsync(new Views.LgHome());
-                        }
-
-                        #region COMENTÁRIOS
-                        /*
-                         * 
-                         * //login = await data.GetLogin(email, senha);
-
-                        // cpf = login.Ccpf;
-
-                        // if (login != null)
-
-                        if ((await data.GetLogin(email, senha)) == null)
-                        {
-                            lblAlerta.Text = invalidos;
-                        }
-                        else
-                        {
-                            lblAlerta.Text = invalidos;
-                            login = await data.GetLogin(email, senha);
-
-                            cpf = login.Ccpf;
-
-                            cliente = await controlCliente.GetCpf(cpf);
-
-                            #region Captura dos dados do usuário
-
-                            Session.Instance.IdCliente     = cliente.IdCliente;
-                            Session.Instance.IdTipoUsuario = cliente.IdTipoUsuario;
-                            Session.Instance.Email         = cliente.Cemail;
-                            Session.Instance.Senha         = cliente.Csenha;
-                            Session.Instance.Cnome         = cliente.Cnome;
-                            Session.Instance.Crg           = cliente.Crg;
-                            Session.Instance.Ccpf          = cliente.Ccpf;
-                            Session.Instance.Csexo         = cliente.Csexo;
-                            Session.Instance.CdataNascto   = cliente.CdataNascto;
-                            Session.Instance.Ccelular      = cliente.Ccelular;
-                            Session.Instance.Ccelular2     = cliente.Ccelular2;
-                            Session.Instance.Cendereco     = cliente.Cendereco;
-                            Session.Instance.Cnumero       = cliente.Cnumero;
-                            Session.Instance.Ccomplemento  = cliente.Ccomplemento;
-                            Session.Instance.Cbairro       = cliente.Cbairro;
-                            Session.Instance.Ccidade       = cliente.Ccidade;
-                            Session.Instance.Ccep          = cliente.Ccep;
-                            Session.Instance.Cuf           = cliente.Cuf;
-                            Session.Instance.IdStatus      = cliente.IdStatus;
-
-                            #endregion
-
-                            await Navigation.PushModalAsync(new Views.LgHome());
-                        }                     
-                     * /
-                        #endregion
-
-                    } */
-                    #endregion
-
+                
                 }
             if (email != null && senha == null)
             {
-                lblAlerta.Text = notSenha;
+                await DisplayAlert("Senha", notSenha, "OK");
             }
             if (email == null && senha != null)
             {
-                lblAlerta.Text = notEmail;
+                await DisplayAlert("Email", notEmail, "OK");
             }
             if (email == null && senha == null)
             {
-                lblAlerta.Text = vazios;
+                await DisplayAlert("Vazios", vazios, "OK");
             }
         }
         #endregion

@@ -13,8 +13,8 @@ using Android.Content;
 
 namespace Teste03.Droid
 {
-    // Icon = "@mipmap/icone"
-    [Activity(Label = "MeTransporta", Icon = "@drawable/icone1", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    // Icon = "@mipmap/icone" // ultimo usado: "@drawable/icone1"
+    [Activity(Label = "MeTransporta", Icon = "@drawable/moving", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)

@@ -22,7 +22,7 @@ namespace Teste03
 
             InitializeComponent();
 
-            MainPage = new Views.Login();
+            MainPage = new Views.PaginaInicial();
             
             /*
             if(Models.Session.Instance.IdCliente == 0)

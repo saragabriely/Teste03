@@ -46,6 +46,8 @@ namespace Teste03.Views
                 stCadastrarSe.IsVisible = true;
                 stMeuCadastro.IsVisible = false;
                 grdNaoLogado.IsVisible  = true;
+
+                verificaOperacao = 1; 
             }
             #endregion
 
@@ -60,8 +62,11 @@ namespace Teste03.Views
             
                  // Ícones que permitem atualizar ou excluir cadastro
                  slEditarVeiculos.IsVisible  = true;
-                 // slExcluirVeiculos.IsVisible = true;
-            
+                // slExcluirVeiculos.IsVisible = true;
+
+                lblMeuCadastro.IsVisible = true;
+                lblCadastrarSe.IsVisible = false;
+
                  verificaOperacao = 2;
             
                  DadosNotEnabled();
@@ -314,6 +319,13 @@ namespace Teste03.Views
         }
         #endregion
 
+        #region Btn - Chat
+        private async void BtnChat_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new Views.LgChat());
+        }
+        #endregion
+
         #region Btn - Orcamentos
         private async void BtnOrcamentos_Clicked(object sender, EventArgs e)
         {
@@ -387,18 +399,22 @@ namespace Teste03.Views
         #region VerificaCampos(id) - Cadastro
         private async Task VerificaCamposAsync(int id)
         {
-            Cliente cliente;
-
             #region Mensagens de retorno
-            string nulo       = "Preencha o campo: ";
-            string finalizado = "Cadastro finalizado com sucesso!";
-            string emails     = "Os e-mails não coincidem!";
-            string senhas     = "As senhas não coincidem!";
-            string dadosInsuf = "Dados insuficientes no campo: ";
-            string caracter   = "Retire os caracteres especiais de: ";
-            string senhaCurta = "A senha deve ter mais de 6 caracteres!";
+            string vazio        = "Campo vazio";       
+            string nulo         = "Preencha o campo: ";
+            string finalizado   = "Cadastro finalizado com sucesso!";
+            string emails       = "Os e-mails não coincidem!";
+            string senhas       = "As senhas não coincidem!";
+            string dadosInsuf   = "Dados insuficientes no campo: ";
+            string caracter     = "': este campos não aceita caracteres especiais.";
+            string caracterInv  = "Caracteres inválidos";
+            string senhaCurta   = "A senha deve ter mais de 6 caracteres!";
             string atualizado = "Cadastro atualizado com sucesso!";
             #endregion
+
+            Cliente cliente;
+
+            #region Variáveis
 
             #region Others
             /* String categoria    = etClienteCategoriaCnh.Items[etClienteCategoriaCnh.SelectedIndex]; 
@@ -446,6 +462,8 @@ namespace Teste03.Views
             string confsenha = etClienteConfSenha.Text;
             #endregion
 
+            #endregion
+
             try
             {
                 #region Valida - Dados Pessoais
@@ -454,131 +472,81 @@ namespace Teste03.Views
                     #region Campos
                     if (string.IsNullOrEmpty(nome))                         // NOME
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteNome.Text;
+                        await DisplayAlert(vazio, nulo + lblClienteNome.Text, "OK");
                     }
                     else if (nome.Length < 6)
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = dadosInsuf + lblClienteNome.Text;
+                        await DisplayAlert("Dados insuficientes", dadosInsuf + lblClienteNome.Text, "OK");
                     }
-                    /*
-                    else if (ValidaCampos.CaracterEspecial(nome))
-                    {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = caracter + lblClienteNome.Text;
-                    } */
 
                     else if (string.IsNullOrEmpty(rg))                      // RG
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteRg.Text;
+                        await DisplayAlert(vazio, nulo + lblClienteRg.Text, "OK");
                     }
                     else if (rg.Length < 9)
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = dadosInsuf + lblClienteRg.Text;
+                        await DisplayAlert("Dados insuficientes", dadosInsuf + lblClienteRg.Text, "OK");
                     }
                     else if (ValidaCampos.CaracterEspecial(rg))
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = caracter + lblClienteRg.Text;
+                        await DisplayAlert(caracterInv, "'" + lblClienteRg.Text + caracter, "OK");
                     }
 
                     else if (string.IsNullOrEmpty(cpf))                     // CPF
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteCpf.Text;
+                        await DisplayAlert(vazio, nulo + lblClienteCpf.Text, "OK");
                     }
                     else if (cpf.Length < 11)
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = dadosInsuf + lblClienteCpf.Text;
+                        await DisplayAlert("Dados insuficientes", dadosInsuf + lblClienteCpf.Text, "OK");
                     }
                     else if (ValidaCampos.CaracterEspecial(cpf))
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = caracter + lblClienteCpf.Text;
+                        await DisplayAlert(caracterInv, "'" + lblClienteCpf.Text + caracter, "OK");
                     }
 
                     else if (string.IsNullOrEmpty(sexo))                    // SEXO
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteSexo.Text;
+                        await DisplayAlert(vazio, nulo + lblClienteSexo.Text, "OK");
                     }
                     
                     else if (string.IsNullOrEmpty(dataNascto))              // DATA DE NASCIMENTO
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteDataNascto.Text;
+                        await DisplayAlert(vazio, nulo + lblClienteDataNascto.Text, "OK");
                     }
                     else if (dataNascto.Length < 8)
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = dadosInsuf + lblClienteDataNascto.Text;
+                        await DisplayAlert("Dados insuficientes", dadosInsuf + lblClienteDataNascto.Text, "OK");
                     }
-                    /*
-                    else if (ValidaCampos.CaracterEspecial(dataNascto))
-                    {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = caracter + lblClienteDataNascto.Text;
-                    } */
 
                     else if (string.IsNullOrEmpty(celular))                 // CELULAR 
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteCelular.Text;
+                        await DisplayAlert(vazio, nulo + lblClienteCelular.Text, "OK");
                     }
                     else if (celular.Length < 9)
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = dadosInsuf + lblClienteCelular.Text;
+                        await DisplayAlert("Dados insuficientes", dadosInsuf + lblClienteCelular.Text, "OK");
                     }
                     else if (ValidaCampos.CaracterEspecial(celular))
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = caracter + lblClienteCelular.Text;
+                        await DisplayAlert(caracterInv, "'" + lblClienteCelular.Text + caracter, "OK");
                     }
 
                     else if (string.IsNullOrEmpty(celular2))                // CELULAR 02
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteCelular02.Text;
+                        await DisplayAlert(vazio, nulo + lblClienteCelular02.Text, "OK");
                     }
                     else if (celular2.Length < 9)
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = dadosInsuf + lblClienteCelular02.Text;
+                        await DisplayAlert("Dados insuficientes", dadosInsuf + lblClienteCelular02.Text, "OK");
                     }
                     else if (ValidaCampos.CaracterEspecial(celular2))
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = caracter + lblClienteCelular02.Text;
+                        await DisplayAlert(caracterInv, "'" + lblClienteCelular02.Text + caracter, "OK");
                     }
                     #endregion
 
-                    else
-                    {
-                        #region Verifica o CPF
+                    #region Verifica o CPF
 
                         /* var verificar = await control.GetCpf(cpf);
 
@@ -595,28 +563,28 @@ namespace Teste03.Views
 
                         #endregion
 
-                        DadosPessoaisNotVisible();
+                    DadosPessoaisNotVisible();
 
-                        if(verificaOperacao == 1)
-                        {
-                            btnEndereco.IsEnabled = true;
-                        }
-
-                        btnAvancar.IsVisible  = false;
-
-                        btnAvancar2.IsVisible = true;
-                                    
-                        if(verificaOperacao == 1)       // INSERT
-                        {
-                            btnVoltar.IsVisible = true;
-                        }
-                        else                            // UPDATE
-                        {   stBtnVoltar.IsVisible = true; }                        
-
-                        lblAlerta.IsVisible   = false;
-
-                        EnderecoVisible();
+                    if(verificaOperacao == 1)
+                    {
+                        btnEndereco.IsEnabled = true;
                     }
+
+                    btnAvancar.IsVisible  = false;
+
+                    btnAvancar2.IsVisible = true;
+                                
+                    if(verificaOperacao == 1)       // INSERT
+                    {
+                        btnVoltar.IsVisible = true;
+                    }
+                    else                            // UPDATE
+                    {   stBtnVoltar.IsVisible = true; }                        
+
+                    lblAlerta.IsVisible   = false;
+
+                    EnderecoVisible();
+
                 }
                 #endregion
 
@@ -626,113 +594,69 @@ namespace Teste03.Views
                     #region Campos
                     if (string.IsNullOrEmpty(endereco))                         // ENDEREÇO
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteEndereco.Text;
+                        await DisplayAlert(vazio, nulo + lblClienteEndereco.Text, "OK");
                     }
                     else if (endereco.Length < 5)
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = dadosInsuf + lblClienteEndereco.Text;
+                        await DisplayAlert("Dados insuficientes", dadosInsuf + lblClienteEndereco.Text, "OK");
                     }
-                    /*
-                    else if (ValidaCampos.CaracterEspecial(endereco))
-                    {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = caracter + lblClienteEndereco.Text;
-                    }*/
 
                     else if (string.IsNullOrEmpty(numero))                      // NUMERO
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteNumero.Text;
+                        await DisplayAlert(vazio, nulo + lblClienteNumero.Text, "OK");
                     }
                     else if (ValidaCampos.CaracterEspecial(numero))
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = caracter + lblClienteNumero.Text;
+                        await DisplayAlert(caracterInv, "'" + lblClienteNumero.Text + caracter, "OK");
                     }
 
                     else if (string.IsNullOrEmpty(complemento))                 // COMPLEMENTO
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteCompl.Text;
+                        await DisplayAlert(vazio, nulo + lblClienteCompl.Text, "OK");
                     }
 
                     else if (string.IsNullOrEmpty(bairro))                      // BAIRRO
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteBairro.Text;
+                        await DisplayAlert(vazio, nulo + lblClienteBairro.Text, "OK");
                     }
                     else if (bairro.Length < 5)
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = dadosInsuf + lblClienteBairro.Text;
+                        await DisplayAlert("Dados insuficientes", dadosInsuf + lblClienteBairro.Text, "OK");
                     }
 
                     else if (string.IsNullOrEmpty(cidade))                      // CIDADE
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteCidade.Text;
+                        await DisplayAlert(vazio, nulo + lblClienteCidade.Text, "OK");
                     }
                     else if (cidade.Length < 6)
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = dadosInsuf + lblClienteCidade.Text;
+                        await DisplayAlert("Dados insuficientes", dadosInsuf + lblClienteCidade.Text, "OK");
                     }
-                    /*
-                    else if (ValidaCampos.CaracterEspecial(cidade))
-                    {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = caracter + lblClienteCidade.Text;
-                    }*/
 
                     else if (string.IsNullOrEmpty(cep))                         // CEP
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteCep.Text;
+                        await DisplayAlert(vazio, nulo + lblClienteCep.Text, "OK");
                     }
                     else if (cep.Length < 8)
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = dadosInsuf + lblClienteCep.Text;
+                        await DisplayAlert("Dados insuficientes", dadosInsuf + lblClienteCep.Text, "OK");
                     }
                     else if (ValidaCampos.CaracterEspecial(cep))
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = caracter + lblClienteCep.Text;
+                        await DisplayAlert(caracterInv, "'" + lblClienteCep.Text + caracter, "OK");
                     }
 
                     else if (string.IsNullOrEmpty(uf))                          // UF
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteUf.Text;
+                        await DisplayAlert(vazio, nulo + lblClienteUf.Text, "OK");
                     }
                     else if (uf.Length < 2)
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = dadosInsuf + lblClienteUf.Text;
+                        await DisplayAlert("Dados insuficientes", dadosInsuf + lblClienteUf.Text, "OK");
                     }
                     else if (ValidaCampos.CaracterEspecial(uf))
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = caracter + lblClienteUf.Text;
+                        await DisplayAlert(caracterInv, "'" + lblClienteUf.Text + caracter, "OK");
                     }
                     #endregion
 
@@ -763,100 +687,56 @@ namespace Teste03.Views
                 {
                     if (string.IsNullOrEmpty(numeroCartao))                     // NUMERO CARTAO
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteNumeroCartao.Text;
+                        await DisplayAlert(vazio, nulo + lblClienteNumeroCartao.Text, "OK");
                     }
                     else if (numeroCartao.Length < 15)
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteNumeroCartao.Text;
+                        await DisplayAlert("Dados insuficientes", dadosInsuf + lblClienteNumeroCartao.Text, "OK");
                     }
                     else if (ValidaCampos.CaracterEspecial(numeroCartao))
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = caracter + lblClienteNumeroCartao.Text;
+                        await DisplayAlert(caracterInv, "'" + lblClienteNumeroCartao.Text + caracter, "OK");
                     }
 
                     else if (string.IsNullOrEmpty(dataValidade))                // DATA VALIDADE CARTAO
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteValidadeCartao.Text;
+                        await DisplayAlert(vazio, nulo + lblClienteValidadeCartao.Text, "OK");
                     }
                     else if (dataValidade.Length < 6)
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteValidadeCartao.Text;
-                    }
-                    else if (ValidaCampos.CaracterEspecial(dataValidade))
-                    {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = caracter + lblClienteValidadeCartao.Text;
+                        await DisplayAlert("Dados insuficientes", dadosInsuf + lblClienteValidadeCartao.Text, "OK");
                     }
 
                     else if (string.IsNullOrEmpty(codSeguranca.ToString()))     // CODIGO SEGURANÇA
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteCodSeguranca.Text;
+                        await DisplayAlert(vazio, nulo + lblClienteCodSeguranca.Text, "OK");
                     }
                     else if (codSeguranca.ToString().Length < 3)
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteCodSeguranca.Text;
+                        await DisplayAlert("Dados insuficientes", dadosInsuf + lblClienteCodSeguranca.Text, "OK");
                     }
                     else if (ValidaCampos.CaracterEspecial(codSeguranca.ToString()))
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = caracter + lblClienteCodSeguranca.Text;
+                        await DisplayAlert(caracterInv, "'" + lblClienteCodSeguranca.Text + caracter, "OK");
                     }
 
                     else if (string.IsNullOrEmpty(nomeImpresso))                // NOME IMPRESSO
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteNomeImpresso.Text;
+                        await DisplayAlert(vazio, nulo + lblClienteNomeImpresso.Text, "OK");
                     }
                     else if (nomeImpresso.Length < 6)
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteNomeImpresso.Text;
+                        await DisplayAlert("Dados insuficientes", dadosInsuf + lblClienteNomeImpresso.Text, "OK");
                     }
-                    /*
-                    else if (ValidaCampos.CaracterEspecial(nomeImpresso))
-                    {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = caracter + lblClienteNomeImpresso.Text;
-                    }*/
 
                     else if (string.IsNullOrEmpty(bandeira))                    // BANDEIRA
                     {       
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteBandeira.Text;
+                        await DisplayAlert(vazio, nulo + lblClienteBandeira.Text, "OK");
                     }
                     else if (bandeira.Length < 4)
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteBandeira.Text;
+                        await DisplayAlert("Dados insuficientes", dadosInsuf + lblClienteBandeira.Text, "OK");
                     }
-                    /*
-                    else if (ValidaCampos.CaracterEspecial(bandeira))
-                    {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = caracter + lblClienteBandeira.Text;
-                    }*/
 
                     else
                     {
@@ -877,70 +757,113 @@ namespace Teste03.Views
                     #region Valida - Email e senha
                     if (string.IsNullOrEmpty(email))                        // EMAIL
                     {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteEmail.Text;
+                        await DisplayAlert(vazio, nulo + lblClienteEmail.Text, "OK");
                     }
+                    else if (string.IsNullOrEmpty(senha))                   // SENHA
+                    {
+                        await DisplayAlert(vazio, nulo + lblClienteSenha.Text, "OK");
+                    }
+                    else if (senha.Length < 6)                              // SENHA
+                    {
+                        await DisplayAlert("Dados insuficientes", senhaCurta, "OK");
+                    }
+
+                    else if (!ValidaCampos.IsEmail(email))                  // VALIDANDO E-MAIL
+                    {
+                        await DisplayAlert(caracterInv, "E-mail inválido!", "OK");
+                    }
+                    #endregion
+
+                    #region Insert
 
                     else if (verificaOperacao == 1)
                     {
                         if (string.IsNullOrEmpty(confemail))               // CONFIRMAÇÃO DE EMAIL
                         {
-                            lblAlerta.IsVisible = true;
-                            lblAlerta.Text = "";
-                            lblAlerta.Text = nulo + lblClienteConfEmail.Text;
+                            await DisplayAlert(vazio, nulo + lblClienteConfEmail.Text, "OK");
                         }
+
                         else if (!email.Equals(confemail))                      // COMPARA E-MAIL
                         {
-                            lblAlerta.IsVisible = true;
-                            lblAlerta.Text = "";
-                            lblAlerta.Text = emails;
+                            await DisplayAlert("Emails", emails, "OK");
                         }
-                    }
 
-                    else if (string.IsNullOrEmpty(senha))                   // SENHA
-                    {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = nulo + lblClienteSenha.Text;
-                    }
-
-                    else if (verificaOperacao == 1)
-                    {
-                        if (string.IsNullOrEmpty(confsenha))               // CONFIRMAÇÃO DE SENHA
+                        else if (string.IsNullOrEmpty(confsenha))               // CONFIRMAÇÃO DE SENHA
                         {
-                            lblAlerta.IsVisible = true;
-                            lblAlerta.Text = "";
-                            lblAlerta.Text = nulo + lblClienteConfSenha.Text;
+                            await DisplayAlert(vazio, nulo + lblClienteConfSenha.Text, "OK");
                         }
+
                         else if (!senha.Equals(confsenha))                  // COMPARA SENHA
                         {
-                            lblAlerta.IsVisible = true;
-                            lblAlerta.Text = "";
-                            lblAlerta.Text = senhas;
+                            await DisplayAlert("Senhas", senhas, "OK");
+                        }
+
+                        else
+                        {
+                            
+
+                            //-------------------------------------------------------------------------
+                            // Salvando ...
+
+                            #region Cliente()
+                            cliente = new Cliente
+                                (nome, rg, cpf, sexo, dataNascto, celular, celular2, endereco, numero,
+                                   complemento, bairro, cidade, cep, uf, email, senha, IdTipoUsuario, IdStatus
+                                );
+                            #endregion
+
+                            etClienteSexo.SelectedItem = "F";
+
+                            #region INSERT
+
+                            if (id == 1)
+                            {
+                                await control.PostAsync(cliente);       // Insert -Tab. Cliente
+
+                                // Captura o IdCliente gerado no banco 
+                                Cliente clien = await control.GetCpf(cpf);
+
+                                #region CartaoCredito()
+
+                                CartaoCredito cartao = new CartaoCredito()
+                                {
+                                    IdCliente          = clien.IdCliente,
+                                    Ccpf               = cpf,
+                                    CNumeroCartao      = numeroCartao,
+                                    IdBandeira         = idBandeira,
+                                    CDataValidade      = dataValidade,
+                                    CCodigoSeg         = codSeguranca,
+                                    CDataCadastro      = DateTime.Now,
+                                    IdStatus           = 4,
+                                    CDataInativacao    = null,
+                                    CUltimaAtualizacao = null,
+                                    BandeiraDescricao  = bandeira,
+                                    NomeImpresso       = nomeImpresso
+                                };
+                                #endregion
+
+                                await controlCartao.PostCartaoAsync(cartao);    // Insert - Tab. Cartao
+
+                                btnFinalizar.IsVisible = false;
+                                btnVoltar.IsVisible = false;
+                                lblAlerta.IsVisible = false;
+
+                                await DisplayAlert("Sucesso!", "Cadastro realizado com sucesso!", "OK");
+
+                                EmailSenhaNotVisible();
+
+                                // Direciona para a tela de login
+                                await Navigation.PushModalAsync(new Views.Login());
+                                //btnLogar.IsVisible     = true;
+                            }
+
+                            #endregion
                         }
                     }
-
-                    else if (senha.Length < 6)                              // SENHA
-                    {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = senhaCurta;
-                    }
-
-                    else if (!ValidaCampos.IsEmail(email))                  // VALIDANDO E-MAIL
-                    {
-                        lblAlerta.IsVisible = true;
-                        lblAlerta.Text = "";
-                        lblAlerta.Text = "E-mail inválido!";
-                    }
-                    
                     #endregion
 
                     else
                     {
-                        EmailSenhaNotVisible();
-
                         //-------------------------------------------------------------------------
                         // Salvando ...
 
@@ -950,48 +873,7 @@ namespace Teste03.Views
                                complemento, bairro, cidade, cep, uf, email, senha, IdTipoUsuario, IdStatus
                             );
                         #endregion
-
-                        #region INSERT
-
-                        if (id == 1)
-                        {
-                            await control.PostAsync(cliente);       // Insert -Tab. Cliente
-
-                            // Captura o IdCliente gerado no banco 
-                            Cliente clien = await control.GetCpf(cpf);
-
-                            #region CartaoCredito()
-
-                            CartaoCredito cartao = new CartaoCredito()
-                            {
-                                IdCliente = clien.IdCliente,
-                                Ccpf = cpf,
-                                CNumeroCartao = numeroCartao,
-                                IdBandeira = idBandeira,
-                                CDataValidade = dataValidade,
-                                CCodigoSeg = codSeguranca,
-                                CDataCadastro = DateTime.Now,
-                                IdStatus = 4,
-                                CDataInativacao = null,
-                                CUltimaAtualizacao = null,
-                                BandeiraDescricao = bandeira,
-                                NomeImpresso = nomeImpresso
-                            };
-                            #endregion
-
-                            await controlCartao.PostCartaoAsync(cartao);    // Insert - Tab. Cartao
-                            
-                            btnFinalizar.IsVisible = false;
-                            btnVoltar.IsVisible    = false;
-                            lblAlerta.IsVisible    = false;
-
-                            // Direciona para a tela de login
-                            await Navigation.PushModalAsync(new Views.Login());
-                            //btnLogar.IsVisible     = true;
-                        }
-
-                        #endregion
-
+                        
                         #region UPDATE 
 
                         if (id == 2)
@@ -1000,6 +882,8 @@ namespace Teste03.Views
 
                             await DisplayAlert("Sucesso!", "Cadastro realizado com sucesso!", "OK");  // Confirma a atualização
 
+                            EmailSenhaNotVisible();
+                            
                             btnSalvar.IsVisible = false;
 
                             await Navigation.PushModalAsync(new Views.LgMinhaContaa());  // Direciona para 'Minha Conta'

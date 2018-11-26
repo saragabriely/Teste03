@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace Teste03.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class LgPesquisar : ContentPage
+	public partial class LgChat : ContentPage
 	{
-		public LgPesquisar ()
+		public LgChat ()
 		{
 			InitializeComponent ();
 		}
@@ -62,6 +62,7 @@ namespace Teste03.Views
         #endregion
 
         #endregion
+
 
     }
 }

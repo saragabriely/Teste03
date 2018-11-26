@@ -51,6 +51,15 @@ namespace Teste03.Views
         }
         #endregion
 
+         #region Btn - Dados Bancários
+        private async void BtnDadosPagamento_Clicked(object sender, EventArgs e)
+        {
+            //await Navigation.PushModalAsync(new Views.ClientePF_Cadastro());
+
+            await DisplayAlert("Future!", "Essa tela está em desenvolvimento. Aguarde.", "OK");
+        }
+        #endregion
+
         #endregion
 
         #region Desativar Cadastro - Cliente e Motorista
@@ -160,6 +169,13 @@ namespace Teste03.Views
         private async void BtnPesquisar_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushModalAsync(new Views.LgPesquisar());
+        }
+        #endregion
+
+        #region Btn - Chat
+        private async void BtnChat_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new Views.LgChat());
         }
         #endregion
 

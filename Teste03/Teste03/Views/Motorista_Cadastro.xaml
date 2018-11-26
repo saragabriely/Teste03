@@ -15,18 +15,35 @@
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions >
-                <RowDefinition /> 
-                <RowDefinition Height="469.5" /> 
-                <RowDefinition Height="50" /> 
+                <RowDefinition Height="65"  />
+                <RowDefinition Height="452" />
+                <RowDefinition Height="50"  />
             </Grid.RowDefinitions>
 
             <!-- Me Transporta -->
-            <Label  Text="MeTransporta"     
-                    TextColor="{StaticResource WhiteBtn}"   BackgroundColor="{StaticResource Blue}" 
-                    HorizontalOptions="FillAndExpand"       VerticalOptions="Center" 
-                    VerticalTextAlignment="Center"          HorizontalTextAlignment="Center"
-                    FontSize="18"                           HeightRequest="60"
-                    Grid.Row="0"   Grid.Column="0" Grid.ColumnSpan="5" />
+            <StackLayout  Orientation="Horizontal"           HeightRequest="90"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"
+                          HorizontalOptions="FillAndExpand"  VerticalOptions="Center" BackgroundColor="{StaticResource Blue}" Spacing="-15"   >
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="72" />
+                        <ColumnDefinition  Width="72" />
+                        <ColumnDefinition  Width="72" />
+                        <ColumnDefinition  Width="52" />
+                        <ColumnDefinition  Width="28" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Text="MeTransporta" TextColor="{StaticResource WhiteBtn}" FontSize="19" WidthRequest="100"
+                           VerticalTextAlignment="Center"  HorizontalTextAlignment="End"  VerticalOptions="Center"
+                           Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" />
+
+                    <Image Source="moving.png" VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="33" WidthRequest="33"
+                           Grid.Column="3" Grid.Row="0"  />
+
+                </Grid>
+
+            </StackLayout>
+
 
             <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Margin="16"  >
 
@@ -37,14 +54,14 @@
                     </Grid.ColumnDefinitions>
 
                     <Grid.RowDefinitions >
-                        <RowDefinition Height="65" />
+                        <RowDefinition Height="55" />
                         <RowDefinition Height="470" />
                     </Grid.RowDefinitions>
 
                     <!-- Label - CADASTRAR-SE -->
                     <Label  x:Name="lblCadastrar"  Text="CADASTRE-SE"    Grid.Column="0"    Grid.Row="0"
                             FontSize="15"          FontAttributes="Bold" TextColor="{StaticResource Blue}" 
-                            HorizontalTextAlignment="Center"  VerticalTextAlignment="Center"  HeightRequest="60"  />
+                            HorizontalTextAlignment="Center"  VerticalTextAlignment="Center"  HeightRequest="55"  />
 
                     <!-- Label - MEU CADASTRO -->
                     <StackLayout x:Name="lblMeuCadastro" IsVisible="False" Grid.Column="0" Grid.Row="0" VerticalOptions="Center"  >
@@ -57,23 +74,23 @@
                     <StackLayout  VerticalOptions="StartAndExpand" Margin="3" Grid.Column="0" Grid.Row="1" >
 
                        <!-- Botões - CADASTRAR-SE -->
-                       <StackLayout x:Name="stCadastrarSe" Orientation="Horizontal" Spacing="-3" IsVisible="true">
+                       <StackLayout x:Name="stCadastrarSe" Orientation="Horizontal" Spacing="2" IsVisible="true">
 
                             <!-- Dados Pessoais // Clicked="BtnDadosPessoais_Clicked" -->
-                            <Button  x:Name="btnDadosPessoais" Text="Dados Pessoais" WidthRequest="80" FontSize="10" IsEnabled="True"
-                                     TextColor="{StaticResource Blue}" FontAttributes="Bold" />
+                            <Button  x:Name="btnDadosPessoais" Text="Dados Pessoais" WidthRequest="80" FontSize="9" IsEnabled="True"
+                                     TextColor="{StaticResource Blue}" BackgroundColor="{StaticResource WhiteBtn}"  FontAttributes="Bold" />
 
                             <!-- Endereço  // Clicked="BtnEndereco_Clicked" -->
-                            <Button x:Name="btnEndereco" Text="Endereço" WidthRequest="85" FontSize="10" IsEnabled="False"
-                                    TextColor="{StaticResource Blue}" FontAttributes="Bold" />
+                            <Button x:Name="btnEndereco" Text="Endereço" WidthRequest="80" FontSize="10" IsEnabled="False"
+                                    TextColor="{StaticResource Blue}" BackgroundColor="{StaticResource WhiteBtn}"  FontAttributes="Bold" />
 
                             <!-- CNH + Dados Bancários // Clicked="BtnCnhDadosBancarios_Clicked" -->
-                            <Button x:Name="btnCnhDadosBancarios" Text="CNH e Dados Bancários" WidthRequest="90" FontSize="10"
-                                    IsEnabled="False" TextColor="{StaticResource Blue}" FontAttributes="Bold" />
+                            <Button x:Name="btnCnhDadosBancarios" Text="CNH e Dados Bancários" WidthRequest="83" FontSize="9"
+                                    IsEnabled="False" TextColor="{StaticResource Blue}" BackgroundColor="{StaticResource WhiteBtn}"  FontAttributes="Bold" />
 
                             <!-- Email e Senha // Clicked="BtnEmailSenha_Clicked" -->
                             <Button  x:Name="btnEmailSenha"  Text="E-mail e Senha" WidthRequest="80" FontSize="10" IsEnabled="False"
-                                     TextColor="{StaticResource Blue}" FontAttributes="Bold" />
+                                     TextColor="{StaticResource Blue}" BackgroundColor="{StaticResource WhiteBtn}"  FontAttributes="Bold" />
 
                         </StackLayout>
 
@@ -134,14 +151,14 @@
                                 <RowDefinition Height="34" /> <!-- 4 -->
                                 <RowDefinition Height="34" /> <!-- 5 -->
                                 <RowDefinition Height="34" /> <!-- 6 -->
-                                <RowDefinition Height="30" /> <!-- 7 -->
+                                <RowDefinition Height="34" /> <!-- 7 -->
                                 <RowDefinition Height="34" />
                                 <RowDefinition Height="34" />
-                                <RowDefinition Height="34" />
-                                <RowDefinition Height="34" />
-                                <RowDefinition Height="34" />
-                                <RowDefinition Height="34" />
-                                <RowDefinition Height="34" />
+                                <RowDefinition Height="32" />
+                                <RowDefinition Height="32" />
+                                <RowDefinition Height="32" />
+                                <RowDefinition Height="32" />
+                                <RowDefinition Height="32" />
                             </Grid.RowDefinitions>
 
                             <!-- *DADOS PESSOAIS* -->
@@ -446,7 +463,7 @@
                                 </StackLayout.GestureRecognizers>
 
                                 <Image  Source="editar.png"  VerticalOptions="End" HorizontalOptions="Center"
-                                      HeightRequest="17"   WidthRequest="17"  />
+                                      HeightRequest="19"   WidthRequest="19"  />
 
                                 <Label Text="Editar" FontSize="12" VerticalOptions="StartAndExpand" HorizontalTextAlignment="Start" 
                                        FontAttributes="Bold"  />
@@ -617,16 +634,31 @@
                 </StackLayout>
 
                 <!-- PESQUISAR -->
-                <StackLayout Grid.Row="0"  Grid.Column="2" Spacing="-3" IsVisible="true" >
+                <StackLayout Grid.Row="2"  Grid.Column="2" Spacing="-3" IsVisible="False"  >
 
                     <StackLayout.GestureRecognizers>
                         <TapGestureRecognizer Tapped="BtnPesquisar_Clicked" NumberOfTapsRequired="1" />
                     </StackLayout.GestureRecognizers>
 
-                    <Image Source="pesquisar.png"     VerticalOptions="CenterAndExpand"  HorizontalOptions="CenterAndExpand"
-                     HeightRequest="26"   WidthRequest="26"   />
+                    <Image Source="pesquisar.png"     VerticalOptions="End"  HorizontalOptions="CenterAndExpand"
+                       HeightRequest="26"   WidthRequest="26"   />
 
                     <Label Text="Pesquisar" FontSize="10" VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center" />
+
+                </StackLayout>
+
+                <!-- CHAT -->
+                <StackLayout Grid.Row="2"  Grid.Column="2" Spacing="-3"  >
+
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="BtnChat_Clicked" NumberOfTapsRequired="1" />
+                    </StackLayout.GestureRecognizers>
+
+                    <Image Source="chat.png"     VerticalOptions="Center"  HorizontalOptions="CenterAndExpand"
+                       HeightRequest="26"   WidthRequest="26"   />
+
+                    <Label Text="Chat" FontSize="10" FontAttributes="Bold"    
+                       VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center" />
 
                 </StackLayout>
 

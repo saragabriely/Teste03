@@ -17,15 +17,15 @@ namespace Teste03.Views
 	{
         #region Variaveis e controllers
 
-        public int idCliente     = Session.Instance.IdCliente;      // Motorista: 8; // Cliente: 7; // 3; //
-        public int idTipoCliente = Session.Instance.IdTipoUsuario;  // Motorista: 3  // Cliente: 2; //
+        public int idCliente     = 8; //Session.Instance.IdCliente;      // Motorista: 8; // Cliente: 7; // 3; //
+        public int idTipoCliente = 3;  //Session.Instance.IdTipoUsuario;  // Motorista: 3  // Cliente: 2; //
         public int verificaOperacao;
         public int idCol;
         public int verifica;
         public int escolha;
         public int existente;
 
-        public int idMotorista   =  Session.Instance.IdMotorista; // 1; //
+        public int idMotorista   = 1; // Session.Instance.IdMotorista; // 1; //
         public int idColetaCliente;
         public int idColetaOrcamento;
         public int idOrcamentoAceito;
@@ -35,10 +35,13 @@ namespace Teste03.Views
         Coleta colet = new Coleta();
 
         ColetaController          coletaControl       = new ColetaController();
+        ColetaVisualizaController visualiza           = new ColetaVisualizaController();
         OrcamentoController       orcaControl         = new OrcamentoController();
         StatusController          statusController    = new StatusController();
         VeiculoController         veiculoControl      = new VeiculoController();
         ColetaVisualizaController visualizaController = new ColetaVisualizaController();
+        
+        List<ColetaVisualiza> lista = new List<ColetaVisualiza>();
 
         #endregion
 
@@ -1183,13 +1186,13 @@ namespace Teste03.Views
 
 
         #endregion
-        
+
         #endregion
 
         #region Motorista
 
-        #region Botões 
-        
+        #region Filtro
+
         #region Filtrar()
 
         private void Filtrar (int i)
@@ -1321,6 +1324,35 @@ namespace Teste03.Views
      
         }
         #endregion
+        
+        #region Filtro_Veiculo()
+
+        private async void Filtro_Veiculo()
+        {
+            var veiculos = await veiculoControl.GetListVeiculo(idMotorista);
+
+            var tipoVeiculo = veiculos.Select(l => l.Placa + " - " + l.Modelo).Distinct().ToList();
+
+            // 1 - Carrega o dropdown
+
+            etMotoristaFiltroVeiculo.ItemsSource   = tipoVeiculo;
+            etMotoristaFiltroVeiculo.SelectedIndex = 0;
+
+        }
+        #endregion
+
+        #region Filtro - Veiculo - Motorista
+        private void pckFiltroOrcamento(object sender, EventArgs e)
+        {
+            //var itemSelecionado = etMotoristaFiltroVeiculo.Items[etMotoristaFiltroVeiculo.SelectedIndex];
+            itemVeiculo = etMotoristaFiltroVeiculo.Items[etMotoristaFiltroVeiculo.SelectedIndex];
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Botões 
 
         #region Botões - Voltar, Avançar, Pesquisar, Encontrar
 
@@ -1353,7 +1385,7 @@ namespace Teste03.Views
                 // Mostra a lista e o filtro
                 stFiltrarColetas_Moto.IsVisible = true;
                 stListaMoto.IsVisible           = true;
-
+                
                 if (escolha == 1)
                 {
                     ListaMotoristaAsync(1, 0);
@@ -1362,6 +1394,8 @@ namespace Teste03.Views
                 {
                     ListaMotoristaAsync(2, 0);
                 }
+
+              //  await Navigation.PushModalAsync(new Views.LgColetas());
 
             }
             else if (lbPeso.IsVisible)
@@ -1416,21 +1450,23 @@ namespace Teste03.Views
                         stBtnAvancar_Moto.IsVisible = false;
 
                         #region Popula campos
-
-                        var orcamento = await orcaControl.GetOrcamento(idOrcamentoAceito);
+                        /*
+                        var orcamento = await orcaControl.GetOrcamento(idColetaOrcamento);
 
                         var idVeic = orcamento.IdVeiculoUsado;
 
                         var veiculo = await veiculoControl.GetConta(idVeic);
                         
-                        etVeiculo_.Text         = veiculo.Placa + " - " + veiculo.Modelo;  // Veiculo
-                        lbOrcamento_.Text       = orcamento.Valor;                         // Valor do orçamento
+                        etVeiculo_.Text         = veiculo.Placa + " - " + veiculo.Modelo;   // Veiculo
+                        lbOrcamento_.Text       = orcamento.Valor;                          // Valor do orçamento
                         lbStatusOrcamento_.Text = orcamento.DescStatus.ToUpper();           // Status do orçamento
-
+                        */
                         #endregion
                     }
                     else
                     {
+                      //  Filtro_Veiculo();
+
                         MostraOrcamento();
 
                         // Esconde o botão 'Avançar'
@@ -1503,34 +1539,9 @@ namespace Teste03.Views
         }
 
         #endregion
-
-        #region Filtro_Veiculo()
-
-        private async void Filtro_Veiculo()
-        {
-            var veiculos = await veiculoControl.GetListVeiculo(idMotorista);
-
-            var tipoVeiculo = veiculos.Select(l => l.Placa + " - " + l.Modelo).Distinct().ToList();
-
-            // 1 - Carrega o dropdown
-
-            etMotoristaFiltroVeiculo.ItemsSource   = tipoVeiculo;
-            etMotoristaFiltroVeiculo.SelectedIndex = 0;
-
-        }
+        
         #endregion
-
-        #region Filtro - Coleta - Motorista
-        private void pckFiltroOrcamento(object sender, EventArgs e)
-        {
-            //var itemSelecionado = etMotoristaFiltroVeiculo.Items[etMotoristaFiltroVeiculo.SelectedIndex];
-            itemVeiculo = etMotoristaFiltroVeiculo.Items[etMotoristaFiltroVeiculo.SelectedIndex];
- 
-        }
-        #endregion
-
-        #endregion
-
+        
         #region Lista
 
         #region ListaMotoristaAsync(int i)
@@ -2001,36 +2012,38 @@ namespace Teste03.Views
             idCol = coleta.IdColeta;
             
             // Popula os campos como o objeto retornado
-            PopulaColeta_Orcamento(coleta);
+           // PopulaColeta_Orcamento(coleta);
 
             stBtnVoltar_Moto.IsVisible  = true;     // Mostra botões
             stBtnAvancar_Moto.IsVisible = true;
 
+            idColetaOrcamento = 0;
+            existente         = 0;
+
             // verifica se o motorista enviou orçamento para a coleta em questão
             #region Verifica se foi enviado algum orçamento para a coleta selecionada
+/*
+            var orcamento = await orcaControl.GetListOrcamento();
 
-            var orca   = await orcaControl.GetListOrcamento();
-
-            var filtra = orca.Where(l => l.IdMotorista == idMotorista).Where(l => l.IdColeta == coleta.IdColeta).ToList();
-
-            var filtra_ = filtra.Last();
-
-            idOrcamentoAceito = filtra_.IdOrcamento;  // id do orçamento enviado
-
-            if (filtra.Count > 0) // Orçamento existente
+            // Seleciona os orçamentos do cliente em questão
+            var enti = orcamento.Where(i => i.IdMotorista == idMotorista)
+                                .Where(i => i.IdColeta    == coleta.IdColeta)
+                                .ToList();
+            
+            if (enti.Count > 0) //enti != null || 
             {
                 existente = 2;
-            }
 
+                idColetaOrcamento = enti.Where(l => l.IdColeta == coleta.IdColeta).Select(l => l.IdOrcamento).Last();
+            } */
             #endregion
 
             // Insere registro para mostrar que a coleta foi visualizada
             #region Verifica tab. 'ColetaVisualiza'
+/*
+            
 
-            ColetaVisualizaController visualiza = new ColetaVisualizaController();
-            List<ColetaVisualiza>     lista     = new List<ColetaVisualiza>();
-
-            lista = await visualiza.GetListVisualiza_(idMotorista, idCol);
+            lista = await visualiza.GetListVisualiza_(idMotorista, coleta.IdColeta);
 
             int conta = lista.Count;
 
@@ -2038,7 +2051,7 @@ namespace Teste03.Views
             {
                 InsereVisualizacao(idCol, idMotorista, idColetaCliente);
             }
-
+             */
             #endregion
             
         }
@@ -2067,8 +2080,28 @@ namespace Teste03.Views
         }
         #endregion
 
+        #region Lista de veiculos - Item selecionado
+        private async void LstVeiculo_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem == null)
+            {
+                return;
+            }
+            // obtem o item do listview
+            var veiculo = e.SelectedItem as Veiculo;
+
+            // deseleciona o item do listview
+            LstColeta.SelectedItem = null;
+
+            // Popula os campos como o objeto retornado
+            // Popula(veiculo);
+
+            //  = coleta.IdColeta;
+        }
         #endregion
-        
+
+        #endregion
+
         #region Mostra e esconde campos
 
         #region EscondeDados_Moto()
@@ -2216,7 +2249,7 @@ namespace Teste03.Views
             lbVeiculoOrcamento.IsVisible      = true;
             stFiltrarVeiculos_Moto.IsVisible  = true;
 
-            Filtro_Veiculo();
+         //   Filtro_Veiculo();
 
             #endregion
         }
@@ -2610,6 +2643,13 @@ namespace Teste03.Views
         private async void BtnPesquisar_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushModalAsync(new Views.LgPesquisar());
+        }
+        #endregion
+
+        #region Btn - Chat
+        private async void BtnChat_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new Views.LgChat());
         }
         #endregion
 

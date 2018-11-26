@@ -14,11 +14,13 @@ namespace Teste03.Views
 	public partial class LgHome : ContentPage
 	{
         #region Variáveis - Populando
-        public string nome     =  Models.Session.Instance.Cnome;
+        public string nome     = "" ; //"João Lima"; // Models.Session.Instance.Cnome;
 
-        public int idMotorista =  Models.Session.Instance.IdMotorista;    // Motorista: 1; //
-        public int idCliente   =  Models.Session.Instance.IdCliente;      // Motorista: 8; // 7; //
-        public int idTipoUser  =  Models.Session.Instance.IdTipoUsuario;  // Motorista: 3; // 2; //
+        public int    idMotorista =  Session.Instance.IdMotorista;    // Motorista: 1; //
+        public int    idCliente   =  Session.Instance.IdCliente;      // Motorista: 8; // 7; //
+        public int    idTipoUser  =  Session.Instance.IdTipoUsuario;  // Motorista: 3; // 2; //
+
+        ClienteController clienteController = new ClienteController();
 
         #endregion
 
@@ -33,7 +35,12 @@ namespace Teste03.Views
                 slCliente.IsVisible = false;
 
                 slMotorista.IsVisible    = true;
-                lbBemVindoMotorista.Text = "Bem-vindo(a) " + nome.ToString();
+
+                BuscaNome(idCliente);
+                
+                lbBemVindoMotorista.Text = "Bem-vindo(a) " + nome;
+
+                //lbBemVindoMotorista.Text = "Bem-vindo(a) " + nome.ToString();
 
                 #region Verifica notificações
 
@@ -48,7 +55,10 @@ namespace Teste03.Views
                 slMotorista.IsVisible = false;
 
                 slCliente.IsVisible    = true;
-                lbBemVindoCliente.Text = "Bem-vindo(a) " + nome.ToString();
+
+                BuscaNome(idCliente);
+                
+                lbBemVindoCliente.Text = "Bem-vindo(a) " + nome;
 
                 #region Verifica notificações
                 
@@ -58,6 +68,14 @@ namespace Teste03.Views
                 #endregion
             }
             #endregion
+        }
+
+        private async void BuscaNome(int idcliente)
+        {
+            // busca nome
+            var user = await clienteController.GetCliente(idCliente);
+
+            nome = user.Cnome;
         }
 
         // --------------------------------------------------------------
@@ -128,14 +146,17 @@ namespace Teste03.Views
 
                     lbNotificaColeta_.Text      = coletaEmAndamento;
                     lbNotificaColeta_.IsVisible = true;
+
+                    stColeta.IsVisible = true;
                 }
                 else if (finalizada.Count > 0)                  // verificar se tem alguma coleta finalizada
                 {
                     lbNotificaColeta__.IsVisible = false;
                     
-
                     lbNotificaColeta_.Text      = coletaFinalizada;
                     lbNotificaColeta_.IsVisible = true;
+
+                    stColeta.IsVisible = true;
                 }
                 else
                 {
@@ -241,7 +262,7 @@ namespace Teste03.Views
 
                 lbNotificaColeta_Moto_.Text      = nada;
             }
-            else                          // caso não tenha orçamentos aguardando aprovação
+            else if(orcamento.Count == 0)    // caso não tenha orçamentos aguardando aprovação
             {
                 // esconde
                 stColeta_Moto.IsVisible         = false;
@@ -339,6 +360,13 @@ namespace Teste03.Views
         private async void BtnPesquisar_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushModalAsync(new Views.LgPesquisar());
+        }
+        #endregion
+
+        #region Btn - Chat
+        private async void BtnChat_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new Views.LgChat());
         }
         #endregion
 

@@ -37,48 +37,46 @@ namespace Teste03.Controllers
             }
             else
             {
-                #region Comentários / Tentativas
-                // var buscaCpf = await GetCpf(cpf);
-                /* LoginController loginController = new LoginController();
-                var loginModel = await loginController.GetCpf(cpf);
-                LoginModel login = new LoginModel()
-                {
-                    IdLogin       = loginModel.IdLogin,                
-                    Ccpf          = loginModel.Ccpf,
-                    IdCliente     = buscaCpf.IdCliente,
-                    Email         = loginModel.Email,
-                    Senha         = loginModel.Senha,
-                    IdTipoUsuario = loginModel.IdTipoUsuario,
-                    IdStatus      = loginModel.IdStatus
-                };
-                */
-                // await loginController.UpdateLogin(login);
-
-                //  return result.IsSuccessStatusCode;
-                //  if (result.IsSuccessStatusCode)
-                // {
-                // return retorno;
-                // }
-                #endregion
-
-               // int retorno = cliente.IdCliente;
-
                 return result.IsSuccessStatusCode;
             }            
         }
         #endregion
 
+        #region GET - Cliente - Todos
+        public async Task<List<Cliente>> GetList()
+        {
+            HttpClient client = new HttpClient();
+
+            try
+            {
+                string webService = url;
+
+                var    response   = await client.GetStringAsync(webService);
+                                  
+                var    cliente    = JsonConvert.DeserializeObject<List<Cliente>>(response);
+                               
+                return cliente;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+
         #region GET - Cliente - ID
         public async Task<Cliente> GetCliente(int id)
         {
             HttpClient client = new HttpClient();
+
             try
             {
                 string webService = url + id.ToString();
 
-                var response = await client.GetStringAsync(webService);
-
-                var cliente  = JsonConvert.DeserializeObject<Cliente>(response);
+                var    response   = await client.GetStringAsync(webService);
+                                  
+                var    cliente    = JsonConvert.DeserializeObject<Cliente>(response);
                                
                 return cliente;
             }
@@ -93,28 +91,15 @@ namespace Teste03.Controllers
         public async Task<Cliente> GetCpf(string cpf)
         {
             HttpClient client = new HttpClient();
-            Cliente cliente;
 
             try
             {
                 string webService = url + "cpf/?cpf=" + cpf.ToString();
 
-                var response = await client.GetStringAsync(webService);
-
-                var loga = JsonConvert.DeserializeObject<Cliente>(response);
-
-                if (loga == null)
-                {
-                    
-                }
-                else
-                {
-                    cliente = new Cliente(
-                         loga.Cnome, loga.Crg, loga.Ccpf, loga.Csexo, loga.CdataNascto, loga.Ccelular,
-                         loga.Ccelular2, loga.Cendereco, loga.Cnumero, loga.Ccomplemento, loga.Cbairro,
-                         loga.Ccidade, loga.Ccep, loga.Cuf, loga.Cemail, loga.Csenha, loga.IdTipoUsuario, loga.IdStatus
-                    );
-                }
+                var    response   = await client.GetStringAsync(webService);
+                                  
+                var    loga       = JsonConvert.DeserializeObject<Cliente>(response);
+                                
                 return loga;
             }
             catch (Exception ex)

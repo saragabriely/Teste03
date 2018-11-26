@@ -9,31 +9,40 @@
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition  Width="85.4" />
-                <!-- 0 -->
                 <ColumnDefinition  Width="85.4" />
-                <!-- 1 -->
                 <ColumnDefinition  Width="85.4" />
-                <!-- 2 -->
                 <ColumnDefinition  Width="85.4" />
-                <!-- 3 -->
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions >
-                <RowDefinition />
-                <!-- 0 -->
-                <RowDefinition Height="469.5" />
-                <!-- 1 -->
-                <RowDefinition Height="50" />
-                <!-- 2 -->
+                <RowDefinition Height="65"  />
+                <RowDefinition Height="452" />
+                <RowDefinition Height="50"  />
             </Grid.RowDefinitions>
 
-            <Label  Text="MeTransporta"     
-                    TextColor="{StaticResource LightBlue}"  BackgroundColor="{StaticResource Blue}"
-                    HorizontalOptions="FillAndExpand"       VerticalOptions="Center" 
-                    VerticalTextAlignment="Center"          HorizontalTextAlignment="Center"
-                    FontSize="22"   HeightRequest="50"
-                    Grid.Row="0"    Grid.Column="0" Grid.ColumnSpan="4"
-                />
+            <!-- Me Transporta -->
+            <StackLayout  Orientation="Horizontal"           HeightRequest="90"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"
+                          HorizontalOptions="FillAndExpand"  VerticalOptions="Center" BackgroundColor="{StaticResource Blue}" Spacing="-15"   >
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="72" />
+                        <ColumnDefinition  Width="72" />
+                        <ColumnDefinition  Width="72" />
+                        <ColumnDefinition  Width="52" />
+                        <ColumnDefinition  Width="28" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Text="MeTransporta" TextColor="{StaticResource WhiteBtn}" FontSize="19" WidthRequest="100"
+                           VerticalTextAlignment="Center"  HorizontalTextAlignment="End"  VerticalOptions="Center"
+                           Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" />
+
+                    <Image Source="moving.png" VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="33" WidthRequest="33"
+                           Grid.Column="3" Grid.Row="0"  />
+
+                </Grid>
+
+            </StackLayout>
 
             <StackLayout Grid.Row="1"    Grid.Column="0" Grid.ColumnSpan="4" Padding="20" Spacing="18" >
 

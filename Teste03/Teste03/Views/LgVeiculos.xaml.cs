@@ -20,9 +20,9 @@ namespace Teste03.Views
 	{
         #region variáveis e controllers
 
-        public static int    idTipoUser = Session.Instance.IdTipoUsuario;
-        public static int    idCli      = Session.Instance.IdCliente; // 8; //
-        public static int    id         = Session.Instance.IdMotorista; // 1; //
+        public static int    idTipoUser =  Session.Instance.IdTipoUsuario;
+        public static int    idCli      =  Session.Instance.IdCliente;   // 8; //
+        public static int    id         =  Session.Instance.IdMotorista; // 1; //
         public static int    idVeic;   
         public static int    verificaOperacao = 0;
         public static int    idVeiculo;
@@ -724,6 +724,13 @@ namespace Teste03.Views
         private async void BtnPesquisar_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushModalAsync(new Views.LgPesquisar());
+        }
+        #endregion
+
+        #region Btn - Chat
+        private async void BtnChat_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new Views.LgChat());
         }
         #endregion
 

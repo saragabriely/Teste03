@@ -22,12 +22,28 @@
             </Grid.RowDefinitions>
 
             <!-- Me Transporta -->
-            <Label  Text="MeTransporta"     
-                    TextColor="{StaticResource WhiteBtn}"   BackgroundColor="{StaticResource Blue}" 
-                    HorizontalOptions="FillAndExpand"       VerticalOptions="Center" 
-                    VerticalTextAlignment="Center"          HorizontalTextAlignment="Center"
-                    FontSize="18"                           HeightRequest="60"
-                    Grid.Row="0"   Grid.Column="0" Grid.ColumnSpan="5" />
+            <StackLayout  Orientation="Horizontal"           HeightRequest="90"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"
+                          HorizontalOptions="FillAndExpand"  VerticalOptions="Center" BackgroundColor="{StaticResource Blue}" Spacing="-15"   >
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="72" />
+                        <ColumnDefinition  Width="72" />
+                        <ColumnDefinition  Width="72" />
+                        <ColumnDefinition  Width="52" />
+                        <ColumnDefinition  Width="28" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Text="MeTransporta" TextColor="{StaticResource WhiteBtn}" FontSize="19" WidthRequest="100"
+                           VerticalTextAlignment="Center"  HorizontalTextAlignment="End"  VerticalOptions="Center"
+                           Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" />
+
+                    <Image Source="moving.png" VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="33" WidthRequest="33"
+                           Grid.Column="3" Grid.Row="0"  />
+
+                </Grid>
+
+            </StackLayout>
 
             <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Margin="20"  HorizontalOptions="Center" >
 
@@ -43,7 +59,7 @@
                 <StackLayout x:Name="slCliente" IsVisible="False" >
 
                     <!-- Perfil Cliente -->
-                    <Label Text="Perfil Cliente" FontSize="14" FontAttributes="Bold" VerticalOptions="Start" HorizontalOptions="Center" />
+                    <Label Text="Perfil Cliente" FontSize="12" FontAttributes="Bold" VerticalOptions="Start" HorizontalOptions="Center" />
 
                     <Label x:Name="lbBemVindoCliente" FontSize="13" VerticalOptions="Start" HorizontalOptions="Center" />
 
@@ -130,9 +146,29 @@
                                HeightRequest="40" VerticalTextAlignment="End" Grid.Column="1" Grid.Row="8"   />
 
                         <!-- E-mail -->
-                        <Label x:Name="lbContato" Text="projetometransporta@gmail.com"  IsVisible="True"
-                               FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" 
-                               HeightRequest="40" VerticalTextAlignment="Start" Grid.Column="1" Grid.Row="9"   />
+                        <StackLayout Orientation="Horizontal"  Grid.Column="1" Grid.Row="9" HorizontalOptions="Center"  >
+
+                            <Grid>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition  Width="22" />
+                                    <ColumnDefinition  Width="52" />
+                                    <ColumnDefinition  Width="72" />
+                                    <ColumnDefinition  Width="72" />
+                                    <ColumnDefinition  Width="72" />
+                                    <ColumnDefinition  Width="30" />
+                                </Grid.ColumnDefinitions>
+
+                                <Image Source="email.png" VerticalOptions="End" HorizontalOptions="CenterAndExpand" HeightRequest="32" WidthRequest="32"
+                                        />
+                                
+                                <Label x:Name="lbContato" Text="projetometransporta@gmail.com"  IsVisible="True"
+                                       Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="4" HorizontalOptions="Center"
+                                       FontSize="12"  VerticalOptions="Center" HeightRequest="40" VerticalTextAlignment="Center"  />
+
+                            </Grid>
+
+                        </StackLayout>
 
                     </Grid>
 
@@ -198,7 +234,6 @@
 
 
                         <!-- Notifica orçamento -->
-
                         <Label x:Name="lbNotificacoes_Moto" Text="Orçamentos realizados" FontSize="14" VerticalOptions="Center" HorizontalOptions="Start"
                                FontAttributes="Bold" Grid.Column="1" Grid.Row="3"  />
 
@@ -226,19 +261,42 @@
                                Grid.Column="1" Grid.Row="4" Grid.RowSpan="2" WidthRequest="300"   />
 
 
-
                         <!-- Em caso de dúvidas -->
                         <Label x:Name="lblContato_M" Text="Em caso de dúvidas, entre em contato conosco!"  IsVisible="True"
                                FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold"
                                HeightRequest="40" VerticalTextAlignment="End" Grid.Column="1" Grid.Row="8"   />
 
                         <!-- E-mail -->
+                        <StackLayout Orientation="Horizontal"  Grid.Column="1" Grid.Row="9" HorizontalOptions="Center"  >
+
+                            <Grid>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition  Width="22" />
+                                    <ColumnDefinition  Width="52" />
+                                    <ColumnDefinition  Width="72" />
+                                    <ColumnDefinition  Width="72" />
+                                    <ColumnDefinition  Width="72" />
+                                    <ColumnDefinition  Width="30" />
+                                </Grid.ColumnDefinitions>
+
+                                <Image Source="email.png" VerticalOptions="End" HorizontalOptions="CenterAndExpand" HeightRequest="32" WidthRequest="32"
+                                        />
+
+                                <Label x:Name="lbContato_C" Text="projetometransporta@gmail.com"  IsVisible="True"
+                                       Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="4" HorizontalOptions="Center"
+                                       FontSize="12"  VerticalOptions="Center" HeightRequest="40" VerticalTextAlignment="Center"  />
+
+                            </Grid>
+
+                        </StackLayout>
+
+                        <!-- E-mail - ->
                         <Label x:Name="lbContato_M" Text="projetometransporta@gmail.com"  IsVisible="True"
                                FontSize="12" VerticalOptions="Center" HorizontalOptions="Center" 
-                               HeightRequest="40" VerticalTextAlignment="Start" Grid.Column="1" Grid.Row="9"   />
+                               HeightRequest="40" VerticalTextAlignment="Start" Grid.Column="1" Grid.Row="9"   /> -->
 
                     </Grid>
-
 
                 </StackLayout>
 
@@ -275,7 +333,7 @@
             </StackLayout>
 
             <!-- PESQUISAR -->
-            <StackLayout Grid.Row="2"  Grid.Column="2" Spacing="-3"  >
+            <StackLayout Grid.Row="2"  Grid.Column="2" Spacing="-3" IsVisible="False"  >
 
                 <StackLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="BtnPesquisar_Clicked" NumberOfTapsRequired="1" />
@@ -285,6 +343,21 @@
                        HeightRequest="26"   WidthRequest="26"   />
 
                 <Label Text="Pesquisar" FontSize="10" VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center" />
+
+            </StackLayout>
+
+            <!-- CHAT -->
+            <StackLayout Grid.Row="2"  Grid.Column="2" Spacing="-3"  >
+
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="BtnChat_Clicked" NumberOfTapsRequired="1" />
+                </StackLayout.GestureRecognizers>
+
+                <Image Source="chat.png"     VerticalOptions="Center"  HorizontalOptions="CenterAndExpand"
+                       HeightRequest="26"   WidthRequest="26"   />
+
+                <Label Text="Chat" FontSize="10" FontAttributes="Bold"    
+                       VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center" />
 
             </StackLayout>
 
