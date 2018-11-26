@@ -153,8 +153,8 @@
                             <RowDefinition Height="27" />
                             <RowDefinition Height="34" />
                             <RowDefinition Height="34" />
-                            <RowDefinition Height="34" />
-                            <RowDefinition Height="18" />
+                            <RowDefinition Height="38" />
+                            <RowDefinition Height="23" />
                             <RowDefinition Height="34" />
                             <RowDefinition Height="34" />
                             <RowDefinition Height="34" />
@@ -215,7 +215,7 @@
                         
 
                         <!-- LIST VIEW - Acompanhamento -->
-                        <ScrollView  x:Name="stAcompanha" IsVisible="false"  Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="10" Grid.RowSpan="7" >
+                        <ScrollView  x:Name="stAcompanha" IsVisible="false"  Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="10" Grid.RowSpan="6" >
                         
                             <StackLayout >
 
@@ -227,6 +227,7 @@
 
                                     <Grid.RowDefinitions >
                                         <RowDefinition Height="25" />
+                                        <RowDefinition Height="30" />
                                         <RowDefinition Height="30" />
                                         <RowDefinition Height="30" />
                                         <RowDefinition Height="30" />
@@ -278,7 +279,7 @@
 
 
                         <!-- VOLTAR - BUSCA -->
-                        <StackLayout x:Name="stBtnVoltar_Cliente"  IsVisible="false" Grid.Column="0" Grid.Row="13" VerticalOptions="End" >
+                        <StackLayout x:Name="stBtnVoltar_Cliente"  IsVisible="false" Grid.Column="0" Grid.Row="12" VerticalOptions="End" >
 
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="BtnVoltar_Clicked" NumberOfTapsRequired="1" />

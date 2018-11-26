@@ -17,8 +17,8 @@ namespace Teste03.Views
 	{
         #region Variaveis e controllers
 
-        public int idCliente     = 8; //Session.Instance.IdCliente;      // Motorista: 8; // Cliente: 7; // 3; //
-        public int idTipoCliente = 3;  //Session.Instance.IdTipoUsuario;  // Motorista: 3  // Cliente: 2; //
+        public int idCliente     = Session.Instance.IdCliente;      // Motorista: 8; // Cliente: 7; // 3; //
+        public int idTipoCliente = Session.Instance.IdTipoUsuario;  // Motorista: 3  // Cliente: 2; //
         public int verificaOperacao;
         public int idCol;
         public int verifica;
@@ -241,15 +241,15 @@ namespace Teste03.Views
             {
                 idStatus = 0;
             }
-            else if (itemSelecionado.Equals("Coletas Finalizadas"))
+            else if (itemSelecionado.Equals("Coletas finalizadas"))
             {
                 idStatus = 10;
             }
-            else if (itemSelecionado.Equals("Coletas Pendentes"))
+            else if (itemSelecionado.Equals("Coletas pendentes"))
             {
                 idStatus = 12;
             }
-            else if (itemSelecionado.Equals("Coletas Canceladas"))
+            else if (itemSelecionado.Equals("Coletas canceladas"))
             {
                 idStatus = 6;
             }
@@ -592,9 +592,13 @@ namespace Teste03.Views
 
             // a coleta só poderá ser excluida, caso ainda esteja com o status 'Aguardando orçamento'
             // ou seja, nenhum status foi 
-            if (colet.IdStatus != 10 || colet.IdStatus != 60 || colet.IdStatus != 9)  // 10 - Finalizada(o)  
+            if (colet.IdStatus != 10 && colet.IdStatus != 60 && colet.IdStatus != 9)  // 10 - Finalizada(o)  
             {                                                                         // 60 - Coleta finalizada 
                 excluir = 1;                                                          // 9 - Excluida(o)
+            }
+            else
+            {
+                excluir = 0;
             }
 
             #endregion
@@ -1494,7 +1498,7 @@ namespace Teste03.Views
             
             #region Verifica se o motorista já orçou a coleta em questão e popula campos
 
-            Orcamento orca = new Orcamento();
+            Orcamento           orca                = new Orcamento();
             OrcamentoController orcamentoController = new OrcamentoController();
             
             orca = await orcamentoController.GetOrcamento(idMotorista, idCol);
@@ -2371,7 +2375,7 @@ namespace Teste03.Views
                     #region Orcamento()                      
 
                     orcamento = new Orcamento()
-                        {
+                    {
                             IdColeta        = idColetaOrcamento,
                             IdCliente       = idColetaCliente,
                             IdMotorista     = idMotorista,

@@ -180,19 +180,19 @@
                         <StackLayout Orientation="Horizontal" Spacing="2" IsVisible="True">
 
                             <!-- Dados Material -->
-                            <Button  x:Name="btnDadosMaterial" Text="Material" WidthRequest="76" FontSize="10" IsEnabled="True" HeightRequest="40"
+                            <Button  x:Name="btnDadosMaterial" Text="Material" WidthRequest="76" FontSize="08" IsEnabled="True" HeightRequest="40"
                                  TextColor="{StaticResource Blue}" BackgroundColor="{StaticResource WhiteBtn}" FontAttributes="Bold" />
 
                             <!-- Endereço Retirada -->
-                            <Button x:Name="btnEnderecoRetirada" Text="Endereço Retirada" WidthRequest="82" FontSize="10" IsEnabled="False" HeightRequest="40"
+                            <Button x:Name="btnEnderecoRetirada" Text="Endereço Retirada" WidthRequest="82" FontSize="08" IsEnabled="False" HeightRequest="40"
                                 TextColor="{StaticResource Blue}" BackgroundColor="{StaticResource WhiteBtn}" FontAttributes="Bold" />
 
                             <!-- Endereço Entrega -->
-                            <Button x:Name="btnEnderecoEntrega" Text="Endereço Entrega" WidthRequest="82" FontSize="10" HeightRequest="40"
+                            <Button x:Name="btnEnderecoEntrega" Text="Endereço Entrega" WidthRequest="82" FontSize="08" HeightRequest="40"
                                 IsEnabled="False" TextColor="{StaticResource Blue}" BackgroundColor="{StaticResource WhiteBtn}" FontAttributes="Bold" />
 
                             <!--  Valor  -->
-                            <Button  x:Name="btnValor"  Text="Valor" WidthRequest="82" FontSize="10" IsEnabled="False" HeightRequest="40"
+                            <Button  x:Name="btnValor"  Text="Valor" WidthRequest="82" FontSize="08" IsEnabled="False" HeightRequest="40"
                                  TextColor="{StaticResource Blue}" BackgroundColor="{StaticResource WhiteBtn}" FontAttributes="Bold" />
 
                         </StackLayout>
@@ -514,7 +514,7 @@
                            </StackLayout.GestureRecognizers>
 
                            <Image Source="btnVoltar3.png" VerticalOptions="End" HorizontalOptions="CenterAndExpand" HeightRequest="32" WidthRequest="32" />
-                         </StackLayout>
+                        </StackLayout>
 
                         <!-- Editar -->
                         <StackLayout x:Name="slEditarColeta" IsVisible="False" Grid.Column="4" Grid.Row="9" VerticalOptions="End" >
@@ -526,7 +526,7 @@
                               <Image  Source="editar.png"  VerticalOptions="End" HorizontalOptions="Center"
                                       HeightRequest="19"   WidthRequest="19"  />
                             
-                              <Label Text="Excluir" FontSize="10" VerticalOptions="StartAndExpand" HorizontalTextAlignment="Start" />
+                              <Label Text="Editar" FontSize="10" VerticalOptions="StartAndExpand" HorizontalTextAlignment="Start" />
 
                           </StackLayout>
 

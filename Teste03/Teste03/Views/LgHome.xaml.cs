@@ -14,7 +14,7 @@ namespace Teste03.Views
 	public partial class LgHome : ContentPage
 	{
         #region Variáveis - Populando
-        public string nome     = "" ; //"João Lima"; // Models.Session.Instance.Cnome;
+        public string nome        =  Session.Instance.Cnome;
 
         public int    idMotorista =  Session.Instance.IdMotorista;    // Motorista: 1; //
         public int    idCliente   =  Session.Instance.IdCliente;      // Motorista: 8; // 7; //
@@ -73,9 +73,9 @@ namespace Teste03.Views
         private async void BuscaNome(int idcliente)
         {
             // busca nome
-            var user = await clienteController.GetCliente(idCliente);
+           // var user = await clienteController.GetCliente(idCliente);
 
-            nome = user.Cnome;
+           // nome = user.Cnome;
         }
 
         // --------------------------------------------------------------
