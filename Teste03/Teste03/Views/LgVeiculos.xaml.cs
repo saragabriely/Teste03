@@ -422,15 +422,17 @@ namespace Teste03.Views
                     {
                         await DisplayAlert(campoObrig, nulo + lblCapacidade.Text, "OK");
                     }
+                    
                     else if (CapacidadeCarga.Length < 3)
                     {
                         await DisplayAlert(dadosIns, dadosInsuf + lblCapacidade.Text, "OK");
-                    }
+                    } 
 
                     else if (string.IsNullOrEmpty(TipoCarroceriaDesc))              // TIPO CARROCERIA
                     {
                         await DisplayAlert(campoObrig, nulo + lblTipoCarroceria.Text, "OK");
                     }
+
                     else if (TipoCarroceriaDesc.Length < 5)
                     {
                         await DisplayAlert(dadosIns, dadosInsuf + lblTipoCarroceria.Text, "OK");
@@ -445,28 +447,34 @@ namespace Teste03.Views
                     {
                         await DisplayAlert("Campo obrigatório", nulo + lblAltura.Text, "OK");
                     }
+                    /*
                     else if (CarroceriaAltura.Length < 3)
                     {
                         await DisplayAlert(dadosIns, dadosInsuf + lblAltura.Text, "OK");
-                    }
+                    } */
 
                     else if (string.IsNullOrEmpty(CarroceriaLargura))               // CARROCERIA LARGURA
                     {
                         await DisplayAlert("Campo obrigatório", nulo + lblLargura.Text, "OK");
                     }
+
+                    /*
                     else if (CarroceriaLargura.Length < 3)
                     {
                         await DisplayAlert(dadosIns, dadosInsuf + lblLargura.Text, "OK");
                     }
+                    */
 
                     else if (string.IsNullOrEmpty(CarroceriaComprimento))               // CARROCERIA COMPRIMENTO
                     {
                         await DisplayAlert(campoObrig, nulo + lblComprimento.Text, "OK");
                     }
+                    /*
                     else if (CarroceriaComprimento.Length < 3)
                     {
                         await DisplayAlert(dadosIns, dadosInsuf + lblComprimento.Text, "OK");
                     }
+                    */
 
                     else if (string.IsNullOrEmpty(Refrigeracao))                        // REFRIGERAÇÃO
                     {

@@ -68,7 +68,7 @@
 
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition  Width="130" />
+                            <ColumnDefinition  Width="120" />
                             <ColumnDefinition  Width="190" />
                         </Grid.ColumnDefinitions>
 
@@ -88,10 +88,10 @@
                             <RowDefinition Height="35" />
                         </Grid.RowDefinitions>
 
-                        <Label x:Name="lbApelido" Text="Coleta" FontSize="13" FontAttributes="Bold" Grid.Column="0" Grid.Row="0"  VerticalTextAlignment="End"
+                        <Label x:Name="lbApelido" Text="Coleta" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="0"  VerticalTextAlignment="End"
                                TextColor="{StaticResource Blue}" />
 
-                        <Label x:Name="lbValor_"  Text="Status" FontSize="13" FontAttributes="Bold" Grid.Column="1" Grid.Row="0" VerticalTextAlignment="End"
+                        <Label x:Name="lbValor_"  Text="Status" FontSize="12" FontAttributes="Bold" Grid.Column="1" Grid.Row="0" VerticalTextAlignment="End"
                                TextColor="{StaticResource Blue}" />
 
 
@@ -111,16 +111,16 @@
 
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition  Width="130" />
+                                                    <ColumnDefinition  Width="120" />
                                                     <ColumnDefinition  Width="190" />
                                                 </Grid.ColumnDefinitions>
 
                                                 <Grid.RowDefinitions > <RowDefinition Height="35" />
                                                 </Grid.RowDefinitions>
 
-                                                <Label Text="{Binding ApelidoColeta}"   FontSize="13" Grid.Column="0" Grid.Row="0" 
+                                                <Label Text="{Binding ApelidoColeta}"   FontSize="12" Grid.Column="0" Grid.Row="0" 
                                                            VerticalTextAlignment="Center"/>
-                                                <Label Text="{Binding DescricaoStatus}" FontSize="13" Grid.Column="1" Grid.Row="0"
+                                                <Label Text="{Binding DescricaoStatus}" FontSize="12" Grid.Column="1" Grid.Row="0"
                                                            VerticalTextAlignment="Center" />
                                             </Grid>
                                         </StackLayout>
@@ -168,49 +168,49 @@
                         </Grid.RowDefinitions>
 
                         <!-- Nome coleta -->
-                        <Label x:Name="lbColeta" Text="Coleta" FontSize="13" FontAttributes="Bold" IsVisible="False"
+                        <Label x:Name="lbColeta" Text="Coleta" FontSize="12" FontAttributes="Bold" IsVisible="False"
                                Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand" />
                         
-                        <Label x:Name="lbColeta_"  FontSize="13"  IsVisible="False" BackgroundColor="{StaticResource WhiteBtn}"
-                               Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="8" VerticalOptions="End" HeightRequest="28"
+                        <Label x:Name="lbColeta_"  FontSize="12"  IsVisible="False" BackgroundColor="{StaticResource WhiteBtn}"
+                               Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="8" VerticalOptions="Center" HeightRequest="28"
                                VerticalTextAlignment="Center" HorizontalTextAlignment="Center"  />
                         
                         <!-- Nome - Motorista -->
-                        <Label x:Name="lbNomeMotorista" Text="Motorista" FontSize="13" FontAttributes="Bold" IsVisible="False"
+                        <Label x:Name="lbNomeMotorista" Text="Motorista" FontSize="12" FontAttributes="Bold" IsVisible="False"
                                  Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand" />
 
-                        <Label x:Name="lblNomeMotorista_"  FontSize="13"  IsVisible="False" BackgroundColor="{StaticResource WhiteBtn}"
-                                 Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="6" VerticalOptions="End" HeightRequest="28"
+                        <Label x:Name="lblNomeMotorista_"  FontSize="12"  IsVisible="False" BackgroundColor="{StaticResource WhiteBtn}"
+                                 Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="6" VerticalOptions="Center" HeightRequest="28"
                                  VerticalTextAlignment="Center" HorizontalTextAlignment="Center"  />
 
                         <!-- Orçamento -->
-                        <Label x:Name="lbQtdeMotorista" Text="Orçamento" FontSize="13" FontAttributes="Bold" IsVisible="False"
+                        <Label x:Name="lbQtdeMotorista" Text="Orçamento" FontSize="12" FontAttributes="Bold" IsVisible="False"
                                  Grid.Column="6" Grid.Row="2" Grid.ColumnSpan="3" VerticalOptions="CenterAndExpand" HorizontalOptions="End"
                                  HorizontalTextAlignment="Start" />
 
-                        <Label x:Name="lblQtdeMotorista_"  FontSize="13"  IsVisible="False" BackgroundColor="{StaticResource WhiteBtn}"
-                                 Grid.Column="7" Grid.Row="3" Grid.ColumnSpan="3" VerticalOptions="End" HeightRequest="28"
+                        <Label x:Name="lblQtdeMotorista_"  FontSize="12"  IsVisible="False" BackgroundColor="{StaticResource WhiteBtn}"
+                                 Grid.Column="7" Grid.Row="3" Grid.ColumnSpan="3" VerticalOptions="Center" HeightRequest="28"
                                  VerticalTextAlignment="Center"  HorizontalTextAlignment="Center"  />
 
                         <!-- Motorista - Telefone -->
-                        <Label x:Name="lbTelMotorista" Text="Telefone" FontSize="13" FontAttributes="Bold" IsVisible="False"
-                                 Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" VerticalOptions="End" />
+                        <Label x:Name="lbTelMotorista" Text="Telefone" FontSize="12" FontAttributes="Bold" IsVisible="False"
+                                 Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" VerticalOptions="Center" />
 
-                        <Label x:Name="lblTelMotorista_"  FontSize="13"  IsVisible="False" BackgroundColor="{StaticResource WhiteBtn}"
-                                 Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="8" VerticalOptions="End" HeightRequest="28"
+                        <Label x:Name="lblTelMotorista_"  FontSize="12"  IsVisible="False" BackgroundColor="{StaticResource WhiteBtn}"
+                                 Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="8" VerticalOptions="Center" HeightRequest="28"
                                  VerticalTextAlignment="Center" HorizontalTextAlignment="Center"  />
 
                         <!-- Veículo -->
-                        <Label x:Name="lbVeiculo" Text="Veiculo" FontSize="13" FontAttributes="Bold" IsVisible="False"
+                        <Label x:Name="lbVeiculo" Text="Veiculo" FontSize="12" FontAttributes="Bold" IsVisible="False"
                                  Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand" />
 
                         <Label x:Name="lbVeiculo_"  FontSize="14"  IsVisible="False" BackgroundColor="{StaticResource WhiteBtn}"
-                                 Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="5" VerticalOptions="End" HeightRequest="28"
+                                 Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="5" VerticalOptions="Center" HeightRequest="28"
                                  VerticalTextAlignment="Center"  HorizontalTextAlignment="Center"   />
 
                         <!-- Placa -->
                         <Label x:Name="lbPlaca_"  FontSize="14"  IsVisible="False" BackgroundColor="{StaticResource WhiteBtn}"
-                                 Grid.Column="7" Grid.Row="5" Grid.ColumnSpan="3" VerticalOptions="End" HeightRequest="28"
+                                 Grid.Column="7" Grid.Row="5" Grid.ColumnSpan="3" VerticalOptions="Center" HeightRequest="28"
                                  VerticalTextAlignment="Center"  HorizontalTextAlignment="Center" FontAttributes="Bold"  />
                         
 
@@ -239,10 +239,10 @@
                                         <RowDefinition Height="30" />
                                     </Grid.RowDefinitions>
 
-                                    <Label x:Name="lbData_"     Text="Data"           FontSize="13" FontAttributes="Bold" Grid.Column="0" Grid.Row="0" 
+                                    <Label x:Name="lbData_"     Text="Data"           FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="0" 
                                            VerticalTextAlignment="End" TextColor="{StaticResource Blue}"  />
 
-                                    <Label x:Name="lbDescricao" Text="Acompanhamento" FontSize="13" FontAttributes="Bold" Grid.Column="1" Grid.Row="0" 
+                                    <Label x:Name="lbDescricao" Text="Acompanhamento" FontSize="12" FontAttributes="Bold" Grid.Column="1" Grid.Row="0" 
                                            VerticalTextAlignment="End" TextColor="{StaticResource Blue}" />
 
                                     <!-- LIST VIEW -->
@@ -350,8 +350,7 @@
                 <Image Source="chat.png"     VerticalOptions="Center"  HorizontalOptions="CenterAndExpand"
                        HeightRequest="26"   WidthRequest="26"   />
 
-                <Label Text="Chat" FontSize="10" FontAttributes="Bold"    
-                       VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center" />
+                <Label Text="Chat" FontSize="10"  VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center" />
 
             </StackLayout>
 

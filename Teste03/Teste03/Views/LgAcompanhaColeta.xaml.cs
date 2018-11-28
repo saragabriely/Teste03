@@ -20,9 +20,9 @@ namespace Teste03.Views
         public int idStatusOrcamento;
         public int idStatusColeta;
 
-        public int idMotorista =  Models.Session.Instance.IdMotorista;    // Motorista: 1; //
-        public int idCliente   =  Models.Session.Instance.IdCliente;      // Motorista: 8; //  7; //
-        public int idTipoUser  =  Models.Session.Instance.IdTipoUsuario;  // Motorista: 3; // 2; //
+        public int idMotorista = Session.Instance.IdMotorista;    // Motorista: 1; //
+        public int idCliente   = Session.Instance.IdCliente;      // Motorista: 8; //  7; //
+        public int idTipoUser  = Session.Instance.IdTipoUsuario;  // Motorista: 3; // 2; //
 
         public string nomeMotorista;
         public string telefoneMotorista;
@@ -173,21 +173,34 @@ namespace Teste03.Views
             // obtem o item do listview - COLETA
             var coleta = e.SelectedItem as Coleta;
 
-            var acompanha = await acompanhaController.GetList();
-            
-            var idColeta    = acompanha.Select(l => l.IdColeta).Distinct().First();
-            var idMotorista = acompanha.Select(l => l.IdMotorista).Distinct().First();
-            var idCliente   = acompanha.Select(l => l.IdCliente).Distinct().First();
-            
-            // obtem os dados do orçamento
-            var orcamento = await orcaControl.GetOrcamento(idColeta);
+            int idCliente = Session.Instance.IdCliente;                 // Id do cliente logado
 
+            var acompanha = await acompanhaController.GetList();        // Seleciona todos os registros
+
+            acompanha = acompanha.Where(l => l.IdColeta  == coleta.IdColeta)
+                                 .Where(l => l.IdCliente == idCliente)
+                                 .ToList();
+
+            var lastAcompanha = acompanha.Last();
+
+            var idColeta     = coleta.IdColeta;           //  acompanha.Select(l => l.IdColeta).Distinct().First();
+            
             // obtem os dados do motorista
-            var motorista   = await motoristaController.GetMotorista(idMotorista);
-            var clienteMoto = await clienteController.GetCliente(idCliente);
-            var veiculo     = await veiculoController.GetConta(orcamento.IdVeiculoUsado);
 
+            var idMotorista_ = lastAcompanha.IdMotorista; // acompanha.Select(l => l.IdMotorista).Distinct().First();
 
+            var motorista = await motoristaController.GetMotorista(idMotorista_);
+
+            var clienteMoto = await clienteController.GetCliente(motorista.IdCliente);
+
+            // obtem os dados dos orçamentos que a coleta recebeu
+            // var orcamentos = await orcaControl.GetListOrcamentoAceito(coleta.IdColeta);
+
+            // verifica orçamento aceito
+            var orcamento = await orcaControl.GetOrcamento(lastAcompanha.IdOrcamento);              
+
+            var veiculo   = await veiculoController.GetConta(orcamento.IdVeiculoUsado);
+            
             #region Popula
 
             lbColeta_.Text         = coleta.ApelidoColeta;

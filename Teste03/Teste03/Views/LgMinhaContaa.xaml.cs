@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Teste03.Controllers;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,11 +18,15 @@ namespace Teste03.Views
         public int idCli = Models.Session.Instance.IdCliente;      // Motorista: 8;   // Cliente: 7
         public int idMot = Models.Session.Instance.IdMotorista;    // Motorista: 1;   // 
 
+        ClienteController   control     = new ClienteController();
+        MotoristaController motoControl = new MotoristaController();
+
         #endregion
 
         public LgMinhaContaa ()
 		{
-			InitializeComponent ();
+             InitializeComponent();
+    
 
             #region Verifica o tipo de usuário
 
@@ -63,22 +67,48 @@ namespace Teste03.Views
         #endregion
 
         #region Desativar Cadastro - Cliente e Motorista
-        private void BtnDesativarCadastro_Clicked(object sender, EventArgs e)
+        private async void BtnDesativarCadastro_Clicked(object sender, EventArgs e)
         {
+            #region Cliente
+
             if (Models.Session.Instance.IdTipoUsuario == 2)
             {
-                
+                if(await DisplayAlert("Desativar cadastro", "Deseja mesmo desativar o seu cadastro?","OK", "Cancelar"))
+                {
+                    Models.Session.Instance.cliente.IdStatus = 11;
 
-                //await Navigation.PushModalAsync(new Views.ClientePF_Cadastro());
+                    await control.UpdateCliente(Models.Session.Instance.cliente, Models.Session.Instance.cliente.IdCliente);
+
+                    await Navigation.PushModalAsync(new Views.Login());
+                }
             }
+
+            #endregion
+
+            #region Motorista
+
             else if (Models.Session.Instance.IdTipoUsuario == 3)
             {
-                //await Navigation.PushModalAsync(new Views.Motorista_Cadastro());
+                if (await DisplayAlert("Desativar cadastro", "Deseja mesmo desativar o seu cadastro?", "OK", "Cancelar"))
+                {
+                    // Cliente
+                    Models.Session.Instance.cliente.IdStatus = 11;
+
+                    await control.UpdateCliente(Models.Session.Instance.cliente, Models.Session.Instance.cliente.IdCliente);
+
+                    // Motorista
+                    Models.Session.Instance.motorista.IdStatus = 11;
+
+                    await motoControl.UpdateMotorista(Models.Session.Instance.motorista);
+
+                    // Direciona para 'Login'
+                    await Navigation.PushModalAsync(new Views.Login());
+                }
             }
+            #endregion
         }
         #endregion
         
-
         #region MeuCadastro - Motorista e Cliente
         private async void BtnMeuCadastro_Clicked(object sender, EventArgs e)
         {
@@ -112,8 +142,7 @@ namespace Teste03.Views
         #endregion
 
         #endregion
-
-
+        
         #region LOGOUT
         private async void BtnSair_Clicked(object sender, EventArgs e)
         {
@@ -149,6 +178,7 @@ namespace Teste03.Views
         }
         #endregion
         
+
         #region Navegação entre as páginas
 
         #region Btn - Home
@@ -194,8 +224,6 @@ namespace Teste03.Views
         #endregion
 
         #endregion
-
-               
-
+        
     }
 }

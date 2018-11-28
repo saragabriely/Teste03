@@ -255,52 +255,54 @@ namespace Teste03.Controllers
         #endregion
 
         #region GET - LIST - Coletas - Filtro - Histórico
-        public async Task<List<Coleta>> GetList_Historico(int idMotorista, int idEscolha)
+        public async Task<List<Coleta>> GetList_Historico(int idMotorista)
         {
             OrcamentoController orcaControl = new OrcamentoController();
             
             try
             {
-                // Captura orçamentos relacionados ao motorista
-                var orcamentos = await orcaControl.GetListOrcamento_Geral(idMotorista);
+                // Captura todos orçamentos 
+                var orcamentos = await orcaControl.GetListOrcamento();
 
-                // Captura orçamentos aceitos pelo cliente
-                var orcaFiltra = orcamentos.Where(l => l.IdStatus == 1).ToList();
+                // Captura orçamentos realizados pelo motorista
+                orcamentos = orcamentos.Where(i => i.IdMotorista == idMotorista).ToList();
 
-                // Captura os IDs da consulta acima
-                var orcaID = orcaFiltra.Select(l => l.IdColeta).ToList();
+                // Captura ID das coletas da consulta acima
+                var idColetas = orcamentos.Select(i => i.IdColeta).ToList();
 
                 // Todas as coletas
                 var coletas = await GetList();
 
-                // Lista de coletas com os IDs acima
-                var coletaFiltra = coletas.Where(l => orcaID.Contains(l.IdColeta)).ToList();
+                // Filtra as coletas de acordo com o List<int> idColetas
+                coletas = coletas.Where(l => idColetas.Contains(l.IdColeta)).ToList();
 
                 /*
                 if(idEscolha == 0)           // todas as coletas
                 {
-                    return coletaFiltra;
+                    return coletas;
                 }
+
                 else if(idEscolha == 1)     // coletas em andamento
                 {
-                    coletaFiltra_ = coletaFiltra.Where(l => l.IdStatus == 8).ToList();
+                    coletas = coletas.Where(l => l.IdStatus == 8).ToList();
 
-                    return coletaFiltra_;
+                    return coletas;
                 }
+
                 else if(idEscolha == 2)     // coletas realizadas
                 {
-                    coletaFiltra_ = coletaFiltra.Where(l => l.IdStatus == 10).ToList();
+                    coletas = coletas.Where(l => l.IdStatus == 10).ToList();
 
-                    return coletaFiltra_;
+                    return coletas;
                 }
                 else if(idEscolha == 3)     // coletas canceladas
                 {
-                    coletaFiltra_ = coletaFiltra.Where(l => l.IdStatus == 6).ToList();
+                    coletas = coletas.Where(l => l.IdStatus == 6).ToList();
 
-                    return coletaFiltra_;
+                    return coletas;
                 } */
 
-                return coletaFiltra;
+                return coletas;
             }
             catch (Exception ex)
             { throw ex; }

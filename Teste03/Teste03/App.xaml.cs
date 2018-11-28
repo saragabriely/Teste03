@@ -20,12 +20,23 @@ namespace Teste03
             // Models.Session.Instance.IdCliente = 8;
             // Models.Session.Instance.Cnome     = "Teste OK!";
 
-            InitializeComponent();
+           // if (Models.Session.Instance.IdCliente == 0)
+            //{
+                InitializeComponent();
 
-            MainPage = new Views.PaginaInicial();
-            
+                MainPage = new Views.Login();
+
+         //   }
+           // else
+           // {
+             //   InitializeComponent();
+
+              //  MainPage = new Views.LgOrcamentos();
+           // }
+             
+                
             /*
-            if(Models.Session.Instance.IdCliente == 0)
+            if(Session.Instance.IdCliente == 0)
             {
                 MainPage = new Views.Login();
             }
@@ -49,6 +60,17 @@ namespace Teste03
 		protected override void OnResume ()
 		{
             // Handle when your app resumes
+
+            /*
+            if (Session.Instance.IdCliente == 0)
+            {
+                MainPage = new Views.Login();
+            }
+            else
+            {
+                MainPage = new Views.LgHome();
+            }
+            */
         }
     }
 }

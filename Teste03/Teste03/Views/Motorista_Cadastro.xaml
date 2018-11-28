@@ -657,8 +657,7 @@
                     <Image Source="chat.png"     VerticalOptions="Center"  HorizontalOptions="CenterAndExpand"
                        HeightRequest="26"   WidthRequest="26"   />
 
-                    <Label Text="Chat" FontSize="10" FontAttributes="Bold"    
-                       VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center" />
+                    <Label Text="Chat" FontSize="10" VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center" />
 
                 </StackLayout>
 

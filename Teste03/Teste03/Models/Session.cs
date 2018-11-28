@@ -34,7 +34,8 @@ namespace Teste03.Models
         /// Propriedade para o ID do usuario
         /// </summary>
         /// 
-        public Cliente cliente;
+        public Cliente   cliente;
+        public Motorista motorista;
 
         public int    IdCliente       { get; set; }
         public int    IdMotorista     { get; set; }

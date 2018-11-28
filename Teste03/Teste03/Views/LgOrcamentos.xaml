@@ -44,12 +44,13 @@
 
             </StackLayout>
 
+            
             <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Margin="20"  HorizontalOptions="Center" >
 
                 <!-- Orçamentos - Título -->
-                <StackLayout HeightRequest="40" >
+                <StackLayout HeightRequest="50" >
                     <Label Text="ORÇAMENTOS"  FontSize="16"   FontAttributes="Bold"  TextColor="{StaticResource Blue}" 
-                           HorizontalTextAlignment="Center"  VerticalTextAlignment="Center"  HeightRequest="60"  />
+                           HorizontalTextAlignment="Center"  VerticalTextAlignment="Center"  HeightRequest="60" VerticalOptions="Center" />
                 </StackLayout>
                 
                 <!-- Cliente -->
@@ -65,13 +66,13 @@
 
                     <!-- Orçamentos da coleta Tal -->
                     <StackLayout x:Name="stOrca" IsVisible="false" Orientation="Horizontal" BackgroundColor="{StaticResource WhiteBtn}"
-                                 HeightRequest="50" >
+                                 HeightRequest="50" Margin="8" >
 
-                        <Label x:Name="lbOrcaColeta" Text="Orçamentos da coleta: " FontSize="14" 
+                        <Label x:Name="lbOrcaColeta" Text="Orçamentos da coleta: " FontSize="13" 
                               VerticalOptions="Start" HorizontalOptions="Center"  IsVisible="true" Margin="10"  
-                              TextColor="{StaticResource BlueBtn}" />
+                              TextColor="{StaticResource Blue}" />
 
-                        <Label x:Name="lblOrcaColeta" FontSize="14" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="true"  />
+                        <Label x:Name="lblOrcaColeta" FontSize="13" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="true"  />
 
                     </StackLayout>
 
@@ -342,14 +343,23 @@
                                  VerticalTextAlignment="Center" HorizontalTextAlignment="Center"  />
                                                     
                           
-                          <!-- Recusar orçamento -->
-                          <Label x:Name="lbRecusar" Text="RECUSAR" TextColor="{StaticResource Red}" FontSize="15"
-                                 HorizontalTextAlignment="Center" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="3" IsVisible="false" 
+                            <!-- Cancelar orçamento -->
+                            <Label x:Name="lbCancelar" Text="CANCELAR ORÇAMENTO" TextColor="{StaticResource Red}" FontSize="13"
+                                 HorizontalTextAlignment="Center" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="7" IsVisible="false" 
                                  VerticalOptions="End"  >
-                            <Label.GestureRecognizers>
-                              <TapGestureRecognizer Tapped="LblRecusarOrcamento" NumberOfTapsRequired="1" />
-                            </Label.GestureRecognizers>
-                          </Label>
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="LblCancelarOrcamento" NumberOfTapsRequired="1" />
+                                </Label.GestureRecognizers>
+                            </Label>
+
+                                <!-- Recusar orçamento -->
+                            <Label x:Name="lbRecusar" Text="RECUSAR" TextColor="{StaticResource Red}" FontSize="15"
+                                   HorizontalTextAlignment="Center" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="3" IsVisible="false" 
+                                   VerticalOptions="End"  >
+                                <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="LblRecusarOrcamento" NumberOfTapsRequired="1" />
+                                </Label.GestureRecognizers>
+                            </Label>
 
                           <!-- Aceitar orçamento -->
                           <Label x:Name="lbAceitar" Text="ACEITAR" TextColor="{StaticResource GreenBtn}"  FontSize="15"
@@ -373,14 +383,14 @@
                           
                           
                           <!-- Ver detalhes -->
-                          <Label x:Name="lbExpandir" Text="+ Ver detalhes da coleta" TextColor="{StaticResource Blue}"  VerticalOptions="End"
+                          <Label x:Name="lbExpandir" Text="+ Ver detalhes da coleta" TextColor="{StaticResource Blue}"  VerticalOptions="Center"
                                  HorizontalTextAlignment="Center" Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="8" IsVisible="false"  >
                               <Label.GestureRecognizers> <TapGestureRecognizer Tapped="LblVerDetalhes" NumberOfTapsRequired="1" />
                               </Label.GestureRecognizers>
                           </Label>
 
-                          <!-- Ver detalhes -->
-                          <Label x:Name="lbEsconder" Text="- Esconder detalhes da coleta" TextColor="{StaticResource Blue}"  VerticalOptions="End"
+                          <!-- Esconder detalhes -->
+                          <Label x:Name="lbEsconder" Text="- Esconder detalhes da coleta" TextColor="{StaticResource Blue}"  VerticalOptions="Center"
                                  HorizontalTextAlignment="Center" Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="8" IsVisible="false"  >
                             <Label.GestureRecognizers>
                               <TapGestureRecognizer Tapped="LblEsconderDetalhes" NumberOfTapsRequired="1" />
@@ -409,9 +419,9 @@
                           
                           <!-- Tipo de material -->
                           <Label x:Name="lbTipoMaterial_" Text="Tipo de Material" FontSize="12" FontAttributes="Bold"
-                               Grid.Column="0" Grid.Row="12" Grid.ColumnSpan="2" IsVisible="False"  VerticalOptions="Center" />
+                               Grid.Column="0" Grid.Row="13" Grid.ColumnSpan="2" IsVisible="False"  VerticalOptions="Center" />
                           
-                          <Label x:Name="lbTipoMaterial_Cliente" FontSize="12" IsVisible="False" Grid.Column="2" Grid.Row="12"
+                          <Label x:Name="lbTipoMaterial_Cliente" FontSize="12" IsVisible="False" Grid.Column="2" Grid.Row="13"
                                    Grid.ColumnSpan="7" VerticalOptions="StartAndExpand" BackgroundColor="{StaticResource WhiteBtn}"
                                    HeightRequest="28" VerticalTextAlignment="Center" />
                           
@@ -561,7 +571,7 @@
                     </StackLayout>
 
                     <!-- LISTA - MOTORISTA -->
-                    <StackLayout x:Name="stListaMoto" IsVisible="true" Spacing="-3"  >
+                    <StackLayout x:Name="stListaMoto" IsVisible="true"  >
 
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -595,7 +605,7 @@
                                    Grid.RowSpan="2" IsVisible="false" HorizontalTextAlignment="Center"  VerticalTextAlignment="Center"  />
 
                             <!-- LIST VIEW -->
-                            <ListView x:Name="LstOrcamento_Motorista" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="8"
+                            <ListView x:Name="LstOrcamento_Motorista" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="7"
                                    IsVisible="true" ItemSelected="LstOrcamentoMotorista_ItemSelected" >
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
@@ -957,7 +967,7 @@
                             <!-- * * * LISTA - ACOMPANHAMENTO/RELATÓRIO * * * -->
 
                             <!-- LIST VIEW - Acompanhamento -->
-                            <ScrollView  x:Name="stAcompanha" IsVisible="false"  Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="8" Grid.RowSpan="5" >
+                            <ScrollView  x:Name="stAcompanha" IsVisible="false"  Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="9" Grid.RowSpan="4" >
 
                                 <StackLayout >
 
@@ -1062,7 +1072,7 @@
 
                             <!-- Contato Cliente -->
                             <Label x:Name="lbLigar" Text="Ligar para cliente" TextColor="{StaticResource GreenBtn}"  HorizontalTextAlignment="End" 
-                                   Grid.Column="4" Grid.Row="10" Grid.ColumnSpan="3" FontSize="15" >
+                                   Grid.Column="4" Grid.Row="9" Grid.ColumnSpan="3" FontSize="15" VerticalOptions="End" >
                                  <Label.GestureRecognizers>
                                      <TapGestureRecognizer Tapped="BtnLigarCliente" NumberOfTapsRequired="1" />
                                  </Label.GestureRecognizers>
@@ -1070,7 +1080,7 @@
                                                    
                             <!-- Desistir -->
                             <Label x:Name="lbDesistir" Text="Desistir" TextColor="{StaticResource Red}"  HorizontalTextAlignment="End" 
-                                   Grid.Column="1" Grid.Row="10" Grid.ColumnSpan="2" FontSize="15" >
+                                   Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" FontSize="15" VerticalOptions="End" >
                                 
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="BtnDesistir" NumberOfTapsRequired="1" />
@@ -1079,7 +1089,7 @@
                             </Label>
                              
                             <!-- VOLTAR - BUSCA -->
-                            <StackLayout x:Name="stBtnVoltar_Moto_"  IsVisible="true" Grid.Column="0" Grid.Row="10"
+                            <StackLayout x:Name="stBtnVoltar_Moto_"  IsVisible="true" Grid.Column="0" Grid.Row="9"
                                    VerticalOptions="End" >
 
                               <StackLayout.GestureRecognizers> <TapGestureRecognizer Tapped="BtnVoltar_Moto_Clicked" NumberOfTapsRequired="1" />
@@ -1117,30 +1127,30 @@
                         </Grid.RowDefinitions>
                       
                             <!-- Label - Realizar cobrança -->
-                            <Label x:Name="lbFinal" Text="Coleta finalizada com sucesso!" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="6" 
+                            <Label x:Name="lbFinal" Text="Coleta finalizada com sucesso!" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="7" 
                                    FontSize="16"  HorizontalTextAlignment="Center" VerticalOptions="Center" FontAttributes="Bold"
                                    VerticalTextAlignment="Center" TextColor="{StaticResource GreenBtn}" />
                            
                            <!-- Valor_Final -->
-                           <Label x:Name="lbValor_Final" Text="Valor total da coleta" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="6" FontSize="15"
+                           <Label x:Name="lbValor_Final" Text="Valor total da coleta" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="6" FontSize="15"
                                   HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center" WidthRequest="40" />
                            
                             <!-- Valor_Final -->
-                           <Label x:Name="lbValorRS_Final" Text="R$" Grid.Column="1" Grid.Row="3" FontSize="15"
+                           <Label x:Name="lbValorRS_Final" Text="R$" Grid.Column="0" Grid.Row="2" FontSize="15"
                                    HorizontalTextAlignment="Center" VerticalOptions="Center"  VerticalTextAlignment="Center" />                        
                            
-                           <Label x:Name="lblValor_Final"  Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="5" FontSize="16" 
+                           <Label x:Name="lblValor_Final"  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="5" FontSize="16" 
                                  HorizontalTextAlignment="Center" HeightRequest="32"  VerticalOptions="Center"
                                  VerticalTextAlignment="Center"   BackgroundColor="{StaticResource WhiteBtn}"  />
 
                            <!-- Agradecimento -->
                             <Label x:Name="lbAgradecimento" Text="Agradecemos pela preferência! Obrigada :D " 
-                                   Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="6"
-                                  FontSize="12" HorizontalTextAlignment="Center" VerticalOptions="Center"  VerticalTextAlignment="Center" />
+                                   Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="7"
+                                  FontSize="14" HorizontalTextAlignment="Center" VerticalOptions="Center"  VerticalTextAlignment="Center" />
 
                             <!-- REALIZAR COBRANÇA / finaliza todo o processo de entrega)  -->
                             <Button x:Name="btnRealizarCobrança" Text="Finalizar" BackgroundColor="{StaticResource Blue}"
-                                    Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="6"  TextColor="White"  IsVisible="True"
+                                    Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="7"  TextColor="White"  IsVisible="True"
                                     FontSize="12" Clicked="BtnRealizarCobranca_Motorista_Clicked" /> 
                       
                      </Grid>
@@ -1195,7 +1205,7 @@
             </StackLayout>
 
             <!-- CHAT -->
-            <StackLayout Grid.Row="2"  Grid.Column="2" Spacing="-3"  >
+            <StackLayout Grid.Row="2"  Grid.Column="2" Spacing="-3" VerticalOptions="Center"  >
 
                 <StackLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="BtnChat_Clicked" NumberOfTapsRequired="1" />
@@ -1204,8 +1214,7 @@
                 <Image Source="chat.png"     VerticalOptions="Center"  HorizontalOptions="CenterAndExpand"
                        HeightRequest="26"   WidthRequest="26"   />
 
-                <Label Text="Chat" FontSize="10" FontAttributes="Bold"    
-                       VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center" />
+                <Label Text="Chat" FontSize="10" VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center" />
 
             </StackLayout>
 

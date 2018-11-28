@@ -115,6 +115,8 @@ namespace Teste03.Views
                         if(cliente.IdTipoUsuario == 3)
                         {
                             motorista = await motoristaController.GetMotoristaCliente(cliente.IdCliente);
+
+                            Session.Instance.motorista = motorista;
                         }
 
                         #region Captura dos dados do usuário
@@ -143,6 +145,8 @@ namespace Teste03.Views
                         Session.Instance.MnumeroCnh    = motorista.MnumeroCnh;
                         Session.Instance.McategoriaCnh = motorista.McategoriaCnh;
                         Session.Instance.MvalidadeCnh  = motorista.MvalidadeCnh;
+
+                        Session.Instance.cliente       = cliente;
 
                         #endregion
                         

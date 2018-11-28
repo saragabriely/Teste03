@@ -804,8 +804,8 @@
                                    HorizontalTextAlignment="Center" />
                               
                               <!-- FILTRO - MOTORISTA -->
-                              <StackLayout  x:Name="stFiltrarVeiculos_Moto" IsVisible="false" Grid.Column="0" Grid.Row="8" 
-                                            Grid.ColumnSpan="9" Grid.RowSpan="2" HeightRequest="50" VerticalOptions="End"   >
+                              <StackLayout  x:Name="stFiltrarVeiculos_Moto" IsVisible="false" Grid.Column="0" Grid.Row="7" 
+                                            Grid.ColumnSpan="9" Grid.RowSpan="2" HeightRequest="50" VerticalOptions="Center"   >
 
                                   <Picker  x:Name="etMotoristaFiltroVeiculo" Title="Escolha uma das opções" FontSize="12" HeightRequest="50" 
                                            SelectedIndexChanged="pckFiltroOrcamento"  >    
@@ -1025,7 +1025,7 @@
             </StackLayout>
 
             <!-- CHAT -->
-            <StackLayout Grid.Row="2"  Grid.Column="2" Spacing="-3"  >
+            <StackLayout Grid.Row="2"  Grid.Column="2" Spacing="-3" VerticalOptions="Center" >
 
                 <StackLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="BtnChat_Clicked" NumberOfTapsRequired="1" />
@@ -1034,8 +1034,7 @@
                 <Image Source="chat.png"     VerticalOptions="Center"  HorizontalOptions="CenterAndExpand"
                        HeightRequest="26"   WidthRequest="26"   />
 
-                <Label Text="Chat" FontSize="10" FontAttributes="Bold"    
-                       VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center" />
+                <Label Text="Chat" FontSize="10" VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center" />
 
             </StackLayout>
 

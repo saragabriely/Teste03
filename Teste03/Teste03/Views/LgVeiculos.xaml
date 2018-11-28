@@ -294,24 +294,24 @@
                         <!-- BOTÃO AVANÇAR -->
                         <Button x:Name="btnAvancar" Text="Avançar" FontSize="13" Clicked="BtnAvancar_Clicked" IsVisible="True"
                                 BackgroundColor="{StaticResource BlueBtn}" TextColor="{StaticResource White}"  
-                                Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="7" VerticalOptions="Start"
+                                Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="7" VerticalOptions="Start"
                                 HeightRequest="35" />
 
                         <!-- VOLTAR - CADASTRO -->
                             <Button  x:Name="btnVoltar" Text="Voltar" Clicked="BtnVoltar_Clicked"   FontSize="13"
                                  BackgroundColor="{StaticResource Silver}" TextColor="{StaticResource White}"
-                                 Grid.Column="0" Grid.Row="8"  Grid.ColumnSpan="2"  HeightRequest="34"
+                                 Grid.Column="0" Grid.Row="7"  Grid.ColumnSpan="2"  HeightRequest="34"
                                  IsVisible="False" VerticalOptions="StartAndExpand"   />
                     
                         <!-- FINALIZAR - CADASTRO -->
                         <Button  x:Name="btnFinalizar" Text="Finalizar" Clicked="BtnAvancar_Clicked"  
                                    BackgroundColor="{StaticResource GreenBtn}" TextColor="{StaticResource White}"
-                                   Grid.Column="3" Grid.Row="8"  Grid.ColumnSpan="4"  HeightRequest="34" FontSize="13"
+                                   Grid.Column="3" Grid.Row="7"  Grid.ColumnSpan="4"  HeightRequest="34" FontSize="13"
                                    IsVisible="False" VerticalOptions="StartAndExpand"  />
                       
                       
                         <!-- VOLTAR - BUSCA -->
-                        <StackLayout x:Name="stBtnVoltar" Grid.Row="8"  Grid.Column="0"   IsVisible="false" >
+                        <StackLayout x:Name="stBtnVoltar" Grid.Row="7"  Grid.Column="0"   IsVisible="false" >
 
                               <StackLayout.GestureRecognizers><TapGestureRecognizer Tapped="BtnVoltar2_Clicked" NumberOfTapsRequired="1" />
                               </StackLayout.GestureRecognizers>
@@ -322,7 +322,7 @@
                           </StackLayout>
 
                         <!-- Editar -->
-                        <StackLayout x:Name="slEditarVeiculos" IsVisible="False" Grid.Column="4" Grid.Row="8" VerticalOptions="Start" >
+                        <StackLayout x:Name="slEditarVeiculos" IsVisible="False" Grid.Column="4" Grid.Row="7" VerticalOptions="Start" >
 
                               <StackLayout.GestureRecognizers>
                                   <TapGestureRecognizer Tapped="BtnEditarVeiculos_Clicked" NumberOfTapsRequired="1" />
@@ -336,7 +336,7 @@
                           </StackLayout>
 
                         <!-- Excluir -->
-                        <StackLayout x:Name="slExcluirVeiculos" IsVisible="False" Grid.Column="2" Grid.Row="8" VerticalOptions="Start" >
+                        <StackLayout x:Name="slExcluirVeiculos" IsVisible="False" Grid.Column="2" Grid.Row="7" VerticalOptions="Start" >
 
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="BtnExcluirVeiculos_Clicked" NumberOfTapsRequired="1" />
@@ -349,7 +349,7 @@
                             </StackLayout>
 
                         <!-- AVANÇAR - BUSCA -->
-                        <StackLayout x:Name="stBtnAvancar" Grid.Row="8"  Grid.Column="5" Grid.ColumnSpan="2" IsVisible="false"
+                        <StackLayout x:Name="stBtnAvancar" Grid.Row="7"  Grid.Column="5" Grid.ColumnSpan="2" IsVisible="false"
                                        HorizontalOptions="End" VerticalOptions="Start">
 
                               <StackLayout.GestureRecognizers><TapGestureRecognizer Tapped="BtnAvancar2_Clicked" NumberOfTapsRequired="1" />
@@ -364,7 +364,7 @@
                         <!-- SALVAR - BUSCA -->
                         <Button  x:Name="btnSalvar"       Text="Salvar"       Clicked="BtnAvancar_Clicked"
                                    BackgroundColor="{StaticResource GreenBtn}"  TextColor="{StaticResource White}"
-                                   Grid.Column="3" Grid.Row="8"  Grid.ColumnSpan="4"  HeightRequest="34" FontSize="13"
+                                   Grid.Column="3" Grid.Row="7"  Grid.ColumnSpan="4"  HeightRequest="34" FontSize="13"
                                    IsVisible="False" VerticalOptions="StartAndExpand"  />
 
 
@@ -433,8 +433,7 @@
                 <Image Source="chat.png"     VerticalOptions="Center"  HorizontalOptions="CenterAndExpand"
                        HeightRequest="26"   WidthRequest="26"   />
 
-                <Label Text="Chat" FontSize="10" FontAttributes="Bold"    
-                       VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center" />
+                <Label Text="Chat" FontSize="10" VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center" />
 
             </StackLayout>
 
