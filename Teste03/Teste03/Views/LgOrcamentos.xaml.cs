@@ -908,7 +908,7 @@ namespace Teste03.Views
 
                     #endregion
 
-                    await DisplayAlert("Aceito!", "Orçamento aceito com sucesso!", "OK");
+                    await DisplayAlert("Aceito!", "Orçamento aceito com sucesso! Aguarde um momento que o motorista dará inicio a coleta.", "OK");
 
                     // Volta para os orçamentos da coleta em questão
                     slClienteEncontrarColeta_Lista.IsVisible = false;
@@ -1968,11 +1968,17 @@ namespace Teste03.Views
 
             #region Verifica se já foi inserido algum registro com esse ID referente a coleta
 
-            var acompanha_ = await acompanhaController.GetAcompanhaLista_Coleta(orcam.IdColeta);
+            var acompanaLista = await acompanhaController.GetList();
 
-            var verifica = acompanha_.Where(l => l.IdStatus == 10).ToList();
+            acompanaLista = acompanaLista.Where(l => l.IdColeta == orcam.IdColeta)
+                                         .Where(l => l.IdStatus == 10)
+                                         .ToList();
 
-            if(verifica == null || verifica.Count == 0) // verifica se algum registro igual foi inserido
+          //  var acompanha_ = await acompanhaController.GetAcompanhaLista_Coleta(orcam.IdColeta);
+
+         //   var verifica = acompanaLista.Where(l => l.IdStatus == 10).ToList();
+
+            if(acompanaLista == null || acompanaLista.Count == 0) // verifica se algum registro igual foi inserido
             {
                 int idAceite = 10; // Id - finalizada
                 

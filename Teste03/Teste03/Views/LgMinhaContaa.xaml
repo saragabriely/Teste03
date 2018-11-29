@@ -62,7 +62,12 @@
                     <!-- Btn - Dados de Pagamento -->
                     <Button x:Name="btnClienteDadosBancarios" Text="Dados Bancários" Clicked="BtnDadosPagamento_Clicked" 
                             BackgroundColor="{StaticResource Blue}" TextColor="{StaticResource White}"  FontSize="13" />
-                    
+
+                    <!-- Desativar cadastro -->
+                    <Button x:Name="btnClienteDesativarCadastro" Text="Desativar cadastro" Clicked="BtnVeiculos_Clicked" 
+                            BackgroundColor="{StaticResource Silver}" TextColor="{StaticResource Blue}" FontSize="13" />
+
+
                     <!-- Btn - Sair -->
                     <StackLayout x:Name="slClienteSair" IsVisible="True" HorizontalOptions="Center" >
 
