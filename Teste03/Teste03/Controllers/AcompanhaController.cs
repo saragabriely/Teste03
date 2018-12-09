@@ -263,9 +263,7 @@ namespace Teste03.Controllers
                 throw ex;
             }
         }
-        #endregion
-        
-
+        #endregion        
         
         #region GET - idCliente ------------------------------------
         public async Task<List<AcompanhaColeta>> GetAcompanhaLista_Cliente(int idCliente)
@@ -287,8 +285,7 @@ namespace Teste03.Controllers
             }
         }
         #endregion 
-
-
+        
         #region UPDATE 
         public async Task UpdateMaterial(AcompanhaColeta acompanha)
         {

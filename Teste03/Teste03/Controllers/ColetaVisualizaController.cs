@@ -118,36 +118,7 @@ namespace Teste03.Controllers
             }
         }
         #endregion
-
-        #region GET - ID - Verifica
-        /*
-        public async Task<ColetaVisualiza> GetVisualiza_Verifica(int id, int idColeta)
-        {
-            HttpClient client = new HttpClient();
-
-            List<ColetaVisualiza> lista = new List<ColetaVisualiza>();
-
-            try
-            {
-                lista = await GetListVisualiza(id);
-
-                var listaFiltro = lista.Where(i => i.IdColeta == idColeta);
-
-                if(listaFiltro.Count() != 0)
-                {
-                  //  return ;
-                }
-               // return lista;
-
-              //  return visualiza;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        } */
-        #endregion
-        
+       
         #endregion
     }
 }
